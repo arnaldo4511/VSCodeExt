@@ -1,0 +1,59 @@
+<!-- filepath: d:\VSCodeExtension\vscodeext\media\webview.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Example Webview</title>
+    <style>
+        .row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>TSO BUS</h1>
+    <div class="row">
+        <label for="matricula">Matricula:</label>
+        <input type="text" id="matricula" value="T09579" />
+    </div>
+    <div class="row">
+        <label for="elementoInput">Elemento:</label>
+        <input type="text" id="elementoInput" value="T09579" />
+
+        <button id="matriculaBuscar">Buscar</button>
+
+        <p id="additionalOutput"></p>
+    </div>
+    <p id="commandOutput">1</p>
+    <script>
+        const vscode = acquireVsCodeApi();
+        const matriculaValue = document.getElementById('matricula').value;
+        const elementoValue = document.getElementById('elementoInput').value;
+
+        document.getElementById('additionalOutput').textContent = matriculaValue + '.JCLLIB(BUS) PRG ' + elementoValue;
+
+        document.getElementById('matricula').addEventListener('input', (event) => {
+            const matriculaValue = event.target.value;
+            const elementoValue = document.getElementById('elementoInput').value;
+            document.getElementById('additionalOutput').textContent = matriculaValue + '.JCLLIB(BUS) PRG' + elementoValue;
+        });
+
+        document.getElementById('matriculaBuscar').addEventListener('click', () => {
+            const elementoValue = document.getElementById('elementoInput').value;
+            const matriculaValue = document.getElementById('matricula').value;
+
+            const zoweCommandConcat = 'zowe tso issue cmd "EX "' + matriculaValue + '.JCLLIB(BUS)" "PRG  '+ elementoValue + '"" -a 9999/UTI/00';
+
+            document.getElementById('commandOutput').textContent = 'Generated Command: ' + zoweCommandConcat;
+
+            vscode.postMessage({ command: 'runZoweCommand', zoweCommand: zoweCommandConcat });
+        });
+    </script>
+</body>
+
+</html>

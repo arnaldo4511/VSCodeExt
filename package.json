@@ -10,9 +10,7 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    
-  ],
+  "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
@@ -38,11 +36,13 @@
           "content": "Hello World",
           "type": "webview",
           "icon": "./resources/icon.png"
-
         }
       ]
     }
   },
+  "files": [
+    "media/**"
+  ],
   "scripts": {
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",

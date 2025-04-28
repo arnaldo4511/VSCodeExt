@@ -7,7 +7,8 @@ import { exec } from 'child_process';
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-    const zoweVersionCommand = 'zowe --version';
+    const path = require('path');
+    const fs = require('fs');
 
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
@@ -35,28 +36,12 @@ export function activate(context: vscode.ExtensionContext) {
             }
         );
 
-        // Contenido del Webview
-        panel.webview.html = `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Example Webview</title>
-        </head>
-        <body>
-            <h1>Execute Zowe CLI Command</h1>
-            <button id="runCommandButton">Run Zowe CLI Command</button>
-            <script>
-                const vscode = acquireVsCodeApi();
-                
-                document.getElementById('runCommandButton').addEventListener('click', () => {
-                    vscode.postMessage({ command: 'runZoweCommand', zoweCommand: '${zoweVersionCommand}' });
-                });
-            </script>
-        </body>
-        </html>
-    `;
+        // Ruta al archivo HTML
+        const htmlPath = path.join(context.extensionPath, 'media', 'webview.html');
+        const htmlContent = fs.readFileSync(htmlPath, 'utf8');
+
+        // Establecer el contenido HTML en el Webview
+        panel.webview.html = htmlContent;
 
         // Escuchar mensajes desde el Webview
         panel.webview.onDidReceiveMessage((message) => {
