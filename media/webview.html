@@ -29,11 +29,30 @@
 
         <p id="additionalOutput"></p>
     </div>
-    <p id="commandOutput">1</p>
+    commandOutput <p id="commandOutput">commandOutput</p>
+
+    stdoutOutput <p id="stdoutOutput">Output will appear here</p>
     <script>
         const vscode = acquireVsCodeApi();
         const libreriaValue = document.getElementById('libreriaInput').value;
         const elementoValue = document.getElementById('elementoInput').value;
+
+        // Escuchar mensajes desde el backend
+        window.addEventListener('message', (event) => {
+            const message = event.data;
+            if (message.command === 'errorMessage') {
+                // Actualizar el contenido del <p> con el valor de error.message
+                document.getElementById('errorOutput').textContent = `Error: ${message.errorMessage}`;
+            }
+            if (message.command === 'stderrOutput') {
+                // Actualizar el contenido del <p> con el valor de stderr
+                document.getElementById('stderrOutput').textContent = `Stderr: ${message.stderr}`;
+            }
+            if (message.command === 'stdoutOutput') {
+                // Actualizar el contenido del <p> con el valor de stdout
+                document.getElementById('stdoutOutput').textContent = `Stdout: ${message.stdout}`;
+            }
+        });
 
         document.getElementById('additionalOutput').textContent = libreriaValue + ' PRG ' + elementoValue;
 
@@ -47,7 +66,7 @@
             const elementoValue = document.getElementById('elementoInput').value;
             const libreriaValue = document.getElementById('libreriaInput').value;
 
-            const zoweCommandConcat = 'zowe tso issue cmd "EX \'' + libreriaValue + '\' \'PRG '+ elementoValue + '\'" -a 9999/UTI/00';
+            const zoweCommandConcat = 'zowe tso issue cmd "EX \'' + libreriaValue + '\' \'PRG ' + elementoValue + '\'" -a 9999/UTI/00';
 
             document.getElementById('commandOutput').textContent = 'Generated Command: ' + zoweCommandConcat;
 
