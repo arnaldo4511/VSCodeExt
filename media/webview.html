@@ -47,7 +47,7 @@
             const elementoValue = document.getElementById('elementoInput').value;
             const matriculaValue = document.getElementById('matricula').value;
 
-            const zoweCommandConcat = 'zowe tso issue cmd "EX \'' + matriculaValue + '.JCLLIB(BUS)\' \'PRG  '+ elementoValue + '\'" -a 9999/UTI/00';
+            const zoweCommandConcat = 'zowe tso issue cmd "EX \'' + matriculaValue + '.JCLLIB(BU3)\' \'PRG  '+ elementoValue + '\'" -a 9999/UTI/00';
 
             document.getElementById('commandOutput').textContent = 'Generated Command: ' + zoweCommandConcat;
 
