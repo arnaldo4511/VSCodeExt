@@ -31,7 +31,10 @@
     </div>
     commandOutput <p id="commandOutput">commandOutput</p>
 
-    stdoutOutput <p id="stdoutOutput">Output will appear here</p>
+    errorOutput <p id="errorOutput">Error output will appear here</p>
+    stderrOutput <p id="stderrOutput">Stderr output will appear here</p>
+    stdoutOutput <p id="stdoutOutput">Stdout output will appear here</p>
+
     <script>
         const vscode = acquireVsCodeApi();
         const libreriaValue = document.getElementById('libreriaInput').value;
