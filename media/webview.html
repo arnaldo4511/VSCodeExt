@@ -71,6 +71,33 @@
                 // Actualizar el contenido del <p> con el valor de stdout
                 document.getElementById('stdoutOutput').textContent = `Stdout: ${message.stdout}`;
                 document.getElementById('progressBar').style.display = 'none';
+
+
+                
+                const stdout = message.stdout;
+
+                // Dividir stdout en líneas
+                const lines = stdout.split('\n');
+
+                // Buscar la fila que comienza con "BUSCANDO"
+                const startIndex = lines.findIndex(line => line.startsWith("BUSCANDO"));
+
+                if (startIndex !== -1) {
+                    // Buscar la fila que comienza con "ISPS118L"
+                    const endIndex = lines.findIndex((line, index) => index > startIndex && line.startsWith("ISPS118L"));
+
+                    // Extraer las líneas desde "BUSCANDO" hasta antes de "ISPS118L"
+                    const resultLines = endIndex !== -1
+                        ? lines.slice(startIndex, endIndex) // Desde "BUSCANDO" hasta antes de "ISPS118L"
+                        : lines.slice(startIndex); // Desde "BUSCANDO" hasta el final si no hay "ISPS118L"
+
+                    // Imprimir las líneas extraídas en el elemento <p>
+                    document.getElementById('stdoutOutput').textContent = resultLines.join('\n');
+                } else {
+                    document.getElementById('stdoutOutput').textContent = 'No se encontró la fila que comienza con "BUSCANDO".';
+                }
+
+                document.getElementById('progressBar').style.display = 'none';
             }
         });
 
