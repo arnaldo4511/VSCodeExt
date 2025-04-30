@@ -51,14 +51,17 @@ export function activate(context: vscode.ExtensionContext) {
                     // Ejecutar el comando de Zowe CLI en segundo plano
                     exec(zoweCommand, (error, stdout, stderr) => {
                         if (error) {
-                            vscode.window.showErrorMessage(`Error: ${error.message}`);
+                            //vscode.window.showErrorMessage(`Error: ${error.message}`);
+                            panel.webview.postMessage({ command: 'errorMessage', errorMessage: error.message });
                             return;
                         }
                         if (stderr) {
-                            vscode.window.showWarningMessage(`Stderr: ${stderr}`);
+                            //vscode.window.showWarningMessage(`Stderr: ${stderr}`);
+                            panel.webview.postMessage({ command: 'stderrOutput', stderr });
                             return;
                         }
-                        vscode.window.showInformationMessage(`Output: ${stdout}`);
+                        //vscode.window.showInformationMessage(`Output: ${stdout}`);
+                        panel.webview.postMessage({ command: 'stdoutOutput', stdout });
                     });
                 }
             }
