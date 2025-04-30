@@ -101,40 +101,40 @@ export function activate(context: vscode.ExtensionContext) {
             panel.webview.html = fs.readFileSync(htmlPath, 'utf8');
 
             // Escuchar mensajes desde el Webview
-        panel.webview.onDidReceiveMessage((message) => {
-            if (message.command === 'runZoweCommand') {
-                const zoweCommand = message.zoweCommand;
+            panel.webview.onDidReceiveMessage((message) => {
+                if (message.command === 'runZoweCommand') {
+                    const zoweCommand = message.zoweCommand;
 
-                // Ejecutar el comando Zowe CLI
-                child_process.exec(zoweCommand, (error, stdout, stderr) => {
-                    if (error) {
+                    // Ejecutar el comando Zowe CLI
+                    child_process.exec(zoweCommand, (error, stdout, stderr) => {
+                        if (error) {
+                            panel.webview.postMessage({
+                                command: 'zoweResponse',
+                                response: `Error: ${error.message}`
+                            });
+                            return;
+                        }
+
+                        if (stderr) {
+                            panel.webview.postMessage({
+                                command: 'zoweResponse',
+                                response: `Stderr: ${stderr}`
+                            });
+                            return;
+                        }
+
+                        // Enviar la respuesta al Webview
                         panel.webview.postMessage({
                             command: 'zoweResponse',
-                            response: `Error: ${error.message}`
+                            response: stdout
                         });
-                        return;
-                    }
-
-                    if (stderr) {
-                        panel.webview.postMessage({
-                            command: 'zoweResponse',
-                            response: `Stderr: ${stderr}`
-                        });
-                        return;
-                    }
-
-                    // Enviar la respuesta al Webview
-                    panel.webview.postMessage({
-                        command: 'zoweResponse',
-                        response: stdout
                     });
-                });
-            }
-        });
+                }
+            });
         })
     );
 
-    
+
 
     context.subscriptions.push(
         vscode.commands.registerCommand('vscodeext.openDeslogueWebview', () => {
@@ -144,9 +144,41 @@ export function activate(context: vscode.ExtensionContext) {
                 vscode.ViewColumn.One,
                 { enableScripts: true }
             );
-    
+
             const htmlPath = path.join(context.extensionPath, 'media', 'deslogue.html'); // Archivo HTML para DESLOGUE
             panel.webview.html = fs.readFileSync(htmlPath, 'utf8');
+
+            // Escuchar mensajes desde el Webview
+            panel.webview.onDidReceiveMessage((message) => {
+                if (message.command === 'runZoweCommand') {
+                    const zoweCommand = message.zoweCommand;
+
+                    // Ejecutar el comando Zowe CLI
+                    child_process.exec(zoweCommand, (error, stdout, stderr) => {
+                        if (error) {
+                            panel.webview.postMessage({
+                                command: 'zoweResponse',
+                                response: `Error: ${error.message}`
+                            });
+                            return;
+                        }
+
+                        if (stderr) {
+                            panel.webview.postMessage({
+                                command: 'zoweResponse',
+                                response: `Stderr: ${stderr}`
+                            });
+                            return;
+                        }
+
+                        // Enviar la respuesta al Webview
+                        panel.webview.postMessage({
+                            command: 'zoweResponse',
+                            response: stdout
+                        });
+                    });
+                }
+            });
         })
     );
 
