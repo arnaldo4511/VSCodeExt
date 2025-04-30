@@ -82,6 +82,29 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.window.registerWebviewViewProvider('vscodeext-activitybar.vscodeext-view', myViewProvider);
     //);
     console.log('MyViewProvider registered');
+
+
+    context.subscriptions.push(
+        vscode.commands.registerCommand('vscodeext.openDestaWebview', () => {
+            const panel = vscode.window.createWebviewPanel(
+                'destaWebview',
+                'DESTA',
+                vscode.ViewColumn.One,
+                { enableScripts: true }
+            );
+
+            //const htmlPath = path.join(__dirname, 'media', 'desta.html'); // Archivo HTML para DESTA
+            const htmlPath = path.join(context.extensionPath, 'media', 'desta.html');
+            panel.webview.html = fs.readFileSync(htmlPath, 'utf8');
+        })
+    );
+
+    context.subscriptions.push(
+        vscode.window.registerWebviewViewProvider(
+            'myView',
+            new MyViewProvider(context.extensionUri)
+        )
+    );
 }
 
 // This method is called when your extension is deactivated
@@ -100,6 +123,9 @@ class MyViewProvider implements vscode.WebviewViewProvider {
         webviewView.webview.onDidReceiveMessage((message) => {
             if (message.command === 'openWebview') {
                 vscode.commands.executeCommand('vscodeext.openWebview');
+            }
+            if (message.command === 'openDestaWebview') {
+                vscode.commands.executeCommand('vscodeext.openDestaWebview');
             }
         });
 
