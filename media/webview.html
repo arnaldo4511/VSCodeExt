@@ -17,7 +17,7 @@
 
 <body>
     <h1>TSO BUS</h1>
-    <div class="row">
+    <div class="row" style="display: none;">
         <label for="libreriaInput">Libreria:</label>
         <input type="text" id="libreriaInput" value="T09579.JCLLIB(BU3)" />
     </div>
@@ -44,11 +44,11 @@
 
         <p id="additionalOutput"></p>
     </div>
-    commandOutput <p id="commandOutput">commandOutput</p>
+     <p id="commandOutput"></p>
 
-    errorOutput <p id="errorOutput">Error output will appear here</p>
-    stderrOutput <p id="stderrOutput">Stderr output will appear here</p>
-    stdoutOutput <p id="stdoutOutput">Stdout output will appear here</p>
+     <p id="errorOutput"></p>
+    <p id="stderrOutput"></p>
+    <pre id="stdoutOutput"></pre>
 
     <script>
         const vscode = acquireVsCodeApi();
@@ -73,7 +73,7 @@
                 document.getElementById('progressBar').style.display = 'none';
 
 
-                
+
                 const stdout = message.stdout;
 
                 // Dividir stdout en líneas
@@ -101,13 +101,13 @@
             }
         });
 
-        document.getElementById('additionalOutput').textContent = libreriaValue + ' PRG ' + elementoValue;
+        //document.getElementById('additionalOutput').textContent = libreriaValue + ' PRG ' + elementoValue;
 
-        document.getElementById('libreriaInput').addEventListener('input', (event) => {
+        /*document.getElementById('libreriaInput').addEventListener('input', (event) => {
             const libreriaValue = event.target.value;
             const elementoValue = document.getElementById('elementoInput').value;
             document.getElementById('additionalOutput').textContent = libreriaValue + ' PRG' + elementoValue;
-        });
+        });*/
 
         document.getElementById('matriculaBuscar').addEventListener('click', () => {
             const elementoValue = document.getElementById('elementoInput').value;
@@ -116,7 +116,7 @@
 
             const zoweCommandConcat = 'zowe tso issue cmd "EX \'' + libreriaValue + '\' \'' + typeValue + ' ' + elementoValue + '\'" -a 9999/UTI/00';
 
-            document.getElementById('commandOutput').textContent = 'Generated Command: ' + zoweCommandConcat;
+            //document.getElementById('commandOutput').textContent = 'Generated Command: ' + zoweCommandConcat;
 
             // Mostrar el progreso
             const progressBar = document.getElementById('progressBar');
