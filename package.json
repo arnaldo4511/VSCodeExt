@@ -23,7 +23,7 @@
       "activitybar": [
         {
           "id": "vscodeext-activitybar",
-          "title": "My Activity",
+          "title": "z/OS Dev",
           "icon": "./resources/icon.png"
         }
       ]
@@ -32,7 +32,7 @@
       "vscodeext-activitybar": [
         {
           "id": "vscodeext-activitybar.vscodeext-view",
-          "name": "My View!",
+          "name": "Herramientas",
           "content": "Hello World",
           "type": "webview",
           "icon": "./resources/icon.png"
@@ -41,7 +41,8 @@
     }
   },
   "files": [
-    "media/**"
+    "media/**",
+    "resources/**"
   ],
   "scripts": {
     "vscode:prepublish": "npm run compile",

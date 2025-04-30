@@ -3,6 +3,9 @@
 import * as vscode from 'vscode';
 import { exec } from 'child_process';
 
+import * as fs from 'fs';
+import * as path from 'path';
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -104,26 +107,7 @@ class MyViewProvider implements vscode.WebviewViewProvider {
     }
 
     private getHtmlForWebview(): string {
-        return `
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>My View</title>
-            </head>
-            <body>
-                <h1>Welcome to My Activity Bar View!</h1>
-                <p>TSO BUS</p>
-                <button id="openWebviewButton">Click Me</button>
-                <script>
-                    const vscode = acquireVsCodeApi();
-                    document.getElementById('openWebviewButton').addEventListener('click', () => {
-                        vscode.postMessage({ command: 'openWebview' });
-                    });
-                </script>
-            </body>
-            </html>
-        `;
+        const htmlPath = path.join(__dirname, '..', 'media', 'view.html'); // Ruta al archivo HTML
+        return fs.readFileSync(htmlPath, 'utf8'); // Leer el contenido del archivo HTML
     }
 }
