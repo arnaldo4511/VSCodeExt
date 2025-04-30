@@ -6,6 +6,9 @@ import { exec } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 
+
+import * as child_process from 'child_process';
+
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
@@ -96,6 +99,38 @@ export function activate(context: vscode.ExtensionContext) {
             //const htmlPath = path.join(__dirname, 'media', 'desta.html'); // Archivo HTML para DESTA
             const htmlPath = path.join(context.extensionPath, 'media', 'desta.html');
             panel.webview.html = fs.readFileSync(htmlPath, 'utf8');
+
+            // Escuchar mensajes desde el Webview
+        panel.webview.onDidReceiveMessage((message) => {
+            if (message.command === 'runZoweCommand') {
+                const zoweCommand = message.zoweCommand;
+
+                // Ejecutar el comando Zowe CLI
+                child_process.exec(zoweCommand, (error, stdout, stderr) => {
+                    if (error) {
+                        panel.webview.postMessage({
+                            command: 'zoweResponse',
+                            response: `Error: ${error.message}`
+                        });
+                        return;
+                    }
+
+                    if (stderr) {
+                        panel.webview.postMessage({
+                            command: 'zoweResponse',
+                            response: `Stderr: ${stderr}`
+                        });
+                        return;
+                    }
+
+                    // Enviar la respuesta al Webview
+                    panel.webview.postMessage({
+                        command: 'zoweResponse',
+                        response: stdout
+                    });
+                });
+            }
+        });
         })
     );
 
