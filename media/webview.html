@@ -38,7 +38,7 @@
         </div>
 
         <div class="row">
-            <button id="matriculaBuscar">Buscar</button>
+            <button id="elementoBuscar">Buscar</button>
             <progress id="progressBar" style="display: none;" max="100"></progress>
         </div>
 
@@ -109,7 +109,7 @@
             document.getElementById('additionalOutput').textContent = libreriaValue + ' PRG' + elementoValue;
         });*/
 
-        document.getElementById('matriculaBuscar').addEventListener('click', () => {
+        document.getElementById('elementoBuscar').addEventListener('click', () => {
             const elementoValue = document.getElementById('elementoInput').value;
             const libreriaValue = document.getElementById('libreriaInput').value;
             const typeValue = document.getElementById('typeSelect').value;

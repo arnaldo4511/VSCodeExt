@@ -99,12 +99,28 @@ export function activate(context: vscode.ExtensionContext) {
         })
     );
 
+    
+
     context.subscriptions.push(
+        vscode.commands.registerCommand('vscodeext.openDeslogueWebview', () => {
+            const panel = vscode.window.createWebviewPanel(
+                'deslogueWebview',
+                'DESLOGUE',
+                vscode.ViewColumn.One,
+                { enableScripts: true }
+            );
+    
+            const htmlPath = path.join(context.extensionPath, 'media', 'deslogue.html'); // Archivo HTML para DESLOGUE
+            panel.webview.html = fs.readFileSync(htmlPath, 'utf8');
+        })
+    );
+
+    /*context.subscriptions.push(
         vscode.window.registerWebviewViewProvider(
             'myView',
             new MyViewProvider(context.extensionUri)
         )
-    );
+    );*/
 }
 
 // This method is called when your extension is deactivated
@@ -126,6 +142,9 @@ class MyViewProvider implements vscode.WebviewViewProvider {
             }
             if (message.command === 'openDestaWebview') {
                 vscode.commands.executeCommand('vscodeext.openDestaWebview');
+            }
+            if (message.command === 'openDeslogueWebview') {
+                vscode.commands.executeCommand('vscodeext.openDeslogueWebview');
             }
         });
 
