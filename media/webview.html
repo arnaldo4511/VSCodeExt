@@ -25,6 +25,18 @@
         <label for="elementoInput">Elemento:</label>
         <input type="text" id="elementoInput" value="BCVVCU20" />
 
+        <div class="row">
+            <label for="typeSelect">Tipo:</label>
+            <select id="typeSelect">
+                <option value="PRG">PRG</option>
+                <option value="CPY">CPY</option>
+                <option value="JOB">JOB</option>
+                <option value="PRC">PRC</option>
+                <option value="CTL">CTL</option>
+                <option value="OBJ">OBJ</option>
+            </select>
+        </div>
+
         <button id="matriculaBuscar">Buscar</button>
 
         <p id="additionalOutput"></p>
@@ -68,8 +80,9 @@
         document.getElementById('matriculaBuscar').addEventListener('click', () => {
             const elementoValue = document.getElementById('elementoInput').value;
             const libreriaValue = document.getElementById('libreriaInput').value;
+            const typeValue = document.getElementById('typeSelect').value;
 
-            const zoweCommandConcat = 'zowe tso issue cmd "EX \'' + libreriaValue + '\' \'PRG ' + elementoValue + '\'" -a 9999/UTI/00';
+            const zoweCommandConcat = 'zowe tso issue cmd "EX \'' + libreriaValue + '\' \'' + typeValue + ' ' + elementoValue + '\'" -a 9999/UTI/00';
 
             document.getElementById('commandOutput').textContent = 'Generated Command: ' + zoweCommandConcat;
 
