@@ -7,7 +7,6 @@
 </head>
 <body>
     <h1>DESTA</h1>
-    <p>Este es el contenido del Webview para DESTA.</p>
     <div class="row">
         <label for="archivoInput">Archivo:</label>
         <input type="text" id="archivoInput" value="" size="50"/>
@@ -18,7 +17,7 @@
         </div>
 
     </div>
-    <pre id="output">La respuesta del comando aparecerá aquí...</pre>
+    <pre id="output"></pre>
 
     <script>
         const vscode = acquireVsCodeApi();
@@ -33,7 +32,7 @@
             // Enviar el comando al backend
             vscode.postMessage({
                 command: 'runZoweCommand',
-                zoweCommand: `zowe tso issue cmd "EX 'T49546.JCLLIB(DESTA2)' 'T "${archivoValue}"'" -a 9999/UTI/00`
+                zoweCommand: `zowe tso issue cmd "EX 'T49546.JCLLIB(DESTA2)' 'T ${archivoValue}'" -a 9999/UTI/00`
             });
         });
 
