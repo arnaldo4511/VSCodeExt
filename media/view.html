@@ -23,7 +23,7 @@
     <script>
         const vscode = acquireVsCodeApi();
         document.getElementById('tsoBusButton').addEventListener('click', () => {
-            vscode.postMessage({ command: 'openWebview' });
+            vscode.postMessage({ command: 'openTsoBusWebview' });
         });
 
         document.getElementById('destaButton').addEventListener('click', () => {

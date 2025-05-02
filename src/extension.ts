@@ -7,77 +7,28 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 
-import * as child_process from 'child_process';
+
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-    const path = require('path');
-    const fs = require('fs');
 
-    // Use the console to output diagnostic information (console.log) and errors (console.error)
-    // This line of code will only be executed once when your extension is activated
-    console.log('Congratulations, your extension "vscodeext" is now active!');
 
-    // The command has been defined in the package.json file
-    // Now provide the implementation of the command with registerCommand
-    // The commandId parameter must match the command field in package.json
-    const disposable = vscode.commands.registerCommand('vscodeext.helloWorld', () => {
-        // The code you place here will be executed every time your command is executed
-        // Display a message box to the user
-        vscode.window.showInformationMessage('Hello World from VSCodeExt!');
-    });
+    const webviews = [
+        { command: 'vscodeext.openTsoBusWebview', viewId: 'tsoBusWebview', title: 'TSO BUS', htmlFile: 'tsoBus.html' },
+        { command: 'vscodeext.openDestaWebview', viewId: 'destaWebview', title: 'DESTA', htmlFile: 'desta.html' },
+        { command: 'vscodeext.openDeslogueWebview', viewId: 'deslogueWebview', title: 'DESLOGUE', htmlFile: 'deslogue.html' },
+    ];
 
-    context.subscriptions.push(disposable);
-
-    // Registrar el comando para abrir un Webview en el área del editor
-    const openWebviewCommand = vscode.commands.registerCommand('vscodeext.openWebview', () => {
-        const panel = vscode.window.createWebviewPanel(
-            'exampleWebview', // Identificador interno
-            'Example Webview', // Título del Webview
-            vscode.ViewColumn.One, // Mostrar en la primera columna
-            {
-                enableScripts: true, // Permitir scripts en el Webview
-            }
+    webviews.forEach(({ command, viewId, title, htmlFile }) => {
+        context.subscriptions.push(
+            vscode.commands.registerCommand(command, () => {
+                createWebview(context, viewId, title, htmlFile);
+            })
         );
-
-        // Ruta al archivo HTML
-        const htmlPath = path.join(context.extensionPath, 'media', 'webview.html');
-        const htmlContent = fs.readFileSync(htmlPath, 'utf8');
-
-        // Establecer el contenido HTML en el Webview
-        panel.webview.html = htmlContent;
-
-        // Escuchar mensajes desde el Webview
-        panel.webview.onDidReceiveMessage((message) => {
-            if (message.command === 'runZoweCommand') {
-                const zoweCommand = message.zoweCommand;
-                if (zoweCommand) {
-                    // Ejecutar el comando de Zowe CLI en segundo plano
-                    exec(zoweCommand, (error, stdout, stderr) => {
-                        if (error) {
-                            //vscode.window.showErrorMessage(`Error: ${error.message}`);
-                            panel.webview.postMessage({ command: 'errorMessage', errorMessage: error.message });
-                            return;
-                        }
-                        if (stderr) {
-                            //vscode.window.showWarningMessage(`Stderr: ${stderr}`);
-                            panel.webview.postMessage({ command: 'stderrOutput', stderr });
-                            return;
-                        }
-                        //vscode.window.showInformationMessage(`Output: ${stdout}`);
-                        panel.webview.postMessage({ command: 'stdoutOutput', stdout });
-                    });
-                }
-            }
-        });
     });
 
-
-
-
-    context.subscriptions.push(openWebviewCommand);
 
     // Registrar un proveedor de vista para la Activity Bar
     const myViewProvider = new MyViewProvider(context.extensionUri);
@@ -87,107 +38,59 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('MyViewProvider registered');
 
 
-    context.subscriptions.push(
-        vscode.commands.registerCommand('vscodeext.openDestaWebview', () => {
-            const panel = vscode.window.createWebviewPanel(
-                'destaWebview',
-                'DESTA',
-                vscode.ViewColumn.One,
-                { enableScripts: true }
-            );
 
-            //const htmlPath = path.join(__dirname, 'media', 'desta.html'); // Archivo HTML para DESTA
-            const htmlPath = path.join(context.extensionPath, 'media', 'desta.html');
-            panel.webview.html = fs.readFileSync(htmlPath, 'utf8');
+}
 
-            // Escuchar mensajes desde el Webview
-            panel.webview.onDidReceiveMessage((message) => {
-                if (message.command === 'runZoweCommand') {
-                    const zoweCommand = message.zoweCommand;
-
-                    // Ejecutar el comando Zowe CLI
-                    child_process.exec(zoweCommand, (error, stdout, stderr) => {
-                        if (error) {
-                            panel.webview.postMessage({
-                                command: 'zoweResponse',
-                                response: `Error: ${error.message}`
-                            });
-                            return;
-                        }
-
-                        if (stderr) {
-                            panel.webview.postMessage({
-                                command: 'zoweResponse',
-                                response: `Stderr: ${stderr}`
-                            });
-                            return;
-                        }
-
-                        // Enviar la respuesta al Webview
-                        panel.webview.postMessage({
-                            command: 'zoweResponse',
-                            response: stdout
-                        });
-                    });
-                }
-            });
-        })
+function createWebview(context: vscode.ExtensionContext, viewId: string, title: string, htmlFileName: string) {
+    const panel = vscode.window.createWebviewPanel(
+        viewId,
+        title,
+        vscode.ViewColumn.One,
+        { enableScripts: true }
     );
 
+    const htmlPath = path.join(context.extensionPath, 'media', htmlFileName);
+    panel.webview.html = fs.readFileSync(htmlPath, 'utf8');
 
+    // Escuchar mensajes desde el Webview
+    panel.webview.onDidReceiveMessage((message) => {
+        if (message.command === 'runZoweCommand') {
+            const zoweCommand = message.zoweCommand;
 
-    context.subscriptions.push(
-        vscode.commands.registerCommand('vscodeext.openDeslogueWebview', () => {
-            const panel = vscode.window.createWebviewPanel(
-                'deslogueWebview',
-                'DESLOGUE',
-                vscode.ViewColumn.One,
-                { enableScripts: true }
-            );
-
-            const htmlPath = path.join(context.extensionPath, 'media', 'deslogue.html'); // Archivo HTML para DESLOGUE
-            panel.webview.html = fs.readFileSync(htmlPath, 'utf8');
-
-            // Escuchar mensajes desde el Webview
-            panel.webview.onDidReceiveMessage((message) => {
-                if (message.command === 'runZoweCommand') {
-                    const zoweCommand = message.zoweCommand;
-
-                    // Ejecutar el comando Zowe CLI
-                    child_process.exec(zoweCommand, (error, stdout, stderr) => {
-                        if (error) {
-                            panel.webview.postMessage({
-                                command: 'zoweResponse',
-                                response: `Error: ${error.message}`
-                            });
-                            return;
-                        }
-
-                        if (stderr) {
-                            panel.webview.postMessage({
-                                command: 'zoweResponse',
-                                response: `Stderr: ${stderr}`
-                            });
-                            return;
-                        }
-
-                        // Enviar la respuesta al Webview
-                        panel.webview.postMessage({
-                            command: 'zoweResponse',
-                            response: stdout
-                        });
-                    });
+            exec(zoweCommand, (error, stdout, stderr) => {
+                if (handleZoweCommandError(panel, error, stderr)) {
+                    return;
                 }
-            });
-        })
-    );
 
-    /*context.subscriptions.push(
-        vscode.window.registerWebviewViewProvider(
-            'myView',
-            new MyViewProvider(context.extensionUri)
-        )
-    );*/
+                panel.webview.postMessage({
+                    command: 'zoweResponse',
+                    response: stdout
+                });
+            });
+        }
+    });
+
+    return panel;
+}
+
+function handleZoweCommandError(panel: vscode.WebviewPanel, error: Error | null, stderr: string | null) {
+    if (error) {
+        panel.webview.postMessage({
+            command: 'zoweResponse',
+            response: `Error: ${error.message}`
+        });
+        return true;
+    }
+
+    if (stderr) {
+        panel.webview.postMessage({
+            command: 'zoweResponse',
+            response: `Stderr: ${stderr}`
+        });
+        return true;
+    }
+
+    return false;
 }
 
 // This method is called when your extension is deactivated
@@ -204,15 +107,7 @@ class MyViewProvider implements vscode.WebviewViewProvider {
 
         // Escuchar mensajes desde el Webview
         webviewView.webview.onDidReceiveMessage((message) => {
-            if (message.command === 'openWebview') {
-                vscode.commands.executeCommand('vscodeext.openWebview');
-            }
-            if (message.command === 'openDestaWebview') {
-                vscode.commands.executeCommand('vscodeext.openDestaWebview');
-            }
-            if (message.command === 'openDeslogueWebview') {
-                vscode.commands.executeCommand('vscodeext.openDeslogueWebview');
-            }
+            vscode.commands.executeCommand(`vscodeext.${message.command}`);
         });
 
         webviewView.webview.html = this.getHtmlForWebview();

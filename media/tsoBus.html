@@ -1,11 +1,10 @@
-<!-- filepath: d:\VSCodeExtension\vscodeext\media\webview.html -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Example Webview</title>
+    <title>TSO BUS</title>
     <style>
         .row {
             display: flex;
@@ -44,11 +43,13 @@
 
         <p id="additionalOutput"></p>
     </div>
-     <p id="commandOutput"></p>
+    <p id="commandOutput"></p>
 
-     <p id="errorOutput"></p>
+    <p id="errorOutput"></p>
     <p id="stderrOutput"></p>
-    <pre id="stdoutOutput"></pre>
+    a<pre id="stdoutOutput"></pre>
+
+    b<pre id="output"></pre>
 
     <script>
         const vscode = acquireVsCodeApi();
@@ -58,23 +59,12 @@
         // Escuchar mensajes desde el backend
         window.addEventListener('message', (event) => {
             const message = event.data;
-            if (message.command === 'errorMessage') {
-                // Actualizar el contenido del <p> con el valor de error.message
-                document.getElementById('errorOutput').textContent = `Error: ${message.errorMessage}`;
-                document.getElementById('progressBar').style.display = 'none';
-            }
-            if (message.command === 'stderrOutput') {
-                // Actualizar el contenido del <p> con el valor de stderr
-                document.getElementById('stderrOutput').textContent = `Stderr: ${message.stderr}`;
-            }
-            if (message.command === 'stdoutOutput') {
-                // Actualizar el contenido del <p> con el valor de stdout
-                document.getElementById('stdoutOutput').textContent = `Stdout: ${message.stdout}`;
-                document.getElementById('progressBar').style.display = 'none';
+            if (message.command === 'zoweResponse') {
 
 
 
-                const stdout = message.stdout;
+
+                const stdout = message.response;
 
                 // Dividir stdout en líneas
                 const lines = stdout.split('\n');
@@ -93,10 +83,13 @@
 
                     // Imprimir las líneas extraídas en el elemento <p>
                     document.getElementById('stdoutOutput').textContent = resultLines.join('\n');
-                } else {
-                    document.getElementById('stdoutOutput').textContent = 'No se encontró la fila que comienza con "BUSCANDO".';
                 }
 
+
+                // Mostrar la respuesta en el <pre>
+                document.getElementById('output').textContent = message.response;
+
+                // Ocultar el progreso
                 document.getElementById('progressBar').style.display = 'none';
             }
         });
