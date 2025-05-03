@@ -76,7 +76,7 @@
 
 
 
-        
+
 
         //document.getElementById('additionalOutput').textContent = libreriaValue + ' PRG ' + elementoValue;
 
@@ -138,12 +138,26 @@
                 preElement.textContent = `Procesando: ${elementoValue} (${typeValue})...`;
                 resultsContainer.appendChild(preElement);
 
+                // Crear una barra de progreso para esta consulta
+                const progressBar = document.createElement('progress');
+                progressBar.id = `progress-${i}`;
+                progressBar.max = 100;
+                progressBar.value = 0;
+                resultsContainer.appendChild(progressBar);
+
+                vscode.postMessage({ command: 'logMessage', text: `i ${i}` });
+                vscode.postMessage({ command: 'logMessage', text: `preElement.id ${preElement.id}` });
+                vscode.postMessage({ command: 'logMessage', text: `preElement.textContent ${preElement.textContent}` });
+
                 vscode.postMessage({ command: 'logMessage', text: `resultsContainer ${resultsContainer}` });
 
                 vscode.postMessage({ command: 'logMessage', text: `zoweCommandConcat ${zoweCommandConcat}` });
 
+                // Simular progreso inicial
+                progressBar.value = 50;
+
                 // Enviar el comando al backend
-                vscode.postMessage({ command: 'runZoweCommand', zoweCommand: zoweCommandConcat });
+                vscode.postMessage({ command: 'runZoweCommand', zoweCommand: zoweCommandConcat, index: i });
 
                 // Actualizar la barra de progreso
                 //progressBar.value = i + 1;
@@ -153,7 +167,7 @@
             }
 
             // Ocultar la barra de progreso al finalizar
-            //progressBar.style.display = 'none';
+            progressBar.style.display = 'none';
 
             vscode.postMessage({
                 command: 'logMessage',
@@ -229,9 +243,21 @@
                 vscode.postMessage({ command: 'logMessage', text: ` ADDEVENT ${stdout} ` });
 
                 // Buscar el <pre> correspondiente al comando actual
-                const preElement = document.querySelector(`#resultsContainer pre:last-child`);
+                //const preElement = document.querySelector(`#resultsContainer pre:last-child`);
+                const preElementId = `result-${message.index}`;
+                vscode.postMessage({ command: 'logMessage', text: ` message.index ${message.index} ` });
+                vscode.postMessage({ command: 'logMessage', text: ` preElementId ${preElementId} ` });
+                const preElement = document.getElementById(preElementId);
                 if (preElement) {
                     preElement.textContent = stdout; // Actualizar el contenido del <pre> con la respuesta
+                }
+
+                // Finalizar la barra de progreso correspondiente
+                const progressBarId = `progress-${message.index}`;
+                const progressBar = document.getElementById(progressBarId);
+                if (progressBar) {
+                    progressBar.value = 100; // Completar la barra de progreso
+                    setTimeout(() => progressBar.remove(), 1000); // Eliminar la barra después de 1 segundo
                 }
 
                 vscode.postMessage({ command: 'logMessage', text: ` preElement ${preElement} ` });

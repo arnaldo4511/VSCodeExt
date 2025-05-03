@@ -50,7 +50,7 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
         viewId,
         title,
         vscode.ViewColumn.One,
-        { 
+        {
             enableScripts: true,
             retainContextWhenHidden: true // Mantener el contexto cuando la vista está oculta
         }
@@ -70,14 +70,20 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
         if (message.command === 'runZoweCommand') {
             const zoweCommand = message.zoweCommand;
 
+            logChannel.appendLine('message.index ts: '+message.index);
+
             exec(zoweCommand, (error, stdout, stderr) => {
-                if (handleZoweCommandError(panel, error, stderr)) {
+                if (handleZoweCommandError(panel, error, stderr,message)) {
                     return;
                 }
 
+                logChannel.appendLine('message.index '+message.index);
+                logChannel.show();
+
                 panel.webview.postMessage({
                     command: 'zoweResponse',
-                    response: stdout
+                    response: stdout,
+                    index: message.index
                 });
             });
         }
@@ -86,11 +92,12 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
     return panel;
 }
 
-function handleZoweCommandError(panel: vscode.WebviewPanel, error: Error | null, stderr: string | null) {
+function handleZoweCommandError(panel: vscode.WebviewPanel, error: Error | null, stderr: string | null, message:any) {
     if (error) {
         panel.webview.postMessage({
             command: 'zoweResponse',
-            response: `Error: ${error.message}`
+            response: `Error: ${error.message}`,
+            index: message.index
         });
         return true;
     }
@@ -98,7 +105,8 @@ function handleZoweCommandError(panel: vscode.WebviewPanel, error: Error | null,
     if (stderr) {
         panel.webview.postMessage({
             command: 'zoweResponse',
-            response: `Stderr: ${stderr}`
+            response: `Stderr: ${stderr}`,
+            index: message.index
         });
         return true;
     }
