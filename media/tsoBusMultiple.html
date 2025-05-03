@@ -76,90 +76,7 @@
 
 
 
-        // Escuchar mensajes desde el backend
-        window.addEventListener('message', (event) => {
-            const message = event.data;
-
-
-            vscode.postMessage({ command: 'logMessage', text: `message ${message}` });
-            vscode.postMessage({ command: 'logMessage', text: `message.command ${message.command}` });
-            vscode.postMessage({ command: 'logMessage', text: `message.response ${message.response}` });
-            vscode.postMessage({ command: 'logMessage', text: `message.stdout ${message.stdout}` });
-            vscode.postMessage({ command: 'logMessage', text: `message.stderr ${message.stderr}` });
-            vscode.postMessage({ command: 'logMessage', text: `message.error ${message.error}` });
-
-            vscode.postMessage({ command: 'logMessage', text: `message.command ${message.command}+` });
-            vscode.postMessage({ command: 'logMessage', text: `message.command zoweResponse+` });
-            vscode.postMessage({ command: 'logMessage', text: message.command });
-            vscode.postMessage({ command: 'logMessage', text: 'zoweResponse' });
-
-            if (message.command === 'zoweResponse') {
-
-
-
-
-                const stdout = message.response;
-
-                // Dividir stdout en líneas
-                const lines = stdout.split('\n');
-
-                // Buscar la fila que comienza con "BUSCANDO"
-                const startIndex = lines.findIndex(line => line.startsWith("BUSCANDO"));
-
-                if (startIndex !== -1) {
-                    // Buscar la fila que comienza con "ISPS118L"
-                    const endIndex = lines.findIndex((line, index) => index > startIndex && line.startsWith("ISPS118L"));
-
-                    // Extraer las líneas desde "BUSCANDO" hasta antes de "ISPS118L"
-                    const resultLines = endIndex !== -1
-                        ? lines.slice(startIndex, endIndex) // Desde "BUSCANDO" hasta antes de "ISPS118L"
-                        : lines.slice(startIndex); // Desde "BUSCANDO" hasta el final si no hay "ISPS118L"
-
-                    // Imprimir las líneas extraídas en el elemento <p>
-                    document.getElementById('stdoutOutput').textContent = resultLines.join('\n');
-
-                    vscode.postMessage({
-                        command: 'logMessage',
-                        text: resultLines.join('\n')
-                    });
-                }
-                // Mostrar mensaje en log
-                vscode.postMessage({
-                    command: 'logMessage',
-                    text: "aqui"
-                });
-
-                // Mostrar la respuesta en el <pre>
-                document.getElementById('output').textContent = message.response;
-
-                // Ocultar el progreso
-                document.getElementById('progressBar').style.display = 'none';
-
-
-
-
-                vscode.postMessage({ command: 'logMessage', text: 'IN' });
-
-                vscode.postMessage({ command: 'logMessage', text: ` ADDEVENT ${stdout} ` });
-
-                // Buscar el <pre> correspondiente al comando actual
-                const preElement = document.querySelector(`#resultsContainer pre:last-child`);
-                if (preElement) {
-                    preElement.textContent = stdout; // Actualizar el contenido del <pre> con la respuesta
-                }
-
-                vscode.postMessage({ command: 'logMessage', text: ` preElement ${preElement} ` });
-
-                vscode.postMessage({
-                    command: 'logMessage',
-                    text: `Respuesta recibida: ${stdout}`
-                });
-
-            }
-
-
-
-        });
+        
 
         //document.getElementById('additionalOutput').textContent = libreriaValue + ' PRG ' + elementoValue;
 
@@ -242,6 +159,92 @@
                 command: 'logMessage',
                 text: 'Procesamiento completado para todos los elementos.'
             });
+        });
+
+
+        // Escuchar mensajes desde el backend
+        window.addEventListener('message', (event) => {
+            const message = event.data;
+
+
+            vscode.postMessage({ command: 'logMessage', text: `message ${message}` });
+            vscode.postMessage({ command: 'logMessage', text: `message.command ${message.command}` });
+            vscode.postMessage({ command: 'logMessage', text: `message.response ${message.response}` });
+            vscode.postMessage({ command: 'logMessage', text: `message.stdout ${message.stdout}` });
+            vscode.postMessage({ command: 'logMessage', text: `message.stderr ${message.stderr}` });
+            vscode.postMessage({ command: 'logMessage', text: `message.error ${message.error}` });
+
+            vscode.postMessage({ command: 'logMessage', text: `message.command ${message.command}+` });
+            vscode.postMessage({ command: 'logMessage', text: `message.command zoweResponse+` });
+            vscode.postMessage({ command: 'logMessage', text: message.command });
+            vscode.postMessage({ command: 'logMessage', text: 'zoweResponse' });
+
+            if (message.command === 'zoweResponse') {
+
+
+
+
+                const stdout = message.response;
+
+                // Dividir stdout en líneas
+                const lines = stdout.split('\n');
+
+                // Buscar la fila que comienza con "BUSCANDO"
+                const startIndex = lines.findIndex(line => line.startsWith("BUSCANDO"));
+
+                if (startIndex !== -1) {
+                    // Buscar la fila que comienza con "ISPS118L"
+                    const endIndex = lines.findIndex((line, index) => index > startIndex && line.startsWith("ISPS118L"));
+
+                    // Extraer las líneas desde "BUSCANDO" hasta antes de "ISPS118L"
+                    const resultLines = endIndex !== -1
+                        ? lines.slice(startIndex, endIndex) // Desde "BUSCANDO" hasta antes de "ISPS118L"
+                        : lines.slice(startIndex); // Desde "BUSCANDO" hasta el final si no hay "ISPS118L"
+
+                    // Imprimir las líneas extraídas en el elemento <p>
+                    document.getElementById('stdoutOutput').textContent = resultLines.join('\n');
+
+                    vscode.postMessage({
+                        command: 'logMessage',
+                        text: resultLines.join('\n')
+                    });
+                }
+                // Mostrar mensaje en log
+                vscode.postMessage({
+                    command: 'logMessage',
+                    text: "aqui"
+                });
+
+                // Mostrar la respuesta en el <pre>
+                document.getElementById('output').textContent = message.response;
+
+                // Ocultar el progreso
+                //document.getElementById('progressBar').style.display = 'none';
+
+
+
+
+                vscode.postMessage({ command: 'logMessage', text: 'IN' });
+
+                vscode.postMessage({ command: 'logMessage', text: ` ADDEVENT ${stdout} ` });
+
+                // Buscar el <pre> correspondiente al comando actual
+                const preElement = document.querySelector(`#resultsContainer pre:last-child`);
+                if (preElement) {
+                    preElement.textContent = stdout; // Actualizar el contenido del <pre> con la respuesta
+                }
+
+                vscode.postMessage({ command: 'logMessage', text: ` preElement ${preElement} ` });
+
+                vscode.postMessage({
+                    command: 'logMessage',
+                    text: `Respuesta recibida: ${stdout}`
+                });
+
+            }
+
+
+
         });
 
 
