@@ -104,8 +104,8 @@
             // Configurar la barra de progreso
             const progressBar = document.getElementById('progressBar');
             progressBar.style.display = 'block';
-            progressBar.max = lines.length;
-            progressBar.value = 0;
+            //progressBar.max = lines.length;
+            //progressBar.value = 0;
 
             vscode.postMessage({ command: 'logMessage', text: `aqui2 ${progressBar}` });
 
@@ -146,7 +146,7 @@
                 vscode.postMessage({ command: 'runZoweCommand', zoweCommand: zoweCommandConcat });
 
                 // Actualizar la barra de progreso
-                progressBar.value = i + 1;
+                //progressBar.value = i + 1;
 
                 // Esperar un breve momento para evitar saturar el backend
                 await new Promise(resolve => setTimeout(resolve, 500));
