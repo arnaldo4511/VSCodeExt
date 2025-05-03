@@ -17,6 +17,7 @@
     <h1>z/OS Dev</h1>
     <div class="button-container">
         <button id="tsoBusButton">TSO BUS</button>
+        <button id="tsoBusMultipleButton">TSO BUS Multiple</button>
         <button id="destaButton">DESTA</button>
         <button id="deslogueButton">DESLOGUE</button>
     </div>
@@ -24,6 +25,10 @@
         const vscode = acquireVsCodeApi();
         document.getElementById('tsoBusButton').addEventListener('click', () => {
             vscode.postMessage({ command: 'openTsoBusWebview' });
+        });
+
+        document.getElementById('tsoBusMultipleButton').addEventListener('click', () => {
+            vscode.postMessage({ command: 'openTsoBusMultipleWebview' });
         });
 
         document.getElementById('destaButton').addEventListener('click', () => {

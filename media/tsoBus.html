@@ -47,12 +47,17 @@
 
     <p id="errorOutput"></p>
     <p id="stderrOutput"></p>
-    a<pre id="stdoutOutput"></pre>
+    a
+    <pre id="stdoutOutput"></pre>
 
-    b<pre id="output"></pre>
+    b
+    <pre id="output"></pre>
 
     <script>
         const vscode = acquireVsCodeApi();
+
+        
+
         const libreriaValue = document.getElementById('libreriaInput').value;
         const elementoValue = document.getElementById('elementoInput').value;
 
@@ -83,8 +88,17 @@
 
                     // Imprimir las líneas extraídas en el elemento <p>
                     document.getElementById('stdoutOutput').textContent = resultLines.join('\n');
-                }
 
+                    vscode.postMessage({
+                        command: 'logMessage',
+                        text: resultLines.join('\n')
+                    });
+                }
+                // Mostrar mensaje en log
+                vscode.postMessage({
+                        command: 'logMessage',
+                        text: "aqui"
+                    });
 
                 // Mostrar la respuesta en el <pre>
                 document.getElementById('output').textContent = message.response;

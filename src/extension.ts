@@ -17,6 +17,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     const webviews = [
         { command: 'vscodeext.openTsoBusWebview', viewId: 'tsoBusWebview', title: 'TSO BUS', htmlFile: 'tsoBus.html' },
+        { command: 'vscodeext.openTsoBusMultipleWebview', viewId: 'tsoBusMultipleWebview', title: 'TSO BUS Multiple', htmlFile: 'tsoBusMultiple.html' },
         { command: 'vscodeext.openDestaWebview', viewId: 'destaWebview', title: 'DESTA', htmlFile: 'desta.html' },
         { command: 'vscodeext.openDeslogueWebview', viewId: 'deslogueWebview', title: 'DESLOGUE', htmlFile: 'deslogue.html' },
     ];
@@ -42,11 +43,17 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 function createWebview(context: vscode.ExtensionContext, viewId: string, title: string, htmlFileName: string) {
+
+    const logChannel = vscode.window.createOutputChannel('Webview Logs');
+
     const panel = vscode.window.createWebviewPanel(
         viewId,
         title,
         vscode.ViewColumn.One,
-        { enableScripts: true }
+        { 
+            enableScripts: true,
+            retainContextWhenHidden: true // Mantener el contexto cuando la vista está oculta
+        }
     );
 
     const htmlPath = path.join(context.extensionPath, 'media', htmlFileName);
@@ -54,6 +61,12 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
 
     // Escuchar mensajes desde el Webview
     panel.webview.onDidReceiveMessage((message) => {
+        // Mostrar mensaje en log
+        if (message.command === 'logMessage') {
+            logChannel.appendLine(`Mensaje desde el Webview: ${message.text}`);
+            logChannel.show(); // Mostrar el canal de log (opcional)
+        }
+
         if (message.command === 'runZoweCommand') {
             const zoweCommand = message.zoweCommand;
 
