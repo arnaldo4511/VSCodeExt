@@ -46,7 +46,7 @@
             BCVVCU21;PRG
             BCVVCU22;PRG</textarea>
 
-        
+
         <div class="row2">
             <div id="resultsContainer"></div> <!-- Contenedor para los resultados -->
         </div>
@@ -140,6 +140,7 @@
                 pElement.id = `resultP-${i}`;
                 pElement.textContent = `${elementoValue} - ${typeValue}`;
                 pElement.style.fontWeight = 'bold'; // Aplicar negrita directamente
+                pElement.style.textDecoration = 'underline'; // Aplicar subrayado directamente
                 resultsContainer.appendChild(pElement);
 
                 // Crear una barra de progreso para esta consulta
@@ -238,7 +239,7 @@
                     const preElement = document.getElementById(preElementId);
                     if (preElement) {
                         //preElement.textContent = stdout; // Actualizar el contenido del <pre> con la respuesta
-                        preElement.textContent = resultLines.join('\n'); // Actualizar el contenido del <pre> con la respuesta
+                        preElement.textContent = "aaa " + resultLines.join('\n'); // Actualizar el contenido del <pre> con la respuesta
 
                     }
 
@@ -246,17 +247,35 @@
 
 
 
-                    vscode.postMessage({
-                        command: 'logMessage',
-                        text: resultLines.join('\n')
-                    });
+                    vscode.postMessage({ command: 'logMessage', text: resultLines.join('\n') });
+                } else {
+
+                    // Buscar el <pre> correspondiente al comando actual
+                    //const preElement = document.querySelector(`#resultsContainer pre:last-child`);
+                    const preElementId = `result-${message.index}`;
+                    vscode.postMessage({ command: 'logMessage', text: ` message.index ${message.index} ` });
+                    vscode.postMessage({ command: 'logMessage', text: ` preElementId ${preElementId} ` });
+                    const preElement = document.getElementById(preElementId);
+                    if (preElement) {
+                        //preElement.textContent = stdout; // Actualizar el contenido del <pre> con la respuesta
+                        preElement.textContent = "bbb " + message.response; // Actualizar el contenido del <pre> con la respuesta
+
+                    }
+
+                    // Finalizar la barra de progreso correspondiente
+                    const progressBarId = `progress-${message.index}`;
+                    const progressBar = document.getElementById(progressBarId);
+                    if (progressBar) {
+                        progressBar.value = 100; // Completar la barra de progreso
+                        setTimeout(() => progressBar.remove(), 1000); // Eliminar la barra después de 1 segundo
+                    }
+
+                    // Si no se encuentra "BUSCANDO", mostrar un mensaje de error
+                    document.getElementById('stdoutOutput').textContent = "No se encontró la línea 'BUSCANDO' en la salida.";
                 }
 
                 // Mostrar mensaje en log
-                vscode.postMessage({
-                    command: 'logMessage',
-                    text: "aqui"
-                });
+                vscode.postMessage({command: 'logMessage',text: "aqui"});
 
                 // Mostrar la respuesta en el <pre>
                 document.getElementById('output').textContent = message.response;
@@ -264,41 +283,13 @@
                 // Ocultar el progreso
                 //document.getElementById('progressBar').style.display = 'none';
 
-                // Buscar el <pre> correspondiente al comando actual
-                //const preElement = document.querySelector(`#resultsContainer pre:last-child`);
-                const preElementId = `result-${message.index}`;
-                vscode.postMessage({ command: 'logMessage', text: ` message.index ${message.index} ` });
-                vscode.postMessage({ command: 'logMessage', text: ` preElementId ${preElementId} ` });
-                const preElement = document.getElementById(preElementId);
-                if (preElement) {
-                    //preElement.textContent = stdout; // Actualizar el contenido del <pre> con la respuesta
-                    preElement.textContent = message.response; // Actualizar el contenido del <pre> con la respuesta
 
-                }
-
-                // Finalizar la barra de progreso correspondiente
-                const progressBarId = `progress-${message.index}`;
-                const progressBar = document.getElementById(progressBarId);
-                if (progressBar) {
-                    progressBar.value = 100; // Completar la barra de progreso
-                    setTimeout(() => progressBar.remove(), 1000); // Eliminar la barra después de 1 segundo
-                }
 
                 vscode.postMessage({ command: 'logMessage', text: ` preElement ${preElement} ` });
 
-                vscode.postMessage({
-                    command: 'logMessage',
-                    text: `Respuesta recibida: ${stdout}`
-                });
-
-
-
-
-
+                vscode.postMessage({command: 'logMessage',text: `Respuesta recibida: ${stdout}`});
 
             }
-
-
 
         });
 
