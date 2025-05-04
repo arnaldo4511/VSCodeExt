@@ -215,6 +215,12 @@
             vscode.postMessage({ command: 'logMessage', text: 'zoweResponse' });
 
             if (message.command === 'zoweResponse') {
+                const progressBarMain = document.getElementById('progressBarMain');
+                
+
+                vscode.postMessage({ command: 'logMessage', text: ` progressBarMain ${progressBarMain} ` });
+                vscode.postMessage({ command: 'logMessage', text: ` progressBarMain.style.display ${progressBarMain.style.display} ` });
+
                 const progressBarId = `progress-${message.index}`;
                 const progressBar = document.getElementById(progressBarId);
 
@@ -295,12 +301,18 @@
                     setTimeout(() => progressBar.remove(), 1000); // Eliminar la barra después de 1 segundo
                 }
 
-                vscode.postMessage({ command: 'logMessage', text: ` preElement ${preElement} ` });
+                vscode.postMessage({ command: 'logMessage', text: ` preElement ` });
+                vscode.postMessage({ command: 'logMessage', text: ` progressBarMain ${progressBarMain} ` });
+               
 
                 vscode.postMessage({ command: 'logMessage', text: `Respuesta recibida: ${stdout}` });
-                
+
+                vscode.postMessage({ command: 'logMessage', text: ` progressBarMain.style.display ${progressBarMain.style.display} ` });
+
                 // Ocultar la barra de progreso al finalizar
                 progressBarMain.style.display = 'none';
+
+                vscode.postMessage({ command: 'logMessage', text: ` progressBarMain.style.display ${progressBarMain.style.display} ` });
             }
 
         });
