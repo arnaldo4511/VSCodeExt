@@ -39,15 +39,18 @@
     <div class="row">
         <label for="elementosInput">Elementos:</label>
         <button id="elementosBuscar">Buscar</button>
+        <progress id="progressBar" style="display: none;" max="100"></progress>
     </div>
     <div class="row2">
         <textarea id="elementosInput" rows="20" cols="20">BCVVCU20;PRG
             BCVVCU21;PRG
             BCVVCU22;PRG</textarea>
 
-        <progress id="progressBar" style="display: none;" max="100"></progress>
+        
+        <div class="row2">
+            <div id="resultsContainer"></div> <!-- Contenedor para los resultados -->
+        </div>
 
-        <div id="resultsContainer"></div> <!-- Contenedor para los resultados -->
     </div>
 
 
@@ -133,10 +136,11 @@
                 const zoweCommandConcat = 'zowe tso issue cmd "EX \'' + libreriaValue + '\' \'' + typeValue + ' ' + elementoValue + '\'" -a 9999/UTI/00';
 
                 // Crear un nuevo <pre> para mostrar el resultado de esta consulta
-                const preElement = document.createElement('pre');
-                preElement.id = `result-${i}`;
-                preElement.textContent = `Procesando: ${elementoValue} (${typeValue})...`;
-                resultsContainer.appendChild(preElement);
+                const pElement = document.createElement('p');
+                pElement.id = `resultP-${i}`;
+                pElement.textContent = `${elementoValue} - ${typeValue}`;
+                pElement.style.fontWeight = 'bold'; // Aplicar negrita directamente
+                resultsContainer.appendChild(pElement);
 
                 // Crear una barra de progreso para esta consulta
                 const progressBar = document.createElement('progress');
@@ -144,6 +148,12 @@
                 progressBar.max = 100;
                 progressBar.value = 0;
                 resultsContainer.appendChild(progressBar);
+
+                // Crear un nuevo <pre> para mostrar el resultado de esta consulta
+                const preElement = document.createElement('pre');
+                preElement.id = `result-${i}`;
+                preElement.textContent = `Procesando: ${elementoValue} (${typeValue})...`;
+                resultsContainer.appendChild(preElement);
 
                 vscode.postMessage({ command: 'logMessage', text: `click for i ${i}` });
                 vscode.postMessage({ command: 'logMessage', text: `click for preElement.id ${preElement.id}` });
@@ -232,20 +242,7 @@
 
                     }
 
-                    // Finalizar la barra de progreso correspondiente
-                    const progressBarId = `progress-${message.index}`;
-                    const progressBar = document.getElementById(progressBarId);
-                    if (progressBar) {
-                        progressBar.value = 100; // Completar la barra de progreso
-                        setTimeout(() => progressBar.remove(), 1000); // Eliminar la barra después de 1 segundo
-                    }
 
-                    vscode.postMessage({ command: 'logMessage', text: ` preElement ${preElement} ` });
-
-                    vscode.postMessage({
-                        command: 'logMessage',
-                        text: `Respuesta recibida: ${stdout}`
-                    });
 
 
 
@@ -267,7 +264,32 @@
                 // Ocultar el progreso
                 //document.getElementById('progressBar').style.display = 'none';
 
+                // Buscar el <pre> correspondiente al comando actual
+                //const preElement = document.querySelector(`#resultsContainer pre:last-child`);
+                const preElementId = `result-${message.index}`;
+                vscode.postMessage({ command: 'logMessage', text: ` message.index ${message.index} ` });
+                vscode.postMessage({ command: 'logMessage', text: ` preElementId ${preElementId} ` });
+                const preElement = document.getElementById(preElementId);
+                if (preElement) {
+                    //preElement.textContent = stdout; // Actualizar el contenido del <pre> con la respuesta
+                    preElement.textContent = message.response; // Actualizar el contenido del <pre> con la respuesta
 
+                }
+
+                // Finalizar la barra de progreso correspondiente
+                const progressBarId = `progress-${message.index}`;
+                const progressBar = document.getElementById(progressBarId);
+                if (progressBar) {
+                    progressBar.value = 100; // Completar la barra de progreso
+                    setTimeout(() => progressBar.remove(), 1000); // Eliminar la barra después de 1 segundo
+                }
+
+                vscode.postMessage({ command: 'logMessage', text: ` preElement ${preElement} ` });
+
+                vscode.postMessage({
+                    command: 'logMessage',
+                    text: `Respuesta recibida: ${stdout}`
+                });
 
 
 
