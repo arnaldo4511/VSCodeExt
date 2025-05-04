@@ -54,7 +54,7 @@
         <progress id="progressBarMain" style="display: none;" max="100"></progress>
     </div>
     <div class="row">
-        <textarea id="elementosInput" rows="20" cols="20">BCVVCU20;PRG</textarea>
+        <textarea id="elementosInput" rows="15" cols="20">BCVVCU20;PRG</textarea>
 
         <div class="row">
             <div id="resultsContainer"></div> <!-- Contenedor para los resultados -->
@@ -64,19 +64,11 @@
 
 
 
-
-
-    <p id="additionalOutput"></p>
-
-    <p id="commandOutput"></p>
-
-    <p id="errorOutput"></p>
-    <p id="stderrOutput"></p>
     a
-    <pre id="stdoutOutput"></pre>
+    <!--pre id="stdoutOutput"></pre>
 
     b
-    <pre id="output"></pre>
+    <pre id="output"></pre-->
 
     <script>
         const vscode = acquireVsCodeApi();
@@ -88,15 +80,6 @@
 
 
 
-
-
-        //document.getElementById('additionalOutput').textContent = libreriaValue + ' PRG ' + elementoValue;
-
-        /*document.getElementById('libreriaInput').addEventListener('input', (event) => {
-            const libreriaValue = event.target.value;
-            const elementoValue = document.getElementById('elementosInput').value;
-            document.getElementById('additionalOutput').textContent = libreriaValue + ' PRG' + elementoValue;
-        });*/
 
 
         document.getElementById('elementosBuscar').addEventListener('click', async () => {
@@ -244,7 +227,7 @@
                         : lines.slice(startIndex); // Desde "BUSCANDO" hasta el final si no hay "ISPS118L"
 
                     // Imprimir las líneas extraídas en el elemento <p>
-                    document.getElementById('stdoutOutput').textContent = resultLines.join('\n');
+                    //document.getElementById('stdoutOutput').textContent = resultLines.join('\n');
 
                     vscode.postMessage({ command: 'logMessage', text: ` ADDEVENT ${stdout} ` });
 
@@ -282,14 +265,14 @@
 
 
                     // Si no se encuentra "BUSCANDO", mostrar un mensaje de error
-                    document.getElementById('stdoutOutput').textContent = "No se encontró la línea 'BUSCANDO' en la salida.";
+                    //document.getElementById('stdoutOutput').textContent = "No se encontró la línea 'BUSCANDO' en la salida.";
                 }
 
                 // Mostrar mensaje en log
                 vscode.postMessage({ command: 'logMessage', text: "aqui" });
 
                 // Mostrar la respuesta en el <pre>
-                document.getElementById('output').textContent = message.response;
+                //document.getElementById('output').textContent = message.response;
 
                 // Ocultar el progreso
                 //document.getElementById('progressBar').style.display = 'none';
