@@ -205,9 +205,10 @@
             vscode.postMessage({ command: 'logMessage', text: 'zoweResponse' });
 
             if (message.command === 'zoweResponse') {
+                const progressBarId = `progress-${message.index}`;
+                const progressBar = document.getElementById(progressBarId);
 
-
-
+                progressBar.value = 75;
 
                 const stdout = message.response;
 
@@ -278,8 +279,7 @@
                 //document.getElementById('progressBar').style.display = 'none';
 
                 // Finalizar la barra de progreso correspondiente
-                const progressBarId = `progress-${message.index}`;
-                const progressBar = document.getElementById(progressBarId);
+                
                 if (progressBar) {
                     progressBar.value = 100; // Completar la barra de progreso
                     setTimeout(() => progressBar.remove(), 1000); // Eliminar la barra después de 1 segundo
