@@ -15,6 +15,8 @@
             /* Alinear el contenido al inicio verticalmente */
             gap: 20px;
             /* Espaciado entre los elementos */
+            margin-bottom: 10px;
+
         }
 
         .fixed-width {
@@ -28,7 +30,7 @@
             /* Opcional: agregar un borde */
             padding: 10px;
             /* Opcional: agregar relleno */
-            background-color: #f9f9f9;
+            background-color: #000000;
             /* Opcional: agregar un fondo */
         }
 
@@ -150,7 +152,7 @@
                 pElement.id = `resultP-${i}`;
                 pElement.textContent = `${elementoValue} - ${typeValue}`;
                 pElement.style.fontWeight = 'bold'; // Aplicar negrita directamente
-                pElement.style.textDecoration = 'underline'; // Aplicar subrayado directamente
+                //pElement.style.textDecoration = 'underline'; // Aplicar subrayado directamente
                 pElement.classList.add('row');
                 resultsContainer.appendChild(pElement);
 
