@@ -188,7 +188,7 @@
                 await new Promise(resolve => setTimeout(resolve, 500));
             }
 
-            
+
 
             vscode.postMessage({
                 command: 'logMessage',
@@ -298,10 +298,11 @@
                 vscode.postMessage({ command: 'logMessage', text: ` preElement ${preElement} ` });
 
                 vscode.postMessage({ command: 'logMessage', text: `Respuesta recibida: ${stdout}` });
-
+                
+                // Ocultar la barra de progreso al finalizar
+                progressBarMain.style.display = 'none';
             }
-            // Ocultar la barra de progreso al finalizar
-            progressBarMain.style.display = 'none';
+
         });
 
 
