@@ -51,13 +51,10 @@
     <div class="row">
         <label for="elementosInput">Elementos:</label>
         <button id="elementosBuscar">Buscar</button>
-        <progress id="progressBar" style="display: none;" max="100"></progress>
+        <progress id="progressBarMain" style="display: none;" max="100"></progress>
     </div>
     <div class="row">
-        <textarea id="elementosInput" rows="20" cols="20">BCVVCU20;PRG
-            BCVVCU21;PRG
-            BCVVCU22;PRG</textarea>
-
+        <textarea id="elementosInput" rows="20" cols="20">BCVVCU20;PRG</textarea>
 
         <div class="row">
             <div id="resultsContainer"></div> <!-- Contenedor para los resultados -->
@@ -117,12 +114,11 @@
             vscode.postMessage({ command: 'logMessage', text: `click lines: ${lines}` });
 
             // Configurar la barra de progreso
-            const progressBar = document.getElementById('progressBar');
-            progressBar.style.display = 'block';
+            const progressBarMain = document.getElementById('progressBarMain');
+            progressBarMain.style.display = 'block';
             //progressBar.max = lines.length;
             //progressBar.value = 0;
 
-            vscode.postMessage({ command: 'logMessage', text: `click progressBar: ${progressBar}` });
 
             // Contenedor para los resultados
             const resultsContainer = document.getElementById('resultsContainer');
@@ -193,7 +189,7 @@
             }
 
             // Ocultar la barra de progreso al finalizar
-            progressBar.style.display = 'none';
+            progressBarMain.style.display = 'none';
 
             vscode.postMessage({
                 command: 'logMessage',
