@@ -89,17 +89,17 @@
 
         document.getElementById('elementosBuscar').addEventListener('click', async () => {
 
-            vscode.postMessage({ command: 'logMessage', text: "AQUI" });
+            vscode.postMessage({ command: 'logMessage', text: "click" });
 
             const elementoValue = document.getElementById('elementosInput').value;
-            vscode.postMessage({ command: 'logMessage', text: `aqui2 ${elementoValue}` });
+            vscode.postMessage({ command: 'logMessage', text: `click elementoValue: ${elementoValue}` });
             const libreriaValue = document.getElementById('libreriaInput').value;
-            vscode.postMessage({ command: 'logMessage', text: `aqui2 ${libreriaValue}` });
+            vscode.postMessage({ command: 'logMessage', text: `click libreriaValue: ${libreriaValue}` });
 
             // Dividir el contenido del textarea en líneas
             const lines = elementoValue.split('\n').filter(line => line.trim() !== '');
 
-            vscode.postMessage({ command: 'logMessage', text: `aqui2 ${lines}` });
+            vscode.postMessage({ command: 'logMessage', text: `click lines: ${lines}` });
 
             // Configurar la barra de progreso
             const progressBar = document.getElementById('progressBar');
@@ -107,7 +107,7 @@
             //progressBar.max = lines.length;
             //progressBar.value = 0;
 
-            vscode.postMessage({ command: 'logMessage', text: `aqui2 ${progressBar}` });
+            vscode.postMessage({ command: 'logMessage', text: `click progressBar: ${progressBar}` });
 
             // Contenedor para los resultados
             const resultsContainer = document.getElementById('resultsContainer');
@@ -116,7 +116,7 @@
             // Recorrer cada línea
             for (let i = 0; i < lines.length; i++) {
 
-                vscode.postMessage({ command: 'logMessage', text: "--------------------------------------" });
+                vscode.postMessage({ command: 'logMessage', text: " click for --------------------------------------" });
 
                 const line = lines[i].trim();
                 const [elementoValue, typeValue] = line.split(';');
@@ -124,7 +124,7 @@
                 if (!elementoValue || !typeValue) {
                     vscode.postMessage({
                         command: 'logMessage',
-                        text: `Línea inválida: ${line}`
+                        text: `click for Línea inválida: ${line}`
                     });
                     continue; // Saltar líneas inválidas
                 }
@@ -145,13 +145,13 @@
                 progressBar.value = 0;
                 resultsContainer.appendChild(progressBar);
 
-                vscode.postMessage({ command: 'logMessage', text: `i ${i}` });
-                vscode.postMessage({ command: 'logMessage', text: `preElement.id ${preElement.id}` });
-                vscode.postMessage({ command: 'logMessage', text: `preElement.textContent ${preElement.textContent}` });
+                vscode.postMessage({ command: 'logMessage', text: `click for i ${i}` });
+                vscode.postMessage({ command: 'logMessage', text: `click for preElement.id ${preElement.id}` });
+                vscode.postMessage({ command: 'logMessage', text: `click for preElement.textContent ${preElement.textContent}` });
 
-                vscode.postMessage({ command: 'logMessage', text: `resultsContainer ${resultsContainer}` });
+                vscode.postMessage({ command: 'logMessage', text: `click for resultsContainer ${resultsContainer}` });
 
-                vscode.postMessage({ command: 'logMessage', text: `zoweCommandConcat ${zoweCommandConcat}` });
+                vscode.postMessage({ command: 'logMessage', text: `click for zoweCommandConcat ${zoweCommandConcat}` });
 
                 // Simular progreso inicial
                 progressBar.value = 50;
@@ -171,7 +171,7 @@
 
             vscode.postMessage({
                 command: 'logMessage',
-                text: 'Procesamiento completado para todos los elementos.'
+                text: 'click Procesamiento completado para todos los elementos.'
             });
         });
 
@@ -238,7 +238,7 @@
 
 
 
-                vscode.postMessage({ command: 'logMessage', text: 'IN' });
+               
 
                 vscode.postMessage({ command: 'logMessage', text: ` ADDEVENT ${stdout} ` });
 
