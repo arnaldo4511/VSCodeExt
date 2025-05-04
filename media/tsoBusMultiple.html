@@ -218,11 +218,43 @@
                     // Imprimir las líneas extraídas en el elemento <p>
                     document.getElementById('stdoutOutput').textContent = resultLines.join('\n');
 
+                    vscode.postMessage({ command: 'logMessage', text: ` ADDEVENT ${stdout} ` });
+
+                    // Buscar el <pre> correspondiente al comando actual
+                    //const preElement = document.querySelector(`#resultsContainer pre:last-child`);
+                    const preElementId = `result-${message.index}`;
+                    vscode.postMessage({ command: 'logMessage', text: ` message.index ${message.index} ` });
+                    vscode.postMessage({ command: 'logMessage', text: ` preElementId ${preElementId} ` });
+                    const preElement = document.getElementById(preElementId);
+                    if (preElement) {
+                        //preElement.textContent = stdout; // Actualizar el contenido del <pre> con la respuesta
+                        preElement.textContent = resultLines.join('\n'); // Actualizar el contenido del <pre> con la respuesta
+
+                    }
+
+                    // Finalizar la barra de progreso correspondiente
+                    const progressBarId = `progress-${message.index}`;
+                    const progressBar = document.getElementById(progressBarId);
+                    if (progressBar) {
+                        progressBar.value = 100; // Completar la barra de progreso
+                        setTimeout(() => progressBar.remove(), 1000); // Eliminar la barra después de 1 segundo
+                    }
+
+                    vscode.postMessage({ command: 'logMessage', text: ` preElement ${preElement} ` });
+
+                    vscode.postMessage({
+                        command: 'logMessage',
+                        text: `Respuesta recibida: ${stdout}`
+                    });
+
+
+
                     vscode.postMessage({
                         command: 'logMessage',
                         text: resultLines.join('\n')
                     });
                 }
+
                 // Mostrar mensaje en log
                 vscode.postMessage({
                     command: 'logMessage',
@@ -238,34 +270,9 @@
 
 
 
-               
 
-                vscode.postMessage({ command: 'logMessage', text: ` ADDEVENT ${stdout} ` });
 
-                // Buscar el <pre> correspondiente al comando actual
-                //const preElement = document.querySelector(`#resultsContainer pre:last-child`);
-                const preElementId = `result-${message.index}`;
-                vscode.postMessage({ command: 'logMessage', text: ` message.index ${message.index} ` });
-                vscode.postMessage({ command: 'logMessage', text: ` preElementId ${preElementId} ` });
-                const preElement = document.getElementById(preElementId);
-                if (preElement) {
-                    preElement.textContent = stdout; // Actualizar el contenido del <pre> con la respuesta
-                }
 
-                // Finalizar la barra de progreso correspondiente
-                const progressBarId = `progress-${message.index}`;
-                const progressBar = document.getElementById(progressBarId);
-                if (progressBar) {
-                    progressBar.value = 100; // Completar la barra de progreso
-                    setTimeout(() => progressBar.remove(), 1000); // Eliminar la barra después de 1 segundo
-                }
-
-                vscode.postMessage({ command: 'logMessage', text: ` preElement ${preElement} ` });
-
-                vscode.postMessage({
-                    command: 'logMessage',
-                    text: `Respuesta recibida: ${stdout}`
-                });
 
             }
 
