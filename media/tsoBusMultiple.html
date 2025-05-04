@@ -8,18 +8,28 @@
     <style>
         .row {
             display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .row2 {
-            display: flex;
-            flex-direction: row;
             /* Alinear elementos horizontalmente */
+            flex-direction: row;
+            /* Mantener los elementos en una fila */
             align-items: flex-start;
-            /* Alinear elementos al inicio verticalmente */
+            /* Alinear el contenido al inicio verticalmente */
             gap: 20px;
             /* Espaciado entre los elementos */
+        }
+
+        .fixed-width {
+            width: 700px;
+            /* Ancho fijo */
+            word-wrap: break-word;
+            /* Ajustar el texto si excede el ancho */
+            white-space: pre-wrap;
+            /* Mantener saltos de línea y ajustar el texto */
+            border: 1px solid #ccc;
+            /* Opcional: agregar un borde */
+            padding: 10px;
+            /* Opcional: agregar relleno */
+            background-color: #f9f9f9;
+            /* Opcional: agregar un fondo */
         }
 
         #progressBar {
@@ -41,13 +51,13 @@
         <button id="elementosBuscar">Buscar</button>
         <progress id="progressBar" style="display: none;" max="100"></progress>
     </div>
-    <div class="row2">
+    <div class="row">
         <textarea id="elementosInput" rows="20" cols="20">BCVVCU20;PRG
             BCVVCU21;PRG
             BCVVCU22;PRG</textarea>
 
 
-        <div class="row2">
+        <div class="row">
             <div id="resultsContainer"></div> <!-- Contenedor para los resultados -->
         </div>
 
@@ -141,6 +151,7 @@
                 pElement.textContent = `${elementoValue} - ${typeValue}`;
                 pElement.style.fontWeight = 'bold'; // Aplicar negrita directamente
                 pElement.style.textDecoration = 'underline'; // Aplicar subrayado directamente
+                pElement.classList.add('row');
                 resultsContainer.appendChild(pElement);
 
                 // Crear una barra de progreso para esta consulta
@@ -148,11 +159,13 @@
                 progressBar.id = `progress-${i}`;
                 progressBar.max = 100;
                 progressBar.value = 0;
+                progressBar.classList.add('row');
                 resultsContainer.appendChild(progressBar);
 
                 // Crear un nuevo <pre> para mostrar el resultado de esta consulta
                 const preElement = document.createElement('pre');
                 preElement.id = `result-${i}`;
+                preElement.classList.add('fixed-width');
                 preElement.textContent = `Procesando: ${elementoValue} (${typeValue})...`;
                 resultsContainer.appendChild(preElement);
 
@@ -279,7 +292,7 @@
                 //document.getElementById('progressBar').style.display = 'none';
 
                 // Finalizar la barra de progreso correspondiente
-                
+
                 if (progressBar) {
                     progressBar.value = 100; // Completar la barra de progreso
                     setTimeout(() => progressBar.remove(), 1000); // Eliminar la barra después de 1 segundo
