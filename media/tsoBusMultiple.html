@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TSO BUS Multiple</title>
     <style>
+        * {
+            font-family: "Courier New";
+        }
+
         .row {
             display: flex;
             /* Alinear elementos horizontalmente */
@@ -15,7 +19,8 @@
             /* Alinear el contenido al inicio verticalmente */
             gap: 20px;
             /* Espaciado entre los elementos */
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+            margin-top: 5px;
 
         }
 
@@ -38,6 +43,10 @@
             width: 150px;
             /* Ancho de la barra de progreso */
         }
+
+        .bold {
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -49,10 +58,14 @@
     </div>
 
     <div class="row">
-        <label for="elementosInput">Elementos:</label>
-        <button id="elementosBuscar">Buscar</button>
+        <label for="elementosInput" class="bold">Elementos:</label>
+        <button id="elementosBuscar" class="bold">Buscar</button>
         <progress id="progressBarMain" style="display: none;" max="100"></progress>
     </div>
+    <div class="row">
+        <b class="bold">Uso:</b>[ELEMENTO];[PRG]
+    </div>
+    
     <div class="row">
         <textarea id="elementosInput" rows="15" cols="20">BCVVCU20;PRG</textarea>
 
@@ -61,14 +74,6 @@
         </div>
 
     </div>
-
-
-
-    a
-    <!--pre id="stdoutOutput"></pre>
-
-    b
-    <pre id="output"></pre-->
 
     <script>
         const vscode = acquireVsCodeApi();
@@ -138,8 +143,8 @@
                 // Crear una barra de progreso para esta consulta
                 const progressBar = document.createElement('progress');
                 progressBar.id = `progress-${i}`;
-                progressBar.max = 100;
-                progressBar.value = 0;
+                //progressBar.max = 100;
+                //progressBar.value = 0;
                 progressBar.classList.add('row');
                 resultsContainer.appendChild(progressBar);
 
@@ -159,7 +164,7 @@
                 vscode.postMessage({ command: 'logMessage', text: `click for zoweCommandConcat ${zoweCommandConcat}` });
 
                 // Simular progreso inicial
-                progressBar.value = 50;
+                //progressBar.value = 50;
 
                 // Enviar el comando al backend
                 vscode.postMessage({ command: 'runZoweCommand', zoweCommand: zoweCommandConcat, index: i });
@@ -199,7 +204,7 @@
 
             if (message.command === 'zoweResponse') {
                 const progressBarMain = document.getElementById('progressBarMain');
-                
+
 
                 vscode.postMessage({ command: 'logMessage', text: ` progressBarMain ${progressBarMain} ` });
                 vscode.postMessage({ command: 'logMessage', text: ` progressBarMain.style.display ${progressBarMain.style.display} ` });
@@ -207,7 +212,7 @@
                 const progressBarId = `progress-${message.index}`;
                 const progressBar = document.getElementById(progressBarId);
 
-                progressBar.value = 75;
+                //progressBar.value = 75;
 
                 const stdout = message.response;
 
@@ -279,14 +284,14 @@
 
                 // Finalizar la barra de progreso correspondiente
 
-                if (progressBar) {
-                    progressBar.value = 100; // Completar la barra de progreso
+                //if (progressBar) {
+                    //progressBar.value = 100; // Completar la barra de progreso
                     setTimeout(() => progressBar.remove(), 1000); // Eliminar la barra después de 1 segundo
-                }
+                //}
 
                 vscode.postMessage({ command: 'logMessage', text: ` preElement ` });
                 vscode.postMessage({ command: 'logMessage', text: ` progressBarMain ${progressBarMain} ` });
-               
+
 
                 vscode.postMessage({ command: 'logMessage', text: `Respuesta recibida: ${stdout}` });
 
