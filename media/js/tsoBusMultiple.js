@@ -5,6 +5,10 @@ const elementoValue = document.getElementById('elementosInput').value;
 
 document.getElementById('elementosBuscar').addEventListener('click', async () => {
 
+    vscode.postMessage({
+        command: 'logMessage',
+        text: "clickJs"
+    });
 
     const elementoValue = document.getElementById('elementosInput').value;
     const libreriaValue = document.getElementById('libreriaInput').value;
@@ -12,6 +16,15 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
     // Dividir el contenido del textarea en líneas
     const lines = elementoValue.split('\n').filter(line => line.trim() !== '');
 
+    vscode.postMessage({
+        command: 'logMessage',
+        text: "lines: " + lines
+    });
+
+    vscode.postMessage({
+        command: 'logMessage',
+        text: "lines: " + lines.length
+    });
 
     // Configurar la barra de progreso
     const progressBarMain = document.getElementById('progressBarMain');
@@ -27,6 +40,10 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
     // Recorrer cada línea
     for (let i = 0; i < lines.length; i++) {
 
+        vscode.postMessage({
+            command: 'logMessage',
+            text: "i: " + i
+        });
 
         const line = lines[i].trim();
         const [elementoValue, typeValue] = line.split(';');
@@ -35,8 +52,25 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
             continue; // Saltar líneas inválidas
         }
 
+        vscode.postMessage({
+            command: 'logMessage',
+            text: "i: " + i
+        });
+
         // Generar el comando Zowe CLI
-        const zoweCommandConcat = 'zowe tso issue cmd "EX \'' + libreriaValue + '\' \'' + typeValue + ' ' + elementoValue + '\'" -a 9999/UTI/00';
+        const zoweCommandConcat = 'zowe tso issue cmd "EX \'' + libreriaValue + '\' \'' + typeValue + ' ' + elementoValue + '\'" -a 9999/UTI/00 --ru false';
+
+
+        vscode.postMessage({
+            command: 'logMessage',
+            text: "qqq"
+        });
+
+        const divMain = document.createElement('div');
+        divMain.id = `divMain-${i}`;
+        divMain.classList.add('row');
+        //divMain.style.width = '450px'; // Establecer ancho fijo
+        resultsContainer.appendChild(divMain);
 
         // Crear un nuevo <pre> para mostrar el resultado de esta consulta
         const pElement = document.createElement('p');
@@ -44,24 +78,36 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         pElement.textContent = `${elementoValue} - ${typeValue}`;
         pElement.style.fontWeight = 'bold'; // Aplicar negrita directamente
         //pElement.style.textDecoration = 'underline'; // Aplicar subrayado directamente
-        pElement.classList.add('row');
-        resultsContainer.appendChild(pElement);
+        pElement.style.width = '200px'; // Establecer ancho fijo
+        pElement.classList.add('content');
+        divMain.appendChild(pElement);
+
+        const divElement = document.createElement('div');
+        divElement.id = `divElement-${i}`;
+        //divElement.classList.add('row');
+        //divElement.style.width = '450px'; // Establecer ancho fijo
+        divMain.appendChild(divElement);
 
         // Crear una barra de progreso para esta consulta
         const progressBar = document.createElement('progress');
         progressBar.id = `progress-${i}`;
         //progressBar.max = 100;
         //progressBar.value = 0;
-        progressBar.classList.add('row');
-        resultsContainer.appendChild(progressBar);
+        //progressBar.classList.add('row');
+        divElement.appendChild(progressBar);
 
         // Crear un nuevo <pre> para mostrar el resultado de esta consulta
         const preElement = document.createElement('pre');
         preElement.id = `result-${i}`;
-        preElement.classList.add('fixed-width');
-        preElement.textContent = `Procesando: ${elementoValue} (${typeValue})...`;
-        resultsContainer.appendChild(preElement);
+        preElement.classList.add('content');
+        preElement.textContent = `Procesando: TSO BUS ${typeValue} ${elementoValue} ...`;
+        preElement.style.width = '300px'; // Establecer ancho fijo
+        divElement.appendChild(preElement);
 
+        vscode.postMessage({
+            command: 'logMessage',
+            text: "sss " + preElement.getHTML()
+        });
 
         // Simular progreso inicial
         //progressBar.value = 50;
@@ -74,7 +120,10 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
 
         // Esperar un breve momento para evitar saturar el backend
         await new Promise(resolve => setTimeout(resolve, 500));
+
+        
     }
+
 
 
 
@@ -124,7 +173,7 @@ window.addEventListener('message', (event) => {
             const preElement = document.getElementById(preElementId);
             if (preElement) {
                 //preElement.textContent = stdout; // Actualizar el contenido del <pre> con la respuesta
-                preElement.textContent = "aaa " + resultLines.join('\n'); // Actualizar el contenido del <pre> con la respuesta
+                preElement.textContent = resultLines.join('\n'); // Actualizar el contenido del <pre> con la respuesta
 
             }
 
@@ -137,7 +186,7 @@ window.addEventListener('message', (event) => {
             const preElement = document.getElementById(preElementId);
             if (preElement) {
                 //preElement.textContent = stdout; // Actualizar el contenido del <pre> con la respuesta
-                preElement.textContent = "bbb " + message.response; // Actualizar el contenido del <pre> con la respuesta
+                preElement.textContent = message.response; // Actualizar el contenido del <pre> con la respuesta
 
             }
 

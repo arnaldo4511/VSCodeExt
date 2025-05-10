@@ -2,8 +2,14 @@
     font-family: "Courier New";
 }
 
-h1 {
+h1, label, p, pre{
     color: white;
+}
+
+.content{
+    /*width: 500px;*/
+    word-wrap: break-word; /* Ajustar el texto si excede el ancho */
+    white-space: pre-wrap; /* Mantener saltos de línea y ajustar el texto */
 }
 
 button {
@@ -56,3 +62,4 @@ textarea {
 .bold {
     font-weight: bold;
 }
+

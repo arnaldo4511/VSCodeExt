@@ -39,3 +39,7 @@ Users appreciate release notes as you update your extension.
 
 Version Inicial
 Pruebas de ejecucion
+
+### 0.0.2
+
+Test URI
