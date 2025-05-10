@@ -1,0 +1,19 @@
+* {
+    font-family: "Courier New";
+    font-weight: bold;
+    color: blue;
+}
+
+h1 {
+    color: red; /* Títulos en rojo */
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    /* Alinear botones verticalmente */
+    gap: 10px;
+    /* Espaciado entre botones */
+    align-items: flex-start;
+    /* Alinear botones a la izquierda */
+}

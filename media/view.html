@@ -5,22 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My View</title>
-    <style>
-        * {
-            font-family: "Courier New";
-            font-weight: bold;
-        }
-
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            /* Alinear botones verticalmente */
-            gap: 10px;
-            /* Espaciado entre botones */
-            align-items: flex-start;
-            /* Alinear botones a la izquierda */
-        }
-    </style>
+    <link rel="stylesheet" href="css/view.css"> <!-- Enlace al archivo CSS -->
 </head>
 
 <body>
@@ -31,6 +16,7 @@
         <button id="destaButton">DESTA</button>
         <button id="deslogueButton">DESLOGUE</button>
     </div>
+    <script src="js/view.js"></script> <!-- Enlace al archivo JavaScript -->
     <script>
         const vscode = acquireVsCodeApi();
         document.getElementById('tsoBusButton').addEventListener('click', () => {
@@ -48,7 +34,7 @@
         document.getElementById('deslogueButton').addEventListener('click', () => {
             vscode.postMessage({ command: 'openDeslogueWebview' });
         });
-    </script>
+    </script> <!-- Enlace al archivo JavaScript para cerrar la vista -->
 </body>
 
 </html>

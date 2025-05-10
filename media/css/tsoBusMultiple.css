@@ -1,0 +1,41 @@
+* {
+    font-family: "Courier New";
+}
+
+.row {
+    display: flex;
+    /* Alinear elementos horizontalmente */
+    flex-direction: row;
+    /* Mantener los elementos en una fila */
+    align-items: flex-start;
+    /* Alinear el contenido al inicio verticalmente */
+    gap: 20px;
+    /* Espaciado entre los elementos */
+    margin-bottom: 5px;
+    margin-top: 5px;
+
+}
+
+.fixed-width {
+    width: 500px;
+    /* Ancho fijo */
+    word-wrap: break-word;
+    /* Ajustar el texto si excede el ancho */
+    white-space: pre-wrap;
+    /* Mantener saltos de línea y ajustar el texto */
+    border: 1px solid #ccc;
+    /* Opcional: agregar un borde */
+    padding: 10px;
+    /* Opcional: agregar relleno */
+    background-color: #000000;
+    /* Opcional: agregar un fondo */
+}
+
+#progressBar {
+    width: 150px;
+    /* Ancho de la barra de progreso */
+}
+
+.bold {
+    font-weight: bold;
+}
