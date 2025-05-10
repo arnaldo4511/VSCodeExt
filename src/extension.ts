@@ -112,6 +112,8 @@ function replacePathsInHtml(
     htmlFileName: string
 ): string {
 
+    console.log(`-------------------------------------------`);
+
     console.log(`context: ${context}`);
     console.log(`panel: ${panel}`);
     console.log(`htmlContent: ${htmlContent}`);
@@ -121,26 +123,10 @@ function replacePathsInHtml(
     const cssFileName = htmlFileName.replace('.html', '.css'); // Asumir que el CSS tiene el mismo nombre que el HTML
     const jsFileName = htmlFileName.replace('.html', '.js');   // Asumir que el JS tiene el mismo nombre que el HTML
 
-    console.log(`cssFileName: ${cssFileName}`);
-    console.log(`jsFileName: ${jsFileName}`);
-
-    console.log(`__dirname: ${__dirname}`);
-    console.log(`path.join(context.extensionPath, 'media', cssFileName): ${path.join(__dirname, 'media', 'css', cssFileName)}`);
-    console.log(`context.extensionPath: ${context.extensionPath}`);
-    console.log(`path.join(context.extensionPath, 'media', cssFileName): ${path.join(context.extensionPath, 'media', 'css', cssFileName)}`);
-
-    const cssPathPrueba = path.join('d','VSCodeExtension','vscodeext', 'media', 'css', cssFileName);
-    console.log(`cssPathPrueba: ${cssPathPrueba}`);
-
-
+    
     // Generar URI para el archivo CSS
     const cssPath = vscode.Uri.file(path.join(context.extensionPath, 'media', 'css', cssFileName));
-    //const cssPath = vscode.Uri.file(path.join(cssPathPrueba, 'media', 'css', cssFileName));
     const cssUri = panel.webview.asWebviewUri(cssPath);
-
-    console.log(`cssPath: ${cssPath}`);
-    console.log(`cssUri: ${cssUri}`);
-    
 
     // Generar URI para el archivo JavaScript
     const jsPath = vscode.Uri.file(path.join(context.extensionPath, 'media', 'js', jsFileName));
@@ -194,7 +180,7 @@ class MyViewProvider implements vscode.WebviewViewProvider {
     resolveWebviewView(webviewView: vscode.WebviewView) {
         webviewView.webview.options = {
             enableScripts: true,
-            //localResourceRoots: [vscode.Uri.file(path.join(this.extensionPath, '..', 'media'))] // Permitir acceso a la carpeta 'media'
+            localResourceRoots: [vscode.Uri.file(path.join(this.extensionPath, 'media'))] // Permitir acceso a la carpeta 'media'
         };
 
         console.log(`__dirname: ` + __dirname);
@@ -203,14 +189,35 @@ class MyViewProvider implements vscode.WebviewViewProvider {
         console.log(`path.join(this.extensionPath, '..', 'media'): ` + path.join(this.extensionPath, '..', 'media'));
 
         // Leer el contenido del archivo HTML
-        const htmlPath = path.join(__dirname, '..', 'media', 'view.html');
+        //const htmlPath = path.join(__dirname, '..', 'media', 'view.html');
+        const htmlPath = path.join(this.extensionPath, 'media', 'view.html');
         let htmlContent = fs.readFileSync(htmlPath, 'utf8');
 
         console.log(`htmlPath:` + htmlPath);
 
+        // Generar URI para el archivo CSS
+        const cssPath = vscode.Uri.file(path.join(this.extensionPath, 'media', 'css', 'view.css'));
+        const cssUri = webviewView.webview.asWebviewUri(cssPath);
+
+        // Generar URI para el archivo JS
+        const jsPath = vscode.Uri.file(path.join(this.extensionPath, 'media', 'js', 'view.js'));
+        const jsUri = webviewView.webview.asWebviewUri(jsPath);
+
+        console.log(`cssUri: ${cssUri}`);
+        console.log(`jsUri: ${jsUri}`);
+
+        // Reemplazar las rutas relativas en el contenido HTML
+        htmlContent = htmlContent.replace('css/view.css', cssUri.toString());
+        htmlContent = htmlContent.replace('js/view.js', jsUri.toString());
+
+        console.log(`htmlContent después del reemplazo: ${htmlContent}`);
+
+        console.log(`here`);
+
+        
         // Reemplazar las rutas de CSS y JS en el HTML
         /*htmlContent = replacePathsInHtml(
-            { extensionPath: path.join(this.extensionPath, '..') } as vscode.ExtensionContext, // Simular el contexto
+            { extensionPath: this.extensionPath } as vscode.ExtensionContext, // Simular el contexto
             webviewView.webview as unknown as vscode.WebviewPanel, // Adaptar el tipo
             htmlContent,
             'view.html'
@@ -226,7 +233,8 @@ class MyViewProvider implements vscode.WebviewViewProvider {
         console.log(`prov1:` + __dirname);
 
 
-        webviewView.webview.html = this.getHtmlForWebview();
+        //webviewView.webview.html = this.getHtmlForWebview();
+        webviewView.webview.html = htmlContent;
 
         // Escuchar mensajes desde el Webview
         webviewView.webview.onDidReceiveMessage((message) => {
