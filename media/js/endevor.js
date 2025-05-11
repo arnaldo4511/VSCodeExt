@@ -121,37 +121,49 @@ window.addEventListener('message', (event) => {
         const stdout = message.response;
 
         try {
-            // Intentar analizar la respuesta como JSON
-            const jsonResponse = JSON.parse(stdout);
+            // Dividir la respuesta en líneas
+            const lines = stdout.split('\n');
 
-            // Extraer los campos específicos del JSON
-            const { elmName, envName, stgId, sysName, sbsName, typeName, elmLastLLCcid } = jsonResponse;
+            // Procesar cada línea para buscar JSON válidos
+            let resultText = '';
+            lines.forEach((line) => {
+                try {
+                    // Intentar analizar la línea como JSON
+                    const jsonResponse = JSON.parse(line);
 
-            // Construir el texto para mostrar en el <pre>
-            const resultText = `
-                Elemento: ${elmName}
-                Entorno: ${envName}
-                Stage: ${stgId}
-                Sistema: ${sysName}
-                SubSistema: ${sbsName}
-                Tipo: ${typeName}
-                CCID: ${elmLastLLCcid}
-            `;
+                    // Extraer los campos específicos del JSON
+                    const { elmName, envName, stgId, sysName, sbsName, typeName, elmLastLLCcid } = jsonResponse;
+
+                    // Construir el texto para mostrar en el <pre>
+                    resultText += `
+                        Elemento: ${elmName}
+                        Entorno: ${envName}
+                        Stage: ${stgId}
+                        Sistema: ${sysName}
+                        SubSistema: ${sbsName}
+                        Tipo: ${typeName}
+                        CCID: ${elmLastLLCcid}
+                        -------------------------
+                    `;
+                } catch (jsonError) {
+                    // Si la línea no es un JSON válido, ignorarla
+                }
+            });
 
             // Buscar el <pre> correspondiente al comando actual
             const preElementId = `result-${message.index}`;
             const preElement = document.getElementById(preElementId);
 
             if (preElement) {
-                preElement.textContent = resultText; // Actualizar el contenido del <pre> con los datos del JSON
+                preElement.textContent = resultText || 'No se encontraron datos JSON válidos.';
             }
         } catch (error) {
-            // Si no es un JSON válido, mostrar la respuesta completa
+            // Si ocurre un error general, mostrar la respuesta completa
             const preElementId = `result-${message.index}`;
             const preElement = document.getElementById(preElementId);
 
             if (preElement) {
-                preElement.textContent = `Error al analizar JSON: ${error.message}\nRespuesta completa:\n${stdout}`;
+                preElement.textContent = `Error al procesar la respuesta: ${error.message}\nRespuesta completa:\n${stdout}`;
             }
         }
 
