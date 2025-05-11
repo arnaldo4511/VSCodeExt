@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My View</title>
+    <title>z/OS Dev</title>
     <link rel="stylesheet" href="css/view.css"> <!-- Enlace al archivo CSS -->
 </head>
 
@@ -12,29 +12,12 @@
     <h1>z/OS Dev</h1>
     <div class="button-container">
         <button id="tsoBusButton" hidden>TSO BUS</button>
-        <button id="tsoBusMultipleButton">TSO BUSs</button>
+        <button id="tsoBusMultipleButton">TSO BUS</button>
         <button id="destaButton">DESTA</button>
         <button id="deslogueButton">DESLOGUE</button>
+        <button id="downloadDatasetButton">DOWNLOAD DATASET</button>
     </div>
     <script src="js/view.js"></script> <!-- Enlace al archivo JavaScript -->
-    <script>
-        const vscode = acquireVsCodeApi();
-        document.getElementById('tsoBusButton').addEventListener('click', () => {
-            vscode.postMessage({ command: 'openTsoBusWebview' });
-        });
-
-        document.getElementById('tsoBusMultipleButton').addEventListener('click', () => {
-            vscode.postMessage({ command: 'openTsoBusMultipleWebview' });
-        });
-
-        document.getElementById('destaButton').addEventListener('click', () => {
-            vscode.postMessage({ command: 'openDestaWebview' });
-        });
-
-        document.getElementById('deslogueButton').addEventListener('click', () => {
-            vscode.postMessage({ command: 'openDeslogueWebview' });
-        });
-    </script> <!-- Enlace al archivo JavaScript para cerrar la vista -->
 </body>
 
 </html>

@@ -17,9 +17,10 @@ export function activate(context: vscode.ExtensionContext) {
 
     const webviews = [
         { command: 'vscodeext.openTsoBusWebview', viewId: 'tsoBusWebview', title: 'TSO BUS', htmlFile: 'tsoBus.html' },
-        { command: 'vscodeext.openTsoBusMultipleWebview', viewId: 'tsoBusMultipleWebview', title: 'TSO BUS Multiple', htmlFile: 'tsoBusMultiple.html' },
+        { command: 'vscodeext.openTsoBusMultipleWebview', viewId: 'tsoBusMultipleWebview', title: 'TSO BUS', htmlFile: 'tsoBusMultiple.html' },
         { command: 'vscodeext.openDestaWebview', viewId: 'destaWebview', title: 'DESTA', htmlFile: 'desta.html' },
         { command: 'vscodeext.openDeslogueWebview', viewId: 'deslogueWebview', title: 'DESLOGUE', htmlFile: 'deslogue.html' },
+        { command: 'vscodeext.openDownloadDatasetWebview', viewId: 'downloadDatasetWebview', title: 'Download Dataset', htmlFile: 'downloadDataset.html' },
     ];
 
     webviews.forEach(({ command, viewId, title, htmlFile }) => {
@@ -79,14 +80,15 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
         if (message.command === 'runZoweCommand') {
             const zoweCommand = message.zoweCommand;
 
-            logChannel.appendLine('message.index ts: ' + message.index);
+            //logChannel.appendLine('message.index ts: ' + message.index);
+            logChannel.appendLine('Comando Zowe CLI: ' + zoweCommand);
 
             exec(zoweCommand, (error, stdout, stderr) => {
                 if (handleZoweCommandError(panel, error, stderr, message)) {
                     return;
                 }
 
-                logChannel.appendLine('message.index ' + message.index);
+                //logChannel.appendLine('message.index ' + message.index);
                 logChannel.show();
 
                 panel.webview.postMessage({

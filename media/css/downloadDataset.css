@@ -1,0 +1,15 @@
+* {
+    font-family: "Courier New";
+}
+
+h1 {
+    color: white;
+}
+
+button {
+    font-weight: bold; /* Hacer el texto del botón en negrita */
+}
+
+input {
+    font-weight: bold; /* Hacer el texto de los inputs en negrita */
+}

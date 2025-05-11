@@ -14,3 +14,7 @@ document.getElementById('destaButton').addEventListener('click', () => {
 document.getElementById('deslogueButton').addEventListener('click', () => {
     vscode.postMessage({ command: 'openDeslogueWebview' });
 });
+
+document.getElementById('downloadDatasetButton').addEventListener('click', () => {
+    vscode.postMessage({ command: 'openDownloadDatasetWebview' });
+});

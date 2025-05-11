@@ -5,10 +5,7 @@ const elementoValue = document.getElementById('elementosInput').value;
 
 document.getElementById('elementosBuscar').addEventListener('click', async () => {
 
-    vscode.postMessage({
-        command: 'logMessage',
-        text: "clickJs"
-    });
+    //vscode.postMessage({command: 'logMessage',text: "clickJs"});
 
     const elementoValue = document.getElementById('elementosInput').value;
     const libreriaValue = document.getElementById('libreriaInput').value;
@@ -16,19 +13,13 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
     // Dividir el contenido del textarea en líneas
     const lines = elementoValue.split('\n').filter(line => line.trim() !== '');
 
-    vscode.postMessage({
-        command: 'logMessage',
-        text: "lines: " + lines
-    });
+    //vscode.postMessage({command: 'logMessage',text: "lines: " + lines});
 
-    vscode.postMessage({
-        command: 'logMessage',
-        text: "lines: " + lines.length
-    });
+    //vscode.postMessage({command: 'logMessage',text: "lines: " + lines.length});
 
     // Configurar la barra de progreso
-    const progressBarMain = document.getElementById('progressBarMain');
-    progressBarMain.style.display = 'block';
+    //const progressBarMain = document.getElementById('progressBarMain');
+    //progressBarMain.style.display = 'block';
     //progressBar.max = lines.length;
     //progressBar.value = 0;
 
@@ -40,10 +31,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
     // Recorrer cada línea
     for (let i = 0; i < lines.length; i++) {
 
-        vscode.postMessage({
-            command: 'logMessage',
-            text: "i: " + i
-        });
+        //vscode.postMessage({command: 'logMessage',text: "i: " + i});
 
         const line = lines[i].trim();
         const [elementoValue, typeValue] = line.split(';');
@@ -52,19 +40,13 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
             continue; // Saltar líneas inválidas
         }
 
-        vscode.postMessage({
-            command: 'logMessage',
-            text: "i: " + i
-        });
+        //vscode.postMessage({command: 'logMessage',text: "i: " + i});
 
         // Generar el comando Zowe CLI
         const zoweCommandConcat = 'zowe tso issue cmd "EX \'' + libreriaValue + '\' \'' + typeValue + ' ' + elementoValue + '\'" -a 9999/UTI/00 --ru false';
 
 
-        vscode.postMessage({
-            command: 'logMessage',
-            text: "qqq"
-        });
+        //vscode.postMessage({command: 'logMessage',text: "qqq"});
 
         const divMain = document.createElement('div');
         divMain.id = `divMain-${i}`;
@@ -78,7 +60,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         pElement.textContent = `${elementoValue} - ${typeValue}`;
         pElement.style.fontWeight = 'bold'; // Aplicar negrita directamente
         //pElement.style.textDecoration = 'underline'; // Aplicar subrayado directamente
-        pElement.style.width = '200px'; // Establecer ancho fijo
+        pElement.style.width = '150px'; // Establecer ancho fijo
         pElement.classList.add('content');
         divMain.appendChild(pElement);
 
@@ -101,13 +83,10 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         preElement.id = `result-${i}`;
         preElement.classList.add('content');
         preElement.textContent = `Procesando: TSO BUS ${typeValue} ${elementoValue} ...`;
-        preElement.style.width = '300px'; // Establecer ancho fijo
+        preElement.style.width = '400px'; // Establecer ancho fijo
         divElement.appendChild(preElement);
 
-        vscode.postMessage({
-            command: 'logMessage',
-            text: "sss " + preElement.getHTML()
-        });
+        //vscode.postMessage({command: 'logMessage',text: "sss " + preElement.getHTML()});
 
         // Simular progreso inicial
         //progressBar.value = 50;
@@ -127,10 +106,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
 
 
 
-    vscode.postMessage({
-        command: 'logMessage',
-        text: 'click Procesamiento completado para todos los elementos.'
-    });
+    //vscode.postMessage({command: 'logMessage',text: 'click Procesamiento completado para todos los elementos.'});
 });
 
 
@@ -139,7 +115,7 @@ window.addEventListener('message', (event) => {
     const message = event.data;
 
     if (message.command === 'zoweResponse') {
-        const progressBarMain = document.getElementById('progressBarMain');
+        //const progressBarMain = document.getElementById('progressBarMain');
 
         const progressBarId = `progress-${message.index}`;
         const progressBar = document.getElementById(progressBarId);
@@ -214,7 +190,7 @@ window.addEventListener('message', (event) => {
 
 
         // Ocultar la barra de progreso al finalizar
-        progressBarMain.style.display = 'none';
+        //progressBarMain.style.display = 'none';
 
     }
 });

@@ -21,8 +21,9 @@ input {
 }
 
 textarea {
-    font-weight: bold;
-    /* Hacer el texto del textarea en negrita */
+    width: 150px; /* Ancho fijo */
+    font-weight: bold; /* Mantener el texto en negrita */
+    resize: none; /* Opcional: Deshabilitar el redimensionamiento */
 }
 
 .row {
