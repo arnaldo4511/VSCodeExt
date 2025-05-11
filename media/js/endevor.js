@@ -140,6 +140,8 @@ window.addEventListener('message', (event) => {
 
             // Procesar cada línea para buscar JSON válidos
             let resultText = '';
+            let headerAdded = false; // Bandera para controlar la cabecera
+
             lines.forEach((line) => {
                 try {
                     // Intentar analizar la línea como JSON
@@ -148,8 +150,12 @@ window.addEventListener('message', (event) => {
                     // Extraer los campos específicos del JSON
                     const { elmName, typeName, envName, stgId, sysName, sbsName, elmVVLL, procGrpName, elmLastLLDate, elmLastLLCcid } = jsonResponse;
 
+                    if (!headerAdded) {
+                        resultText += 'ELEMENT --   TYPE       ENVIRON  S SYSTEM   SUBSYS   VVLL PROCGRP CUR DTE   CCID' + '\n';
+                        headerAdded = true; // Marcar que la cabecera ya fue agregada
+                    }
+
                     // Construir el texto para mostrar en el <pre>
-                    resultText += '<b>ELEMENT --   TYPE       ENVIRON  S SYSTEM   SUBSYS   VVLL PROCGRP CUR DTE   CCID</b>' + '\n';
                     resultText += `${elmName} ${typeName} ${envName} ${stgId} ${sysName} ${sbsName} ${elmVVLL} ${procGrpName} ${elmLastLLDate} ${elmLastLLCcid}` + '\n';
 
                 } catch (jsonError) {
