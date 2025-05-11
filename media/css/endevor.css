@@ -21,9 +21,11 @@ input {
 }
 
 textarea {
-    width: 450px; /* Ancho fijo */
+    width: 350px; /* Ancho fijo */
     font-weight: bold; /* Mantener el texto en negrita */
-    resize: none; /* Opcional: Deshabilitar el redimensionamiento */
+    /*resize: none;*/ /* Opcional: Deshabilitar el redimensionamiento */
+    overflow: scroll;
+    white-space: nowrap;
 }
 
 .row {
