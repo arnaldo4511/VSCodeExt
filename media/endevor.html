@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENDEVOR</title>
+    <link rel="stylesheet" href="css/endevor.css"> <!-- Enlace al archivo CSS -->
+</head>
+
+<body>
+    <h1>ENDEVOR</h1>
+    
+    <div class="row">
+        <label for="elementosInput" class="bold">Elementos:</label>
+        <button id="elementosBuscar" class="bold">Buscar</button>
+        <!--p class="bold">Uso:</p> <p>[Element];[Type]</p-->
+        <!--progress id="progressBarMain" style="display: none;" max="100"></progress-->
+    </div>
+    
+    <div class="row">
+        <textarea id="elementosInput" rows="15" cols="20">OFOACTL;BCPDESA;1;VPLUS2CO;FAS;COMCOBII;MVL00212927</textarea>
+        <!--div class="row"-->
+            <div id="resultsContainer"></div> <!-- Contenedor para los resultados -->
+        <!--/div-->
+
+    </div>
+
+    <script src="js/endevor.js"></script> <!-- Enlace al archivo JavaScript -->
+</body>
+
+</html>

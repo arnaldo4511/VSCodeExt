@@ -1,0 +1,66 @@
+* {
+    font-family: "Courier New";
+}
+
+h1, label, p, pre{
+    color: white;
+}
+
+.content{
+    /*width: 500px;*/
+    word-wrap: break-word; /* Ajustar el texto si excede el ancho */
+    white-space: pre-wrap; /* Mantener saltos de línea y ajustar el texto */
+}
+
+button {
+    font-weight: bold; /* Hacer el texto del botón en negrita */
+}
+
+input {
+    font-weight: bold; /* Hacer el texto de los inputs en negrita */
+}
+
+textarea {
+    width: 150px; /* Ancho fijo */
+    font-weight: bold; /* Mantener el texto en negrita */
+    resize: none; /* Opcional: Deshabilitar el redimensionamiento */
+}
+
+.row {
+    display: flex;
+    /* Alinear elementos horizontalmente */
+    flex-direction: row;
+    /* Mantener los elementos en una fila */
+    align-items: flex-start;
+    /* Alinear el contenido al inicio verticalmente */
+    gap: 20px;
+    /* Espaciado entre los elementos */
+    margin-bottom: 5px;
+    margin-top: 5px;
+
+}
+
+.fixed-width {
+    width: 500px;
+    /* Ancho fijo */
+    word-wrap: break-word;
+    /* Ajustar el texto si excede el ancho */
+    white-space: pre-wrap;
+    /* Mantener saltos de línea y ajustar el texto */
+    border: 1px solid #ccc;
+    /* Opcional: agregar un borde */
+    padding: 10px;
+    /* Opcional: agregar relleno */
+    background-color: #000000;
+    /* Opcional: agregar un fondo */
+}
+
+#progressBar {
+    width: 150px;
+    /* Ancho de la barra de progreso */
+}
+
+.bold {
+    font-weight: bold;
+}
+

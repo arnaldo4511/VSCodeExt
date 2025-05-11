@@ -2,7 +2,7 @@ const vscode = acquireVsCodeApi();
 
 document.getElementById('datasetBuscar').addEventListener('click', () => {
     const datasetValue = document.getElementById('datasetInput').value;
-
+    document.getElementById('output').textContent =''; // Limpiar el contenido previo
     // Mostrar el progreso
     const progressBar = document.getElementById('progressBar');
     progressBar.style.display = 'block';

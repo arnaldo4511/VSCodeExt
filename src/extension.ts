@@ -21,6 +21,8 @@ export function activate(context: vscode.ExtensionContext) {
         { command: 'vscodeext.openDestaWebview', viewId: 'destaWebview', title: 'DESTA', htmlFile: 'desta.html' },
         { command: 'vscodeext.openDeslogueWebview', viewId: 'deslogueWebview', title: 'DESLOGUE', htmlFile: 'deslogue.html' },
         { command: 'vscodeext.openDownloadDatasetWebview', viewId: 'downloadDatasetWebview', title: 'Download Dataset', htmlFile: 'downloadDataset.html' },
+        { command: 'vscodeext.openEndevorWebview', viewId: 'endevorWebview', title: 'Endevor', htmlFile: 'endevor.html' },
+
     ];
 
     webviews.forEach(({ command, viewId, title, htmlFile }) => {
