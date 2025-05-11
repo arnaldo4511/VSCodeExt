@@ -1,16 +1,16 @@
 const vscode = acquireVsCodeApi();
 
-vscode.postMessage({command: 'logMessage',text: "clickJs"});
+vscode.postMessage({ command: 'logMessage', text: "clickJs" });
 
 const elementoValue = document.getElementById('elementosInput').value;
 
 document.getElementById('elementosBuscar').addEventListener('click', async () => {
 
-    vscode.postMessage({command: 'logMessage',text: "clickJs"});
+    vscode.postMessage({ command: 'logMessage', text: "clickJs" });
 
     const elementoValue = document.getElementById('elementosInput').value;
 
-    vscode.postMessage({command: 'logMessage',text: "elementoValue: " + elementoValue});
+    vscode.postMessage({ command: 'logMessage', text: "elementoValue: " + elementoValue });
 
     // Dividir el contenido del textarea en líneas
     const lines = elementoValue.split('\n').filter(line => line.trim() !== '');
@@ -36,19 +36,19 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //vscode.postMessage({command: 'logMessage',text: "i: " + i});
 
         const line = lines[i].trim();
-        const [elemento, environment,stage,system, subSystem, type, ccid] = line.split(';');
+        const [elemento, environment, stage, system, subSystem, type, ccid] = line.split(';');
 
-        
+
 
         //vscode.postMessage({command: 'logMessage',text: "i: " + i});
 
-        vscode.postMessage({command: 'logMessage',text: "111"});
+        vscode.postMessage({ command: 'logMessage', text: "111" });
 
         // Generar el comando Zowe CLI
-        const zoweCommandConcat = 'zowe endevor list elements ' + elemento + ' -i ENDEVOR --env ' + environment + ' --sn ' + stage + ' --sys ' + system + ' --sub ' + subSystem + ' --typ ' + type +' --rft list --data ALL --wcll '+ ccid;
+        const zoweCommandConcat = 'zowe endevor list elements ' + elemento + ' -i ENDEVOR --env ' + environment + ' --sn ' + stage + ' --sys ' + system + ' --sub ' + subSystem + ' --typ ' + type + ' --rft list --data ALL --wcll ' + ccid;
 
 
-        vscode.postMessage({command: 'logMessage',text: "222"});
+        vscode.postMessage({ command: 'logMessage', text: "222" });
 
         const divMain = document.createElement('div');
         divMain.id = `divMain-${i}`;
@@ -94,7 +94,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
             continue; // Saltar líneas inválidas
         }
 
-        preElement.textContent = 'ELEMENT --   TYPE       ENVIRON  S SYSTEM   SUBSYS   VVLL PROCGRP CUR DTE   CCID';
+
 
         //vscode.postMessage({command: 'logMessage',text: "sss " + preElement.getHTML()});
 
@@ -110,7 +110,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         // Esperar un breve momento para evitar saturar el backend
         await new Promise(resolve => setTimeout(resolve, 500));
 
-        
+
     }
 
 
@@ -147,6 +147,12 @@ window.addEventListener('message', (event) => {
                     // Construir el texto para mostrar en el <pre>
                     resultText += `${elmName} ${typeName} ${envName} ${stgId} ${sysName} ${sbsName} ${elmVVLL} ${procGrpName} ${elmLastLLDate} ${elmLastLLCcid}
                     `;
+
+                    const preCabecera = document.createElement('pre');
+                    preCabecera.id = `preCabecera-${i}`;
+                    preCabecera.textContent = 'ELEMENT --   TYPE       ENVIRON  S SYSTEM   SUBSYS   VVLL PROCGRP CUR DTE   CCID';
+                    divElement.appendChild(preCabecera);
+
                 } catch (jsonError) {
                     // Si la línea no es un JSON válido, ignorarla
                 }
