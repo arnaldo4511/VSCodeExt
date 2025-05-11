@@ -80,6 +80,10 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //progressBar.classList.add('row');
         divElement.appendChild(progressBar);
 
+        const preCabecera = document.createElement('pre');
+        preCabecera.id = `preCabecera-${i}`;
+        divElement.appendChild(preCabecera);
+
         // Crear un nuevo <pre> para mostrar el resultado de esta consulta
         const preElement = document.createElement('pre');
         preElement.id = `result-${i}`;
@@ -94,9 +98,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
             continue; // Saltar líneas inválidas
         }
 
-        const preCabecera = document.createElement('pre');
-        preCabecera.id = `preCabecera-${i}`;
-        divElement.appendChild(preCabecera);
+        
 
         //vscode.postMessage({command: 'logMessage',text: "sss " + preElement.getHTML()});
 
