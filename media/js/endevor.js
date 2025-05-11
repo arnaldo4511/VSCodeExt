@@ -149,8 +149,8 @@ window.addEventListener('message', (event) => {
                     const { elmName, typeName, envName, stgId, sysName, sbsName, elmVVLL, procGrpName, elmLastLLDate, elmLastLLCcid } = jsonResponse;
 
                     // Construir el texto para mostrar en el <pre>
-                    resultText += 'ELEMENT --   TYPE       ENVIRON  S SYSTEM   SUBSYS   VVLL PROCGRP CUR DTE   CCID';
-                    resultText += `${elmName} ${typeName} ${envName} ${stgId} ${sysName} ${sbsName} ${elmVVLL} ${procGrpName} ${elmLastLLDate} ${elmLastLLCcid}`;
+                    resultText += '<b>ELEMENT --   TYPE       ENVIRON  S SYSTEM   SUBSYS   VVLL PROCGRP CUR DTE   CCID</b>' + '\n';
+                    resultText += `${elmName} ${typeName} ${envName} ${stgId} ${sysName} ${sbsName} ${elmVVLL} ${procGrpName} ${elmLastLLDate} ${elmLastLLCcid}` + '\n';
 
                 } catch (jsonError) {
                     // Si la línea no es un JSON válido, ignorarla
@@ -164,18 +164,8 @@ window.addEventListener('message', (event) => {
             vscode.postMessage({ command: 'logMessage', text: 'click: ' + resultText });
 
             if (preElement) {
-                if (resultText) {
-                    const preCabeceraId = `preCabecera-${message.index}`;
-                    const preCabecera = document.getElementById(preCabeceraId);
-                    preCabecera.textContent = 'ELEMENT --   TYPE       ENVIRON  S SYSTEM   SUBSYS   VVLL PROCGRP CUR DTE   CCID';
-
-                    // Mostrar el resultado procesado
-                    preElement.textContent = resultText;
-                }
-                else {
-                    // Si no se encontraron datos JSON válidos, mostrar un mensaje
-                    preElement.textContent = 'No se encontraron datos JSON válidos.';
-                }
+                preElement.textContent = resultText || 'No se encontraron datos JSON válidos.';
+                
             }
         } catch (error) {
             // Si ocurre un error general, mostrar la respuesta completa
