@@ -10,6 +10,8 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
 
     const elementoValue = document.getElementById('elementosInput').value;
 
+    vscode.postMessage({command: 'logMessage',text: "elementoValue: " + elementoValue});
+
     // Dividir el contenido del textarea en líneas
     const lines = elementoValue.split('\n').filter(line => line.trim() !== '');
 
@@ -36,17 +38,17 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         const line = lines[i].trim();
         const [elemento, environment,stage,system, subSystem, type, ccid] = line.split(';');
 
-        if (!elemento || !environment || !stage || !system || !subSystem || !type || !ccid) {
-            continue; // Saltar líneas inválidas
-        }
+        
 
         //vscode.postMessage({command: 'logMessage',text: "i: " + i});
+
+        vscode.postMessage({command: 'logMessage',text: "111"});
 
         // Generar el comando Zowe CLI
         const zoweCommandConcat = 'zowe endevor list elements ' + elemento + ' -i ENDEVOR --env ' + environment + ' --sn ' + stage + ' --sys ' + system + ' --sub ' + subSystem + ' --typ ' + type +' --rft list --data ALL --wcll '+ ccid;
 
 
-        //vscode.postMessage({command: 'logMessage',text: "qqq"});
+        vscode.postMessage({command: 'logMessage',text: "222"});
 
         const divMain = document.createElement('div');
         divMain.id = `divMain-${i}`;
@@ -62,7 +64,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //pElement.style.textDecoration = 'underline'; // Aplicar subrayado directamente
         pElement.style.width = '150px'; // Establecer ancho fijo
         pElement.classList.add('content');
-        divMain.appendChild(pElement);
+        //divMain.appendChild(pElement);
 
         const divElement = document.createElement('div');
         divElement.id = `divElement-${i}`;
@@ -82,9 +84,17 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         const preElement = document.createElement('pre');
         preElement.id = `result-${i}`;
         preElement.classList.add('content');
-        preElement.textContent = `Procesando: TSO BUS ${elemento} ${environment} ${stage} ${system} ${subSystem} ${type} ${ccid}`;
+        preElement.textContent = `Procesando: ${elemento} ${environment} ${stage} ${system} ${subSystem} ${type} ${ccid}`;
         preElement.style.width = '400px'; // Establecer ancho fijo
         divElement.appendChild(preElement);
+
+        if (!elemento || !environment || !stage || !system || !subSystem || !type || !ccid) {
+            preElement.textContent = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
+            setTimeout(() => progressBar.remove(), 500); // Eliminar la barra después de 1 segundo
+            continue; // Saltar líneas inválidas
+        }
+
+        preElement.textContent = 'ELEMENT --   TYPE       ENVIRON  S SYSTEM   SUBSYS   VVLL PROCGRP CUR DTE   CCID';
 
         //vscode.postMessage({command: 'logMessage',text: "sss " + preElement.getHTML()});
 
@@ -132,18 +142,10 @@ window.addEventListener('message', (event) => {
                     const jsonResponse = JSON.parse(line);
 
                     // Extraer los campos específicos del JSON
-                    const { elmName, envName, stgId, sysName, sbsName, typeName, elmLastLLCcid } = jsonResponse;
+                    const { elmName, typeName, envName, stgId, sysName, sbsName, elmVVLL, procGrpName, elmLastLLDate, elmLastLLCcid } = jsonResponse;
 
                     // Construir el texto para mostrar en el <pre>
-                    resultText += `
-                        Elemento: ${elmName}
-                        Entorno: ${envName}
-                        Stage: ${stgId}
-                        Sistema: ${sysName}
-                        SubSistema: ${sbsName}
-                        Tipo: ${typeName}
-                        CCID: ${elmLastLLCcid}
-                        -------------------------
+                    resultText += `${elmName} ${typeName} ${envName} ${stgId} ${sysName} ${sbsName} ${elmVVLL} ${procGrpName} ${elmLastLLDate} ${elmLastLLCcid}
                     `;
                 } catch (jsonError) {
                     // Si la línea no es un JSON válido, ignorarla
