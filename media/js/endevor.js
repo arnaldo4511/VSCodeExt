@@ -94,7 +94,9 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
             continue; // Saltar líneas inválidas
         }
 
-
+        const preCabecera = document.createElement('pre');
+        preCabecera.id = `preCabecera-${i}`;
+        divElement.appendChild(preCabecera);
 
         //vscode.postMessage({command: 'logMessage',text: "sss " + preElement.getHTML()});
 
@@ -147,12 +149,6 @@ window.addEventListener('message', (event) => {
                     // Construir el texto para mostrar en el <pre>
                     resultText += `${elmName} ${typeName} ${envName} ${stgId} ${sysName} ${sbsName} ${elmVVLL} ${procGrpName} ${elmLastLLDate} ${elmLastLLCcid}
                     `;
-
-                    const preCabecera = document.createElement('pre');
-                    preCabecera.id = `preCabecera-${i}`;
-                    preCabecera.textContent = 'ELEMENT --   TYPE       ENVIRON  S SYSTEM   SUBSYS   VVLL PROCGRP CUR DTE   CCID';
-                    divElement.appendChild(preCabecera);
-
                 } catch (jsonError) {
                     // Si la línea no es un JSON válido, ignorarla
                 }
@@ -162,8 +158,21 @@ window.addEventListener('message', (event) => {
             const preElementId = `result-${message.index}`;
             const preElement = document.getElementById(preElementId);
 
+            vscode.postMessage({ command: 'logMessage', text: 'click: ' + resultText });
+
             if (preElement) {
-                preElement.textContent = resultText || 'No se encontraron datos JSON válidos.';
+                if (resultText) {
+                    const preCabeceraId = `preCabecera-${message.index}`;
+                    const preCabecera = document.getElementById(preCabeceraId);
+                    preCabecera.textContent = 'ELEMENT --   TYPE       ENVIRON  S SYSTEM   SUBSYS   VVLL PROCGRP CUR DTE   CCID';
+
+                    // Mostrar el resultado procesado
+                    preElement.textContent = resultText;
+                }
+                else {
+                    // Si no se encontraron datos JSON válidos, mostrar un mensaje
+                    preElement.textContent = 'No se encontraron datos JSON válidos.';
+                }
             }
         } catch (error) {
             // Si ocurre un error general, mostrar la respuesta completa
