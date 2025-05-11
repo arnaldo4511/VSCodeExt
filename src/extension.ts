@@ -37,7 +37,7 @@ export function activate(context: vscode.ExtensionContext) {
     //context.subscriptions.push(
     vscode.window.registerWebviewViewProvider('vscodeext-activitybar.vscodeext-view', myViewProvider);
     //);
-    
+
 
 }
 
@@ -77,6 +77,14 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
             logChannel.show(); // Mostrar el canal de log (opcional)
         }
 
+        if (message.command === 'getWorkspaceFolder') {
+            const workspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || '';
+            panel.webview.postMessage({
+                command: 'workspaceFolder',
+                workspaceFolder: workspaceFolder
+            });
+        }
+
         if (message.command === 'runZoweCommand') {
             const zoweCommand = message.zoweCommand;
 
@@ -110,11 +118,11 @@ function replacePathsInHtml(
     htmlFileName: string
 ): string {
 
-    
+
     const cssFileName = htmlFileName.replace('.html', '.css'); // Asumir que el CSS tiene el mismo nombre que el HTML
     const jsFileName = htmlFileName.replace('.html', '.js');   // Asumir que el JS tiene el mismo nombre que el HTML
 
-    
+
     // Generar URI para el archivo CSS
     const cssPath = vscode.Uri.file(path.join(context.extensionPath, 'media', 'css', cssFileName));
     const cssUri = panel.webview.asWebviewUri(cssPath);
@@ -169,7 +177,7 @@ class MyViewProvider implements vscode.WebviewViewProvider {
             localResourceRoots: [vscode.Uri.file(path.join(this.extensionPath, 'media'))] // Permitir acceso a la carpeta 'media'
         };
 
-        
+
         // Leer el contenido del archivo HTML
         //const htmlPath = path.join(__dirname, '..', 'media', 'view.html');
         const htmlPath = path.join(this.extensionPath, 'media', 'view.html');
@@ -199,8 +207,8 @@ class MyViewProvider implements vscode.WebviewViewProvider {
 
     private getHtmlForWebview(): string {
         const pathon = 'd:\\VSCodeExtension\\vscodeext\\out';
-        
-        
+
+
         const htmlPath = path.join(__dirname, '..', 'media', 'view.html'); // Ruta al archivo HTML
         //const htmlPath = path.join("d:", 'VSCodeExtension', 'vscodeext', '..', 'media', 'view.html'); // Ruta al archivo HTML
         return fs.readFileSync(htmlPath, 'utf8'); // Leer el contenido del archivo HTML

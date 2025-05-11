@@ -2,7 +2,7 @@
     font-family: "Courier New";
 }
 
-h1 {
+h1 , label, pre{
     color: white;
 }
 
