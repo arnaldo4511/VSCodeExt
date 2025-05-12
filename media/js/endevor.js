@@ -157,7 +157,7 @@ window.addEventListener('message', (event) => {
                     }
 
                     // Construir el texto para mostrar en el <pre>
-                    resultText += `${elmName} ${typeName} ${envName} ${stgId} ${sysName} ${sbsName} ${elmVVLL} ${procGrpName} ${elmLastLLDate} ${elmLastLLCcid}` + '\n';
+                    resultText += `${elmName}      ${typeName}   ${envName}  ${stgId} ${sysName} ${sbsName}   ${elmVVLL} ${procGrpName}  ${elmLastLLCcid}` + '\n';
 
                 } catch (jsonError) {
                     // Si la línea no es un JSON válido, ignorarla
