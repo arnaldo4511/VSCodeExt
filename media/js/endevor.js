@@ -73,13 +73,19 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //divMain.appendChild(divElement);
         resultsContainer.appendChild(divElement);
 
-        // Crear una barra de progreso para esta consulta
-        const progressBar = document.createElement('progress');
-        progressBar.id = `progress-${i}`;
-        //progressBar.max = 100;
-        //progressBar.value = 0;
-        //progressBar.classList.add('row');
-        divElement.appendChild(progressBar);
+
+        const spanElement = document.createElement('span');
+        spanElement.textContent =
+            "Busqueda:" +
+            "Elemento:" + elemento + "/" +
+            "Environment:" + environment + "/" +
+            "Stage:" + stage + "/" +
+            "System:" + system + "/" +
+            "SubSystem:" + subSystem + "/" +
+            "Type:" + type + "/" +
+            "CCID:" + ccid;
+        spanElement.style.fontWeight = 'bold'; // Aplicar negrita directamente
+
 
         const preCabecera = document.createElement('pre');
         preCabecera.id = `preCabecera-${i}`;
@@ -93,13 +99,22 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         preElement.style.width = '100%'; // Establecer ancho fijo
         divElement.appendChild(preElement);
 
+        // Crear una barra de progreso para esta consulta
+        const progressBar = document.createElement('progress');
+        progressBar.id = `progress-${i}`;
+        //progressBar.max = 100;
+        //progressBar.value = 0;
+        //progressBar.classList.add('row');
+        divElement.appendChild(progressBar);
+
+
         if (!elemento || !environment || !stage || !system || !subSystem || !type || !ccid) {
             preElement.textContent = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
             setTimeout(() => progressBar.remove(), 500); // Eliminar la barra después de 1 segundo
             continue; // Saltar líneas inválidas
         }
 
-        
+
 
         //vscode.postMessage({command: 'logMessage',text: "sss " + preElement.getHTML()});
 
@@ -174,33 +189,34 @@ window.addEventListener('message', (event) => {
                         const headerElmVVLL = 'VVLL';
                         const headerProcGrpName = 'PROCGRP ';
                         const headerElmLastLLCcid = 'CCID';
-                        resultText +=  
-                        headerElement + blank + 
-                        headerType + blank +
-                        headerEnv + blank +
-                        headerStgId + blank +
-                        headerSysName + blank +
-                        headerSbsName + blank +
-                        headerElmVVLL + blank +
-                        headerProcGrpName + blank +
-                        headerElmLastLLCcid + '\n';
-                        resultText += 'ELEMENT --   TYPE       ENVIRON  S SYSTEM   SUBSYS   VVLL PROCGRP  CCID' + '\n';
+                        resultText +=
+                            headerElement + blank +
+                            headerType + blank +
+                            headerEnv + blank +
+                            headerStgId + blank +
+                            headerSysName + blank +
+                            headerSbsName + blank +
+                            headerElmVVLL + blank +
+                            headerProcGrpName + blank +
+                            headerElmLastLLCcid + '\n';
                         headerAdded = true; // Marcar que la cabecera ya fue agregada
                     }
 
                     // Construir el texto para mostrar en el <pre>
-                    resultText += 
-                    formatElmName+blank+
-                    formatTypeName+blank+
-                    formatEnvName+blank+
-                    formatStgId+blank+
-                    formatSysName+blank+
-                    formatSbsName+blank+
-                    formatElmVVLL+blank+
-                    formatProcGrpName+blank+
-                    formatElmLastLLCcid + '\n';
-                    
+                    resultText +=
+                        formatElmName + blank +
+                        formatTypeName + blank +
+                        formatEnvName + blank +
+                        formatStgId + blank +
+                        formatSysName + blank +
+                        formatSbsName + blank +
+                        formatElmVVLL + blank +
+                        formatProcGrpName + blank +
+                        formatElmLastLLCcid + '\n';
 
+                    const repeatCount = 78; // Define la longitud de la línea punteada
+                    const dashedLine = '-'.repeat(repeatCount);
+                    resultText += dashedLine + '\n'; // Agregar la línea punteada al resultado
                 } catch (jsonError) {
                     // Si la línea no es un JSON válido, ignorarla
                 }
@@ -214,7 +230,7 @@ window.addEventListener('message', (event) => {
 
             if (preElement) {
                 preElement.textContent = resultText || 'No se encontraron datos JSON válidos.';
-                
+
             }
         } catch (error) {
             // Si ocurre un error general, mostrar la respuesta completa
