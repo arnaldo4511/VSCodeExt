@@ -110,7 +110,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         const spanDash = document.createElement('span');
         const repeatCount = 78; // Define la longitud de la línea punteada
         const dashedLine = '-'.repeat(repeatCount);
-        spanDash.innerHTML = '\n' + dashedLine; // Agregar la línea punteada al resultado
+        spanDash.innerHTML = '<br>' + dashedLine + '<br>'; // Agregar la línea punteada al resultado
         divElement.appendChild(spanDash);
 
         if (!elemento || !environment || !stage || !system || !subSystem || !type || !ccid) {
