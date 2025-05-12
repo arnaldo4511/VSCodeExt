@@ -182,22 +182,32 @@ window.addEventListener('message', (event) => {
                         const headerElmVVLL = 'VVLL';
                         const headerProcGrpName = 'PROCGRP ';
                         const headerElmLastLLCcid = 'CCID';
-                        resultText +=  headerElement + headerType + headerEnv + headerStgId + headerSysName + headerSbsName + headerElmVVLL + headerProcGrpName + headerElmLastLLCcid + '\n';
+                        resultText +=  
+                        headerElement + blank + 
+                        headerType + blank +
+                        headerEnv + blank +
+                        headerStgId + blank +
+                        headerSysName + blank +
+                        headerSbsName + blank +
+                        headerElmVVLL + blank +
+                        headerProcGrpName + blank +
+                        headerElmLastLLCcid + '\n';
                         resultText += 'ELEMENT --   TYPE       ENVIRON  S SYSTEM   SUBSYS   VVLL PROCGRP  CCID' + '\n';
                         headerAdded = true; // Marcar que la cabecera ya fue agregada
                     }
 
                     // Construir el texto para mostrar en el <pre>
-                    resultText += `
-                    ${formatElmName}${blank}
-                    ${formatTypeName}${blank}
-                    ${formatEnvName}${blank}
-                    ${formatStgId}${blank}
-                    ${formatSysName}${blank}
-                    ${formatSbsName}${blank}
-                    ${formatElmVVLL}${blank}
-                    ${formatProcGrpName}${blank}
-                    ${formatElmLastLLCcid}` + '\n';
+                    resultText += 
+                    formatElmName+blank+
+                    formatTypeName+blank+
+                    formatEnvName+blank+
+                    formatStgId+blank+
+                    formatSysName+blank+
+                    formatSbsName+blank+
+                    formatElmVVLL+blank+
+                    formatProcGrpName+blank+
+                    formatElmLastLLCcid + '\n';
+                    
 
                 } catch (jsonError) {
                     // Si la línea no es un JSON válido, ignorarla
