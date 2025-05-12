@@ -89,7 +89,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         preElement.id = `result-${i}`;
         preElement.classList.add('content');
         preElement.textContent = `Procesando: ${elemento} ${environment} ${stage} ${system} ${subSystem} ${type} ${ccid}`;
-        preElement.style.width = '400px'; // Establecer ancho fijo
+        preElement.style.width = '500px'; // Establecer ancho fijo
         divElement.appendChild(preElement);
 
         if (!elemento || !environment || !stage || !system || !subSystem || !type || !ccid) {
