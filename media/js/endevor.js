@@ -107,6 +107,11 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //progressBar.classList.add('row');
         divElement.appendChild(progressBar);
 
+        const spanDash = document.createElement('span');
+        const repeatCount = 78; // Define la longitud de la línea punteada
+        const dashedLine = '-'.repeat(repeatCount);
+        spanDash.innerHTML = '<br>' + dashedLine + '<br>'; // Agregar la línea punteada al resultado
+        divElement.appendChild(spanDash);
 
         if (!elemento || !environment || !stage || !system || !subSystem || !type || !ccid) {
             preElement.textContent = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
@@ -242,11 +247,7 @@ window.addEventListener('message', (event) => {
                 preElement.textContent = `Error al procesar la respuesta: ${error.message}\nRespuesta completa:\n${stdout}`;
             }
         }
-        const preElementId = `result-${message.index}`;
-        const preElement = document.getElementById(preElementId);
-        const repeatCount = 78; // Define la longitud de la línea punteada
-        const dashedLine = '-'.repeat(repeatCount);
-        preElement.textContent += '\n' + dashedLine + '\n'; // Agregar la línea punteada al resultado
+        
 
         // Ocultar la barra de progreso
         if (progressBar) {
