@@ -1,16 +1,16 @@
 const vscode = acquireVsCodeApi();
 
-vscode.postMessage({ command: 'logMessage', text: "clickJs" });
+//vscode.postMessage({ command: 'logMessage', text: "clickJs" });
 
 const elementoValue = document.getElementById('elementosInput').value;
 
 document.getElementById('elementosBuscar').addEventListener('click', async () => {
 
-    vscode.postMessage({ command: 'logMessage', text: "clickJs" });
+    //vscode.postMessage({ command: 'logMessage', text: "clickJs" });
 
     const elementoValue = document.getElementById('elementosInput').value;
 
-    vscode.postMessage({ command: 'logMessage', text: "elementoValue: " + elementoValue });
+    //vscode.postMessage({ command: 'logMessage', text: "elementoValue: " + elementoValue });
 
     // Dividir el contenido del textarea en líneas
     const lines = elementoValue.split('\n').filter(line => line.trim() !== '');
@@ -42,13 +42,13 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
 
         //vscode.postMessage({command: 'logMessage',text: "i: " + i});
 
-        vscode.postMessage({ command: 'logMessage', text: "111" });
+        //vscode.postMessage({ command: 'logMessage', text: "111" });
 
         // Generar el comando Zowe CLI
         const zoweCommandConcat = 'zowe endevor list elements ' + elemento + ' -i ENDEVOR --env ' + environment + ' --sn ' + stage + ' --sys ' + system + ' --sub ' + subSystem + ' --typ ' + type + ' --rft list --data ALL --wcll ' + ccid;
 
 
-        vscode.postMessage({ command: 'logMessage', text: "222" });
+        //vscode.postMessage({ command: 'logMessage', text: "222" });
 
         const divMain = document.createElement('div');
         divMain.id = `divMain-${i}`;
@@ -75,17 +75,17 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
 
 
         const spanElement = document.createElement('span');
-        spanElement.textContent =
-            "Busqueda:" +
-            "Elemento:" + elemento + "/" +
-            "Environment:" + environment + "/" +
-            "Stage:" + stage + "/" +
-            "System:" + system + "/" +
-            "SubSystem:" + subSystem + "/" +
-            "Type:" + type + "/" +
-            "CCID:" + ccid;
-        spanElement.style.fontWeight = 'bold'; // Aplicar negrita directamente
-
+        spanElement.innerHTML = '\n' +
+            '<b>BUSQUEDA:</b> ' +
+            'Elemento:<b>' + elemento + '</b> ' +
+            'Environment:<b>' + environment + '</b> ' +
+            'Stage:<b>' + stage + '</b> ' +
+            'System:<b>' + system + '</b> ' +
+            'SubSystem:<b>' + subSystem + '</b> ' +
+            'Type:<b>' + type + '</b> ' +
+            'CCID:<b>' + ccid + '</b> ';
+        spanElement.style.fontWeight = 'normal'; // Aplicar negrita directamente
+        divElement.appendChild(spanElement);
 
         const preCabecera = document.createElement('pre');
         preCabecera.id = `preCabecera-${i}`;
@@ -163,7 +163,7 @@ window.addEventListener('message', (event) => {
                     // Intentar analizar la línea como JSON
                     const jsonResponse = JSON.parse(line);
 
-                    vscode.postMessage({ command: 'logMessage', text: 'jsonResponse: ' + jsonResponse });
+                    //vscode.postMessage({ command: 'logMessage', text: 'jsonResponse: ' + jsonResponse });
 
                     // Extraer los campos específicos del JSON
                     const { elmName, typeName, envName, stgId, sysName, sbsName, elmVVLL, procGrpName, elmLastLLDate, elmLastLLCcid } = jsonResponse;
@@ -189,6 +189,7 @@ window.addEventListener('message', (event) => {
                         const headerElmVVLL = 'VVLL';
                         const headerProcGrpName = 'PROCGRP ';
                         const headerElmLastLLCcid = 'CCID';
+
                         resultText +=
                             headerElement + blank +
                             headerType + blank +
@@ -214,23 +215,23 @@ window.addEventListener('message', (event) => {
                         formatProcGrpName + blank +
                         formatElmLastLLCcid + '\n';
 
-                    const repeatCount = 78; // Define la longitud de la línea punteada
-                    const dashedLine = '-'.repeat(repeatCount);
-                    resultText += dashedLine + '\n'; // Agregar la línea punteada al resultado
+
+
                 } catch (jsonError) {
                     // Si la línea no es un JSON válido, ignorarla
                 }
             });
 
+
+
             // Buscar el <pre> correspondiente al comando actual
             const preElementId = `result-${message.index}`;
             const preElement = document.getElementById(preElementId);
 
-            vscode.postMessage({ command: 'logMessage', text: 'click: ' + resultText });
+            //vscode.postMessage({ command: 'logMessage', text: 'click: ' + resultText });
 
             if (preElement) {
-                preElement.textContent = resultText || 'No se encontraron datos JSON válidos.';
-
+                preElement.textContent = resultText || 'No se encontraron datos JSON válidos.'+ '\n' + stdout;
             }
         } catch (error) {
             // Si ocurre un error general, mostrar la respuesta completa
@@ -241,6 +242,11 @@ window.addEventListener('message', (event) => {
                 preElement.textContent = `Error al procesar la respuesta: ${error.message}\nRespuesta completa:\n${stdout}`;
             }
         }
+        const preElementId = `result-${message.index}`;
+        const preElement = document.getElementById(preElementId);
+        const repeatCount = 78; // Define la longitud de la línea punteada
+        const dashedLine = '-'.repeat(repeatCount);
+        preElement.textContent += '\n' + dashedLine + '\n'; // Agregar la línea punteada al resultado
 
         // Ocultar la barra de progreso
         if (progressBar) {
