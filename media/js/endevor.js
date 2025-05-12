@@ -148,6 +148,8 @@ window.addEventListener('message', (event) => {
                     // Intentar analizar la línea como JSON
                     const jsonResponse = JSON.parse(line);
 
+                    vscode.postMessage({ command: 'logMessage', text: 'jsonResponse: ' + jsonResponse });
+
                     // Extraer los campos específicos del JSON
                     const { elmName, typeName, envName, stgId, sysName, sbsName, elmVVLL, procGrpName, elmLastLLDate, elmLastLLCcid } = jsonResponse;
 
