@@ -155,26 +155,18 @@ window.addEventListener('message', (event) => {
 
                     const blank = ' ';
                     const formatElmName = elmName.padEnd(12, ' ');
-                    const blankElmName = ' '.repeat(5);
                     const formatTypeName = typeName.padEnd(10, ' ');
-                    const blankTypeName = ' '.repeat(3);
                     const formatEnvName = envName.padEnd(8, ' ');
-                    const blankEnvName = ' '.repeat(3);
                     const formatStgId = stgId.padEnd(1, ' ');
-                    const blankStgId = ' '.repeat(1);
                     const formatSysName = sysName.padEnd(8, ' ');
-                    const blankSysName = ' '.repeat(1);
                     const formatSbsName = sbsName.padEnd(8, ' ');
-                    const blankSbsName = ' '.repeat(1);
                     const formatElmVVLL = elmVVLL.padEnd(4, ' ');
-                    const blankElmVVLL = ' '.repeat(1);
                     const formatProcGrpName = procGrpName.padEnd(8, ' ');
-                    const blankProcGrpName = ' '.repeat(1);
                     const formatElmLastLLCcid = elmLastLLCcid.padEnd(11, ' ');
 
                     if (!headerAdded) {
                         const headerElement = 'ELEMENT --  ';
-                        const headerType = 'TYPE       ';
+                        const headerType = 'TYPE      ';
                         const headerEnv = 'ENVIRON ';
                         const headerStgId = 'S';
                         const headerSysName = 'SYSTEM  ';
