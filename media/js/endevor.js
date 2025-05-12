@@ -153,13 +153,51 @@ window.addEventListener('message', (event) => {
                     // Extraer los campos específicos del JSON
                     const { elmName, typeName, envName, stgId, sysName, sbsName, elmVVLL, procGrpName, elmLastLLDate, elmLastLLCcid } = jsonResponse;
 
+                    const blank = ' ';
+                    const formatElmName = elmName.padEnd(12, ' ');
+                    const blankElmName = ' '.repeat(5);
+                    const formatTypeName = typeName.padEnd(10, ' ');
+                    const blankTypeName = ' '.repeat(3);
+                    const formatEnvName = envName.padEnd(8, ' ');
+                    const blankEnvName = ' '.repeat(3);
+                    const formatStgId = stgId.padEnd(1, ' ');
+                    const blankStgId = ' '.repeat(1);
+                    const formatSysName = sysName.padEnd(8, ' ');
+                    const blankSysName = ' '.repeat(1);
+                    const formatSbsName = sbsName.padEnd(8, ' ');
+                    const blankSbsName = ' '.repeat(1);
+                    const formatElmVVLL = elmVVLL.padEnd(4, ' ');
+                    const blankElmVVLL = ' '.repeat(1);
+                    const formatProcGrpName = procGrpName.padEnd(8, ' ');
+                    const blankProcGrpName = ' '.repeat(1);
+                    const formatElmLastLLCcid = elmLastLLCcid.padEnd(11, ' ');
+
                     if (!headerAdded) {
-                        resultText += 'ELEMENT --   TYPE       ENVIRON  S SYSTEM   SUBSYS   VVLL PROCGRP CUR DTE   CCID' + '\n';
+                        const headerElement = 'ELEMENT --  ';
+                        const headerType = 'TYPE       ';
+                        const headerEnv = 'ENVIRON ';
+                        const headerStgId = 'S';
+                        const headerSysName = 'SYSTEM  ';
+                        const headerSbsName = 'SUBSYS  ';
+                        const headerElmVVLL = 'VVLL';
+                        const headerProcGrpName = 'PROCGRP ';
+                        const headerElmLastLLCcid = 'CCID';
+                        resultText +=  headerElement + headerType + headerEnv + headerStgId + headerSysName + headerSbsName + headerElmVVLL + headerProcGrpName + headerElmLastLLCcid + '\n';
+                        resultText += 'ELEMENT --   TYPE       ENVIRON  S SYSTEM   SUBSYS   VVLL PROCGRP  CCID' + '\n';
                         headerAdded = true; // Marcar que la cabecera ya fue agregada
                     }
 
                     // Construir el texto para mostrar en el <pre>
-                    resultText += `${elmName}      ${typeName}   ${envName}  ${stgId} ${sysName} ${sbsName}   ${elmVVLL} ${procGrpName}  ${elmLastLLCcid}` + '\n';
+                    resultText += `
+                    ${formatElmName}${blank}
+                    ${formatTypeName}${blank}
+                    ${formatEnvName}${blank}
+                    ${formatStgId}${blank}
+                    ${formatSysName}${blank}
+                    ${formatSbsName}${blank}
+                    ${formatElmVVLL}${blank}
+                    ${formatProcGrpName}${blank}
+                    ${formatElmLastLLCcid}` + '\n';
 
                 } catch (jsonError) {
                     // Si la línea no es un JSON válido, ignorarla
