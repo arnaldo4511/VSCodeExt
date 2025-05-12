@@ -54,7 +54,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         divMain.id = `divMain-${i}`;
         divMain.classList.add('row');
         //divMain.style.width = '450px'; // Establecer ancho fijo
-        resultsContainer.appendChild(divMain);
+        //resultsContainer.appendChild(divMain);
 
         // Crear un nuevo <pre> para mostrar el resultado de esta consulta
         const pElement = document.createElement('p');
@@ -70,7 +70,8 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         divElement.id = `divElement-${i}`;
         //divElement.classList.add('row');
         //divElement.style.width = '450px'; // Establecer ancho fijo
-        divMain.appendChild(divElement);
+        //divMain.appendChild(divElement);
+        resultsContainer.appendChild(divElement);
 
         // Crear una barra de progreso para esta consulta
         const progressBar = document.createElement('progress');
