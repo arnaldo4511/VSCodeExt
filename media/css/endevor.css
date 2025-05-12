@@ -67,6 +67,10 @@ textarea {
 }
 
 #elementosInput {
-    width: 100%; /* Ocupa el 100% del ancho disponible */
+    width: 400px; /* Ocupa el 100% del ancho disponible */
     box-sizing: border-box; /* Incluye el padding y el borde en el cálculo del ancho */
+}
+
+#resultsContainer {
+    width: 450px; /* Ancho fijo */
 }

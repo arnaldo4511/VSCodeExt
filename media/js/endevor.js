@@ -108,7 +108,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         divElement.appendChild(progressBar);
 
         const spanDash = document.createElement('span');
-        const repeatCount = 78; // Define la longitud de la línea punteada
+        const repeatCount = 52; // Define la longitud de la línea punteada
         const dashedLine = '-'.repeat(repeatCount);
         spanDash.innerHTML = '<br>' + dashedLine + '<br>'; // Agregar la línea punteada al resultado
         divElement.appendChild(spanDash);
@@ -180,9 +180,9 @@ window.addEventListener('message', (event) => {
                     const formatStgId = stgId.padEnd(1, ' ');
                     const formatSysName = sysName.padEnd(8, ' ');
                     const formatSbsName = sbsName.padEnd(8, ' ');
-                    const formatElmVVLL = elmVVLL.padEnd(4, ' ');
-                    const formatProcGrpName = procGrpName.padEnd(8, ' ');
-                    const formatElmLastLLCcid = elmLastLLCcid.padEnd(11, ' ');
+                    //const formatElmVVLL = elmVVLL.padEnd(4, ' ');
+                    //const formatProcGrpName = procGrpName.padEnd(8, ' ');
+                    //const formatElmLastLLCcid = elmLastLLCcid.padEnd(11, ' ');
 
                     if (!headerAdded) {
                         const headerElement = 'ELEMENT --  ';
@@ -191,9 +191,9 @@ window.addEventListener('message', (event) => {
                         const headerStgId = 'S';
                         const headerSysName = 'SYSTEM  ';
                         const headerSbsName = 'SUBSYS  ';
-                        const headerElmVVLL = 'VVLL';
-                        const headerProcGrpName = 'PROCGRP ';
-                        const headerElmLastLLCcid = 'CCID';
+                        //const headerElmVVLL = 'VVLL';
+                        //const headerProcGrpName = 'PROCGRP ';
+                        //const headerElmLastLLCcid = 'CCID';
 
                         resultText +=
                             headerElement + blank +
@@ -201,10 +201,10 @@ window.addEventListener('message', (event) => {
                             headerEnv + blank +
                             headerStgId + blank +
                             headerSysName + blank +
-                            headerSbsName + blank +
-                            headerElmVVLL + blank +
-                            headerProcGrpName + blank +
-                            headerElmLastLLCcid + '\n';
+                            headerSbsName + blank + '\n';
+                            //headerElmVVLL + blank +
+                            //headerProcGrpName + blank +
+                            //headerElmLastLLCcid + '\n';
                         headerAdded = true; // Marcar que la cabecera ya fue agregada
                     }
 
@@ -215,10 +215,10 @@ window.addEventListener('message', (event) => {
                         formatEnvName + blank +
                         formatStgId + blank +
                         formatSysName + blank +
-                        formatSbsName + blank +
-                        formatElmVVLL + blank +
-                        formatProcGrpName + blank +
-                        formatElmLastLLCcid + '\n';
+                        formatSbsName + blank + '\n';
+                        //formatElmVVLL + blank +
+                        //formatProcGrpName + blank +
+                        //formatElmLastLLCcid + '\n';
 
 
 
