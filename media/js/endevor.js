@@ -50,11 +50,16 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
 
         //vscode.postMessage({ command: 'logMessage', text: "222" });
 
+        const divContent = document.createElement('div');
+        divContent.id = `divContent-${i}`;
+        divContent.classList.add('row');
+        resultsContainer.appendChild(divContent);
+
         const divBusqueda = document.createElement('div');
         divBusqueda.id = `divBusqueda-${i}`;
         //divBusqueda.classList.add('row');
         divBusqueda.style.width = '200px'; // Establecer ancho fijo
-        resultsContainer.appendChild(divBusqueda);
+        divContent.appendChild(divBusqueda);
 
         const spanElement = document.createElement('span');
         spanElement.innerHTML = '<br>' +
@@ -76,7 +81,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //divElement.classList.add('row');
         divElement.style.width = '500px'; // Establecer ancho fijo
         //divMain.appendChild(divElement);
-        resultsContainer.appendChild(divElement);
+        divContent.appendChild(divElement);
 
 
 
@@ -111,7 +116,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //divElement.classList.add('row');
         divExtra.style.width = '300px'; // Establecer ancho fijo
         //divMain.appendChild(divElement);
-        resultsContainer.appendChild(divExtra);
+        divContent.appendChild(divExtra);
 
         const preExtra = document.createElement('pre');
         preExtra.id = `preExtra-${i}`;
