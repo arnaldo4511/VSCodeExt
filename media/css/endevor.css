@@ -72,5 +72,5 @@ textarea {
 }
 
 #resultsContainer {
-    width: 450px; /* Ancho fijo */
+    width: 100%; /* Ancho fijo */
 }

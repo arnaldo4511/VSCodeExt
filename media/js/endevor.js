@@ -50,53 +50,45 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
 
         //vscode.postMessage({ command: 'logMessage', text: "222" });
 
-        const divMain = document.createElement('div');
-        divMain.id = `divMain-${i}`;
-        divMain.classList.add('row');
-        //divMain.style.width = '450px'; // Establecer ancho fijo
-        //resultsContainer.appendChild(divMain);
+        const divBusqueda = document.createElement('div');
+        divBusqueda.id = `divBusqueda-${i}`;
+        //divBusqueda.classList.add('row');
+        divBusqueda.style.width = '200px'; // Establecer ancho fijo
+        resultsContainer.appendChild(divBusqueda);
 
-        // Crear un nuevo <pre> para mostrar el resultado de esta consulta
-        const pElement = document.createElement('p');
-        pElement.id = `resultP-${i}`;
-        pElement.textContent = `${elemento} - ${environment} - ${stage} - ${system} - ${subSystem} - ${type} - ${ccid}`;
-        pElement.style.fontWeight = 'bold'; // Aplicar negrita directamente
-        //pElement.style.textDecoration = 'underline'; // Aplicar subrayado directamente
-        pElement.style.width = '150px'; // Establecer ancho fijo
-        pElement.classList.add('content');
-        //divMain.appendChild(pElement);
+        const spanElement = document.createElement('span');
+        spanElement.innerHTML = '<br>' +
+            '<b>BUSQUEDA:</b><br>' +
+            '<span style="display: inline-block; width: 100px;">Elemento:</span><b>' + elemento + '</b><br>' +
+            '<span style="display: inline-block; width: 100px;">Environment:</span><b>' + environment + '</b><br>' +
+            '<span style="display: inline-block; width: 100px;">Stage:</span><b>' + stage + '</b><br>' +
+            '<span style="display: inline-block; width: 100px;">System:</span><b>' + system + '</b><br>' +
+            '<span style="display: inline-block; width: 100px;">SubSystem:</span><b>' + subSystem + '</b><br>' +
+            '<span style="display: inline-block; width: 100px;">Type:</span><b>' + type + '</b><br>' +
+            '<span style="display: inline-block; width: 100px;">CCID:</span><b>' + ccid + '</b><br>';
+
+        spanElement.style.fontWeight = 'normal'; // Aplicar negrita directamente
+        //spanElement.style.width = '200px'; // Establecer ancho fijo
+        divBusqueda.appendChild(spanElement);
 
         const divElement = document.createElement('div');
         divElement.id = `divElement-${i}`;
         //divElement.classList.add('row');
-        //divElement.style.width = '450px'; // Establecer ancho fijo
+        divElement.style.width = '500px'; // Establecer ancho fijo
         //divMain.appendChild(divElement);
         resultsContainer.appendChild(divElement);
 
 
-        const spanElement = document.createElement('span');
-        spanElement.innerHTML = '\n' +
-            '<b>BUSQUEDA:</b> ' +
-            'Elemento:<b>' + elemento + '</b> ' +
-            'Environment:<b>' + environment + '</b> ' +
-            'Stage:<b>' + stage + '</b> ' +
-            'System:<b>' + system + '</b> ' +
-            'SubSystem:<b>' + subSystem + '</b> ' +
-            'Type:<b>' + type + '</b> ' +
-            'CCID:<b>' + ccid + '</b> ';
-        spanElement.style.fontWeight = 'normal'; // Aplicar negrita directamente
-        divElement.appendChild(spanElement);
 
-        const preCabecera = document.createElement('pre');
-        preCabecera.id = `preCabecera-${i}`;
-        divElement.appendChild(preCabecera);
+
+
 
         // Crear un nuevo <pre> para mostrar el resultado de esta consulta
         const preElement = document.createElement('pre');
         preElement.id = `result-${i}`;
         preElement.classList.add('content');
         preElement.textContent = `Procesando: ${elemento} ${environment} ${stage} ${system} ${subSystem} ${type} ${ccid}`;
-        preElement.style.width = '100%'; // Establecer ancho fijo
+        //preElement.style.width = '100%'; // Establecer ancho fijo
         divElement.appendChild(preElement);
 
         // Crear una barra de progreso para esta consulta
@@ -112,6 +104,19 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         const dashedLine = '-'.repeat(repeatCount);
         spanDash.innerHTML = '<br>' + dashedLine + '<br>'; // Agregar la línea punteada al resultado
         divElement.appendChild(spanDash);
+
+
+        const divExtra = document.createElement('div');
+        divExtra.id = `divExtra-${i}`;
+        //divElement.classList.add('row');
+        divExtra.style.width = '300px'; // Establecer ancho fijo
+        //divMain.appendChild(divElement);
+        resultsContainer.appendChild(divExtra);
+
+        const preExtra = document.createElement('pre');
+        preExtra.id = `preExtra-${i}`;
+        preExtra.textContent = `Comando Zowe`;
+        divExtra.appendChild(preExtra);
 
         if (!elemento || !environment || !stage || !system || !subSystem || !type || !ccid) {
             preElement.textContent = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
@@ -161,6 +166,7 @@ window.addEventListener('message', (event) => {
 
             // Procesar cada línea para buscar JSON válidos
             let resultText = '';
+            let resultExtraText = '';
             let headerAdded = false; // Bandera para controlar la cabecera
 
             lines.forEach((line) => {
@@ -180,9 +186,10 @@ window.addEventListener('message', (event) => {
                     const formatStgId = stgId.padEnd(1, ' ');
                     const formatSysName = sysName.padEnd(8, ' ');
                     const formatSbsName = sbsName.padEnd(8, ' ');
-                    //const formatElmVVLL = elmVVLL.padEnd(4, ' ');
-                    //const formatProcGrpName = procGrpName.padEnd(8, ' ');
-                    //const formatElmLastLLCcid = elmLastLLCcid.padEnd(11, ' ');
+
+                    const formatElmVVLL = elmVVLL.padEnd(4, ' ');
+                    const formatProcGrpName = procGrpName.padEnd(8, ' ');
+                    const formatElmLastLLCcid = elmLastLLCcid.padEnd(11, ' ');
 
                     if (!headerAdded) {
                         const headerElement = 'ELEMENT --  ';
@@ -191,9 +198,10 @@ window.addEventListener('message', (event) => {
                         const headerStgId = 'S';
                         const headerSysName = 'SYSTEM  ';
                         const headerSbsName = 'SUBSYS  ';
-                        //const headerElmVVLL = 'VVLL';
-                        //const headerProcGrpName = 'PROCGRP ';
-                        //const headerElmLastLLCcid = 'CCID';
+
+                        const headerElmVVLL = 'VVLL';
+                        const headerProcGrpName = 'PROCGRP ';
+                        const headerElmLastLLCcid = 'CCID';
 
                         resultText +=
                             headerElement + blank +
@@ -202,9 +210,11 @@ window.addEventListener('message', (event) => {
                             headerStgId + blank +
                             headerSysName + blank +
                             headerSbsName + blank + '\n';
-                            //headerElmVVLL + blank +
-                            //headerProcGrpName + blank +
-                            //headerElmLastLLCcid + '\n';
+
+                        resultExtraText +=
+                            headerElmVVLL + blank +
+                            headerProcGrpName + blank +
+                            headerElmLastLLCcid + '\n';
                         headerAdded = true; // Marcar que la cabecera ya fue agregada
                     }
 
@@ -216,9 +226,11 @@ window.addEventListener('message', (event) => {
                         formatStgId + blank +
                         formatSysName + blank +
                         formatSbsName + blank + '\n';
-                        //formatElmVVLL + blank +
-                        //formatProcGrpName + blank +
-                        //formatElmLastLLCcid + '\n';
+
+                    resultExtraText +=
+                        formatElmVVLL + blank +
+                        formatProcGrpName + blank +
+                        formatElmLastLLCcid + '\n';
 
 
 
@@ -233,10 +245,15 @@ window.addEventListener('message', (event) => {
             const preElementId = `result-${message.index}`;
             const preElement = document.getElementById(preElementId);
 
+            const preExtraId = `preExtra-${message.index}`;
+            const preExtra = document.getElementById(preExtraId);
+
+
             //vscode.postMessage({ command: 'logMessage', text: 'click: ' + resultText });
 
             if (preElement) {
-                preElement.textContent = resultText || 'No se encontraron datos JSON válidos.'+ '\n' + stdout;
+                preElement.textContent = resultText || 'No se encontraron datos JSON válidos.' + '\n' + stdout;
+                preExtra.textContent = resultExtraText;
             }
         } catch (error) {
             // Si ocurre un error general, mostrar la respuesta completa
@@ -247,7 +264,7 @@ window.addEventListener('message', (event) => {
                 preElement.textContent = `Error al procesar la respuesta: ${error.message}\nRespuesta completa:\n${stdout}`;
             }
         }
-        
+
 
         // Ocultar la barra de progreso
         if (progressBar) {
