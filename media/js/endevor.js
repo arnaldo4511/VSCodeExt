@@ -128,7 +128,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //tdElement.appendChild(document.createElement('br'));
 
         // Crear un nuevo <pre> para mostrar el resultado de esta consulta
-        const spanElement = document.createElement('p');
+        const spanElement = document.createElement('pre');
         spanElement.id = `result-${i}`;
         //spanElement.classList.add('content');
         //spanElement.innerHTML = `Procesando: ${elemento} ${environment} ${stage} ${system} ${subSystem} ${type} ${ccid}`;
