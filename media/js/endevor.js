@@ -63,7 +63,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
     tableBody.innerHTML = ''; // Limpiar la tabla antes de agregar nuevos resultados
     tableContent.appendChild(tableBody);
 
-    vscode.postMessage({command: 'logMessage',text: "tableContent.innerHTML: " + tableContent.innerHTML});
+    vscode.postMessage({ command: 'logMessage', text: "tableContent.innerHTML: " + tableContent.innerHTML });
 
     // Recorrer cada línea
     for (let i = 0; i < lines.length; i++) {
@@ -96,39 +96,44 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         tdBusqueda.style.width = '200px'; // Establecer ancho fijo
         trContent.appendChild(tdBusqueda);
 
-        const spanElement = document.createElement('span');
-        spanElement.innerHTML = '<span style="display: inline-block; width: 100px;">Elemento:</span><b>' + elemento + '</b><br>' +
+        const spanBusqueda = document.createElement('span');
+        spanBusqueda.innerHTML = '<span style="display: inline-block; width: 100px;">Elemento:</span><b>' + elemento + '</b><br>' +
             '<span style="display: inline-block; width: 100px;">Environment:</span><b>' + environment + '</b><br>' +
             '<span style="display: inline-block; width: 100px;">Stage:</span><b>' + stage + '</b><br>' +
             '<span style="display: inline-block; width: 100px;">System:</span><b>' + system + '</b><br>' +
             '<span style="display: inline-block; width: 100px;">SubSystem:</span><b>' + subSystem + '</b><br>' +
             '<span style="display: inline-block; width: 100px;">Type:</span><b>' + type + '</b><br>' +
             '<span style="display: inline-block; width: 100px;">CCID:</span><b>' + ccid + '</b><br>';
-            
 
-        spanElement.style.fontWeight = 'normal'; // Aplicar negrita directamente
-        //spanElement.style.width = '200px'; // Establecer ancho fijo
-        tdBusqueda.appendChild(spanElement);
+
+        spanBusqueda.style.fontWeight = 'normal'; // Aplicar negrita directamente
+        //spanBusqueda.style.width = '200px'; // Establecer ancho fijo
+        tdBusqueda.appendChild(spanBusqueda);
+
+
+
+
 
         const tdElement = document.createElement('td');
         tdElement.id = `tdElement-${i}`;
         //tdElement.classList.add('row');
         tdElement.style.width = '500px'; // Establecer ancho fijo
         //divMain.appendChild(tdElement);
+        //tdElement.innerHTML = 'fffff';
         trContent.appendChild(tdElement);
 
 
 
-
-
+        // Agregar un salto de línea después de la barra de progreso
+        //tdElement.appendChild(document.createElement('br'));
 
         // Crear un nuevo <pre> para mostrar el resultado de esta consulta
-        const pElement = document.createElement('p');
-        pElement.id = `result-${i}`;
-        pElement.classList.add('content');
-        pElement.textContent = `Procesando: ${elemento} ${environment} ${stage} ${system} ${subSystem} ${type} ${ccid}`;
-        //pElement.style.width = '100%'; // Establecer ancho fijo
-        tdElement.appendChild(pElement);
+        const spanElement = document.createElement('span');
+        spanElement.id = `result-${i}`;
+        //spanElement.classList.add('content');
+        //spanElement.innerHTML = `Procesando: ${elemento} ${environment} ${stage} ${system} ${subSystem} ${type} ${ccid}`;
+        //spanElement.style.width = '100%'; // Establecer ancho fijo
+        tdElement.appendChild(spanElement);
 
         // Crear una barra de progreso para esta consulta
         const progressBar = document.createElement('progress');
@@ -138,11 +143,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //progressBar.classList.add('row');
         tdElement.appendChild(progressBar);
 
-        const spanDash = document.createElement('span');
-        const repeatCount = 52; // Define la longitud de la línea punteada
-        const dashedLine = '-'.repeat(repeatCount);
-        spanDash.innerHTML = '<br>' + dashedLine + '<br>'; // Agregar la línea punteada al resultado
-        tdElement.appendChild(spanDash);
+
 
 
         const tdExtra = document.createElement('td');
@@ -152,20 +153,21 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //divMain.appendChild(tdElement);
         trContent.appendChild(tdExtra);
 
-        const pExtra = document.createElement('p');
-        pExtra.id = `pExtra-${i}`;
-        pExtra.textContent = `Comando Zowe`;
-        tdExtra.appendChild(pExtra);
+        const spanExtra = document.createElement('span');
+        spanExtra.id = `spanExtra-${i}`;
+        //spanExtra.textContent = `Comando Zowe`;
+        tdExtra.appendChild(spanExtra);
 
         if (!elemento || !environment || !stage || !system || !subSystem || !type || !ccid) {
-            pElement.textContent = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
-            setTimeout(() => progressBar.remove(), 500); // Eliminar la barra después de 1 segundo
+            spanElement.textContent = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
+            progressBar.style.display = 'none';
+            //setTimeout(() => progressBar.remove(), 500); // Eliminar la barra después de 1 segundo
             continue; // Saltar líneas inválidas
         }
 
-        vscode.postMessage({command: 'logMessage',text: "tableContent.innerHTML: " + tableContent.innerHTML});
+        vscode.postMessage({ command: 'logMessage', text: "tableContent.innerHTML: " + tableContent.innerHTML });
 
-        //vscode.postMessage({command: 'logMessage',text: "sss " + pElement.getHTML()});
+        //vscode.postMessage({command: 'logMessage',text: "sss " + spanElement.getHTML()});
 
         // Simular progreso inicial
         //progressBar.value = 50;
@@ -242,13 +244,13 @@ window.addEventListener('message', (event) => {
                         const headerProcGrpName = 'PROCGRP ';
                         const headerElmLastLLCcid = 'CCID';
 
-                        resultText +=headerElement + blank +
+                        resultText += headerElement + blank +
                             headerType + blank +
                             headerEnv + blank +
                             headerStgId + blank +
                             headerSysName + blank +
                             headerSbsName + blank + '\n';
-                            
+
 
                         resultExtraText +=
                             headerElmVVLL + blank +
@@ -258,13 +260,13 @@ window.addEventListener('message', (event) => {
                     }
 
                     // Construir el texto para mostrar en el <pre>
-                    resultText +=formatElmName + blank +
+                    resultText += formatElmName + blank +
                         formatTypeName + blank +
                         formatEnvName + blank +
                         formatStgId + blank +
                         formatSysName + blank +
                         formatSbsName + blank + '\n';
-                        
+
 
                     resultExtraText +=
                         formatElmVVLL + blank +
@@ -281,35 +283,38 @@ window.addEventListener('message', (event) => {
 
 
             // Buscar el <pre> correspondiente al comando actual
-            const pElementId = `result-${message.index}`;
-            const pElement = document.getElementById(pElementId);
+            const spanElementId = `result-${message.index}`;
+            const spanElement = document.getElementById(spanElementId);
 
-            const pExtraId = `pExtra-${message.index}`;
-            const pExtra = document.getElementById(pExtraId);
+            const spanExtraId = `spanExtra-${message.index}`;
+            const spanExtra = document.getElementById(spanExtraId);
 
 
             //vscode.postMessage({ command: 'logMessage', text: 'click: ' + resultText });
 
-            if (pElement) {
-                pElement.textContent = resultText || 'No se encontraron datos JSON válidos.' + '\n' + stdout;
-                pExtra.textContent = resultExtraText;
+            if (spanElement) {
+                spanElement.textContent = resultText || 'No se encontraron datos JSON válidos.' + '\n' + stdout;
+                spanExtra.textContent = resultExtraText;
             }
         } catch (error) {
             // Si ocurre un error general, mostrar la respuesta completa
-            const pElementId = `result-${message.index}`;
-            const pElement = document.getElementById(pElementId);
+            const spanElementId = `result-${message.index}`;
+            const spanElement = document.getElementById(spanElementId);
 
-            if (pElement) {
-                pElement.textContent = `Error al procesar la respuesta: ${error.message}\nRespuesta completa:\n${stdout}`;
+            if (spanElement) {
+                spanElement.textContent = `Error al procesar la respuesta: ${error.message}\nRespuesta completa:\n${stdout}`;
             }
         }
 
 
         // Ocultar la barra de progreso
         if (progressBar) {
-            setTimeout(() => progressBar.remove(), 1000); // Eliminar la barra después de 1 segundo
+            progressBar.style.display = 'none';
+            //setTimeout(() => progressBar.remove(), 1000); // Eliminar la barra después de 1 segundo
         }
 
+        const tableContent = document.getElementById("tableContent");
+        vscode.postMessage({ command: 'logMessage', text: 'tableContent.innerHTML: ' + tableContent.innerHTML });
     }
 });
 
@@ -347,8 +352,11 @@ function seleccionarColumna(colIndex) {
         vscode.postMessage({ command: 'logMessage', text: 'Recopilar datos de la columna seleccionada y resaltar celdas' });
         const cell = row.cells[colIndex];
         if (cell) {
+            vscode.postMessage({ command: 'logMessage', text: 'BBB2: ' + cell.textContent });
             columnData.push(cell.textContent.trim());
             cell.classList.add('selected-column');
+            vscode.postMessage({ command: 'logMessage', text: 'BBB3: ' + cell.classList });
+            vscode.postMessage({ command: 'logMessage', text: 'BBB4: ' + getComputedStyle(cell).color });
         }
     });
 
@@ -375,4 +383,7 @@ function seleccionarColumna(colIndex) {
     // Actualizar la última columna seleccionada
     lastSelectedColumn = colIndex;
     vscode.postMessage({ command: 'logMessage', text: 'lastSelectedColumn: ' + lastSelectedColumn });
+
+    const tableContent = document.getElementById("tableContent");
+    vscode.postMessage({ command: 'logMessage', text: 'aquii tableContent.innerHTML: ' + tableContent.innerHTML });
 }
