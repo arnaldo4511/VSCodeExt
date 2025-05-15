@@ -93,7 +93,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         const tdBusqueda = document.createElement('td');
         tdBusqueda.id = `tdBusqueda-${i}`;
         //tdBusqueda.classList.add('row');
-        tdBusqueda.style.width = '400px'; // Establecer ancho fijo
+        tdBusqueda.style.width = '100%'; // Establecer ancho fijo
         trContent.appendChild(tdBusqueda);
 
         const spanBusqueda = document.createElement('span');
@@ -117,7 +117,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         const tdElement = document.createElement('td');
         tdElement.id = `tdElement-${i}`;
         //tdElement.classList.add('row');
-        //tdElement.style.width = '300px'; // Establecer ancho fijo
+        tdElement.style.width = '100%'; // Establecer ancho fijo
         //divMain.appendChild(tdElement);
         //tdElement.innerHTML = 'fffff';
         trContent.appendChild(tdElement);
@@ -132,7 +132,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         preElement.id = `result-${i}`;
         //preElement.classList.add('content');
         //preElement.innerHTML = `Procesando: ${elemento} ${environment} ${stage} ${system} ${subSystem} ${type} ${ccid}`;
-        preElement.style.width = '300px'; // Establecer ancho fijo
+        //preElement.style.width = '100%'; // Establecer ancho fijo
         tdElement.appendChild(preElement);
 
         /*const spanElement = document.createElement('span');
@@ -152,7 +152,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         const tdExtra = document.createElement('td');
         tdExtra.id = `tdExtra-${i}`;
         //tdElement.classList.add('row');
-        tdExtra.style.width = '300px'; // Establecer ancho fijo
+        tdExtra.style.width = '100%'; // Establecer ancho fijo
         //divMain.appendChild(tdElement);
         trContent.appendChild(tdExtra);
 
