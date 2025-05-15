@@ -128,12 +128,12 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //tdElement.appendChild(document.createElement('br'));
 
         // Crear un nuevo <pre> para mostrar el resultado de esta consulta
-        const spanElement = document.createElement('pre');
-        spanElement.id = `result-${i}`;
-        //spanElement.classList.add('content');
-        //spanElement.innerHTML = `Procesando: ${elemento} ${environment} ${stage} ${system} ${subSystem} ${type} ${ccid}`;
-        //spanElement.style.width = '100%'; // Establecer ancho fijo
-        tdElement.appendChild(spanElement);
+        const preElement = document.createElement('pre');
+        preElement.id = `result-${i}`;
+        //preElement.classList.add('content');
+        //preElement.innerHTML = `Procesando: ${elemento} ${environment} ${stage} ${system} ${subSystem} ${type} ${ccid}`;
+        //preElement.style.width = '100%'; // Establecer ancho fijo
+        tdElement.appendChild(preElement);
 
         // Crear una barra de progreso para esta consulta
         const progressBar = document.createElement('progress');
@@ -153,13 +153,13 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //divMain.appendChild(tdElement);
         trContent.appendChild(tdExtra);
 
-        const spanExtra = document.createElement('span');
-        spanExtra.id = `spanExtra-${i}`;
-        //spanExtra.textContent = `Comando Zowe`;
-        tdExtra.appendChild(spanExtra);
+        const preExtra = document.createElement('pre');
+        preExtra.id = `preExtra-${i}`;
+        //preExtra.textContent = `Comando Zowe`;
+        tdExtra.appendChild(preExtra);
 
         if (!elemento || !environment || !stage || !system || !subSystem || !type || !ccid) {
-            spanElement.textContent = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
+            preElement.textContent = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
             progressBar.style.display = 'none';
             //setTimeout(() => progressBar.remove(), 500); // Eliminar la barra después de 1 segundo
             continue; // Saltar líneas inválidas
@@ -167,7 +167,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
 
         vscode.postMessage({ command: 'logMessage', text: "tableContent.innerHTML: " + tableContent.innerHTML });
 
-        //vscode.postMessage({command: 'logMessage',text: "sss " + spanElement.getHTML()});
+        //vscode.postMessage({command: 'logMessage',text: "sss " + preElement.getHTML()});
 
         // Simular progreso inicial
         //progressBar.value = 50;
@@ -283,26 +283,26 @@ window.addEventListener('message', (event) => {
 
 
             // Buscar el <pre> correspondiente al comando actual
-            const spanElementId = `result-${message.index}`;
-            const spanElement = document.getElementById(spanElementId);
+            const preElementId = `result-${message.index}`;
+            const preElement = document.getElementById(preElementId);
 
-            const spanExtraId = `spanExtra-${message.index}`;
-            const spanExtra = document.getElementById(spanExtraId);
+            const preExtraId = `preExtra-${message.index}`;
+            const preExtra = document.getElementById(preExtraId);
 
 
             //vscode.postMessage({ command: 'logMessage', text: 'click: ' + resultText });
 
-            if (spanElement) {
-                spanElement.textContent = resultText || 'No se encontraron datos JSON válidos.' + '\n' + stdout;
-                spanExtra.textContent = resultExtraText;
+            if (preElement) {
+                preElement.textContent = resultText || 'No se encontraron datos JSON válidos.' + '\n' + stdout;
+                preExtra.textContent = resultExtraText;
             }
         } catch (error) {
             // Si ocurre un error general, mostrar la respuesta completa
-            const spanElementId = `result-${message.index}`;
-            const spanElement = document.getElementById(spanElementId);
+            const preElementId = `result-${message.index}`;
+            const preElement = document.getElementById(preElementId);
 
-            if (spanElement) {
-                spanElement.textContent = `Error al procesar la respuesta: ${error.message}\nRespuesta completa:\n${stdout}`;
+            if (preElement) {
+                preElement.textContent = `Error al procesar la respuesta: ${error.message}\nRespuesta completa:\n${stdout}`;
             }
         }
 
