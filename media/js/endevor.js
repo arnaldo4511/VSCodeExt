@@ -117,7 +117,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         const tdElement = document.createElement('td');
         tdElement.id = `tdElement-${i}`;
         //tdElement.classList.add('row');
-        tdElement.style.width = '400px'; // Establecer ancho fijo
+        tdElement.style.width = '200px'; // Establecer ancho fijo
         //divMain.appendChild(tdElement);
         //tdElement.innerHTML = 'fffff';
         trContent.appendChild(tdElement);
@@ -152,7 +152,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         const tdExtra = document.createElement('td');
         tdExtra.id = `tdExtra-${i}`;
         //tdElement.classList.add('row');
-        tdExtra.style.width = '400px'; // Establecer ancho fijo
+        tdExtra.style.width = '200px'; // Establecer ancho fijo
         //divMain.appendChild(tdElement);
         trContent.appendChild(tdExtra);
 
