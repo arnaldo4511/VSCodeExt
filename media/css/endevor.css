@@ -2,7 +2,7 @@
     font-family: "Courier New";
 }
 
-h1, label, p, pre, span{
+h1, label, p, pre, span {
     color: white;
 }
 
@@ -74,3 +74,28 @@ textarea {
 #resultsContainer {
     width: 100%; /* Ancho fijo */
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    /*margin-top: 10px;*/
+}
+
+th, td {
+    border: 1px solid #ccc;
+    /*padding: 8px;*/
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    background-color: #858585;
+}
+
+
+/* Resaltar la columna seleccionada */
+.selected-column {
+    background-color: rgb(98, 0, 255);
+    color: black;
+}
+

@@ -30,6 +30,41 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
     const resultsContainer = document.getElementById('resultsContainer');
     resultsContainer.innerHTML = ''; // Limpiar resultados previos
 
+
+    const tableContent = document.createElement('table');
+    tableContent.id = 'tableContent';
+    resultsContainer.appendChild(tableContent);
+
+    const theadContent = document.createElement('thead');
+    tableContent.appendChild(theadContent);
+
+    const trHeader = document.createElement('tr');
+    theadContent.appendChild(trHeader);
+
+    const thBusqueda = document.createElement('th');
+    thBusqueda.textContent = 'BUSQUEDA';
+    thBusqueda.onclick = () => seleccionarColumna(0); // Llamar a la función al hacer clic
+    thBusqueda.style.cursor = 'pointer'; // Cambiar el cursor al pasar por encima
+    trHeader.appendChild(thBusqueda);
+
+    const thData = document.createElement('th');
+    thData.textContent = 'DATA';
+    thData.onclick = () => seleccionarColumna(1); // Llamar a la función al hacer clic
+    thData.style.cursor = 'pointer'; // Cambiar el cursor al pasar por encima
+    trHeader.appendChild(thData);
+
+    const thExtra = document.createElement('th');
+    thExtra.textContent = 'EXTRA';
+    thExtra.onclick = () => seleccionarColumna(2); // Llamar a la función al hacer clic
+    thExtra.style.cursor = 'pointer'; // Cambiar el cursor al pasar por encima
+    trHeader.appendChild(thExtra);
+
+    const tableBody = document.createElement('tbody');
+    tableBody.innerHTML = ''; // Limpiar la tabla antes de agregar nuevos resultados
+    tableContent.appendChild(tableBody);
+
+    vscode.postMessage({command: 'logMessage',text: "tableContent.innerHTML: " + tableContent.innerHTML});
+
     // Recorrer cada línea
     for (let i = 0; i < lines.length; i++) {
 
@@ -50,38 +85,37 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
 
         //vscode.postMessage({ command: 'logMessage', text: "222" });
 
-        const divContent = document.createElement('div');
-        divContent.id = `divContent-${i}`;
-        divContent.classList.add('row');
-        resultsContainer.appendChild(divContent);
+        const trContent = document.createElement('tr');
+        trContent.id = `trContent-${i}`;
+        //trContent.classList.add('row');
+        tableBody.appendChild(trContent);
 
-        const divBusqueda = document.createElement('div');
-        divBusqueda.id = `divBusqueda-${i}`;
-        //divBusqueda.classList.add('row');
-        divBusqueda.style.width = '200px'; // Establecer ancho fijo
-        divContent.appendChild(divBusqueda);
+        const tdBusqueda = document.createElement('td');
+        tdBusqueda.id = `tdBusqueda-${i}`;
+        //tdBusqueda.classList.add('row');
+        tdBusqueda.style.width = '200px'; // Establecer ancho fijo
+        trContent.appendChild(tdBusqueda);
 
         const spanElement = document.createElement('span');
-        spanElement.innerHTML = '<br>' +
-            '<b>BUSQUEDA:</b><br>' +
-            '<span style="display: inline-block; width: 100px;">Elemento:</span><b>' + elemento + '</b><br>' +
+        spanElement.innerHTML = '<span style="display: inline-block; width: 100px;">Elemento:</span><b>' + elemento + '</b><br>' +
             '<span style="display: inline-block; width: 100px;">Environment:</span><b>' + environment + '</b><br>' +
             '<span style="display: inline-block; width: 100px;">Stage:</span><b>' + stage + '</b><br>' +
             '<span style="display: inline-block; width: 100px;">System:</span><b>' + system + '</b><br>' +
             '<span style="display: inline-block; width: 100px;">SubSystem:</span><b>' + subSystem + '</b><br>' +
             '<span style="display: inline-block; width: 100px;">Type:</span><b>' + type + '</b><br>' +
             '<span style="display: inline-block; width: 100px;">CCID:</span><b>' + ccid + '</b><br>';
+            
 
         spanElement.style.fontWeight = 'normal'; // Aplicar negrita directamente
         //spanElement.style.width = '200px'; // Establecer ancho fijo
-        divBusqueda.appendChild(spanElement);
+        tdBusqueda.appendChild(spanElement);
 
-        const divElement = document.createElement('div');
-        divElement.id = `divElement-${i}`;
-        //divElement.classList.add('row');
-        divElement.style.width = '500px'; // Establecer ancho fijo
-        //divMain.appendChild(divElement);
-        divContent.appendChild(divElement);
+        const tdElement = document.createElement('td');
+        tdElement.id = `tdElement-${i}`;
+        //tdElement.classList.add('row');
+        tdElement.style.width = '500px'; // Establecer ancho fijo
+        //divMain.appendChild(tdElement);
+        trContent.appendChild(tdElement);
 
 
 
@@ -89,12 +123,12 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
 
 
         // Crear un nuevo <pre> para mostrar el resultado de esta consulta
-        const preElement = document.createElement('pre');
-        preElement.id = `result-${i}`;
-        preElement.classList.add('content');
-        preElement.textContent = `Procesando: ${elemento} ${environment} ${stage} ${system} ${subSystem} ${type} ${ccid}`;
-        //preElement.style.width = '100%'; // Establecer ancho fijo
-        divElement.appendChild(preElement);
+        const pElement = document.createElement('p');
+        pElement.id = `result-${i}`;
+        pElement.classList.add('content');
+        pElement.textContent = `Procesando: ${elemento} ${environment} ${stage} ${system} ${subSystem} ${type} ${ccid}`;
+        //pElement.style.width = '100%'; // Establecer ancho fijo
+        tdElement.appendChild(pElement);
 
         // Crear una barra de progreso para esta consulta
         const progressBar = document.createElement('progress');
@@ -102,36 +136,36 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //progressBar.max = 100;
         //progressBar.value = 0;
         //progressBar.classList.add('row');
-        divElement.appendChild(progressBar);
+        tdElement.appendChild(progressBar);
 
         const spanDash = document.createElement('span');
         const repeatCount = 52; // Define la longitud de la línea punteada
         const dashedLine = '-'.repeat(repeatCount);
         spanDash.innerHTML = '<br>' + dashedLine + '<br>'; // Agregar la línea punteada al resultado
-        divElement.appendChild(spanDash);
+        tdElement.appendChild(spanDash);
 
 
-        const divExtra = document.createElement('div');
-        divExtra.id = `divExtra-${i}`;
-        //divElement.classList.add('row');
-        divExtra.style.width = '300px'; // Establecer ancho fijo
-        //divMain.appendChild(divElement);
-        divContent.appendChild(divExtra);
+        const tdExtra = document.createElement('td');
+        tdExtra.id = `tdExtra-${i}`;
+        //tdElement.classList.add('row');
+        tdExtra.style.width = '300px'; // Establecer ancho fijo
+        //divMain.appendChild(tdElement);
+        trContent.appendChild(tdExtra);
 
-        const preExtra = document.createElement('pre');
-        preExtra.id = `preExtra-${i}`;
-        preExtra.textContent = `Comando Zowe`;
-        divExtra.appendChild(preExtra);
+        const pExtra = document.createElement('p');
+        pExtra.id = `pExtra-${i}`;
+        pExtra.textContent = `Comando Zowe`;
+        tdExtra.appendChild(pExtra);
 
         if (!elemento || !environment || !stage || !system || !subSystem || !type || !ccid) {
-            preElement.textContent = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
+            pElement.textContent = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
             setTimeout(() => progressBar.remove(), 500); // Eliminar la barra después de 1 segundo
             continue; // Saltar líneas inválidas
         }
 
+        vscode.postMessage({command: 'logMessage',text: "tableContent.innerHTML: " + tableContent.innerHTML});
 
-
-        //vscode.postMessage({command: 'logMessage',text: "sss " + preElement.getHTML()});
+        //vscode.postMessage({command: 'logMessage',text: "sss " + pElement.getHTML()});
 
         // Simular progreso inicial
         //progressBar.value = 50;
@@ -208,13 +242,13 @@ window.addEventListener('message', (event) => {
                         const headerProcGrpName = 'PROCGRP ';
                         const headerElmLastLLCcid = 'CCID';
 
-                        resultText +=
-                            headerElement + blank +
+                        resultText +=headerElement + blank +
                             headerType + blank +
                             headerEnv + blank +
                             headerStgId + blank +
                             headerSysName + blank +
                             headerSbsName + blank + '\n';
+                            
 
                         resultExtraText +=
                             headerElmVVLL + blank +
@@ -224,13 +258,13 @@ window.addEventListener('message', (event) => {
                     }
 
                     // Construir el texto para mostrar en el <pre>
-                    resultText +=
-                        formatElmName + blank +
+                    resultText +=formatElmName + blank +
                         formatTypeName + blank +
                         formatEnvName + blank +
                         formatStgId + blank +
                         formatSysName + blank +
                         formatSbsName + blank + '\n';
+                        
 
                     resultExtraText +=
                         formatElmVVLL + blank +
@@ -247,26 +281,26 @@ window.addEventListener('message', (event) => {
 
 
             // Buscar el <pre> correspondiente al comando actual
-            const preElementId = `result-${message.index}`;
-            const preElement = document.getElementById(preElementId);
+            const pElementId = `result-${message.index}`;
+            const pElement = document.getElementById(pElementId);
 
-            const preExtraId = `preExtra-${message.index}`;
-            const preExtra = document.getElementById(preExtraId);
+            const pExtraId = `pExtra-${message.index}`;
+            const pExtra = document.getElementById(pExtraId);
 
 
             //vscode.postMessage({ command: 'logMessage', text: 'click: ' + resultText });
 
-            if (preElement) {
-                preElement.textContent = resultText || 'No se encontraron datos JSON válidos.' + '\n' + stdout;
-                preExtra.textContent = resultExtraText;
+            if (pElement) {
+                pElement.textContent = resultText || 'No se encontraron datos JSON válidos.' + '\n' + stdout;
+                pExtra.textContent = resultExtraText;
             }
         } catch (error) {
             // Si ocurre un error general, mostrar la respuesta completa
-            const preElementId = `result-${message.index}`;
-            const preElement = document.getElementById(preElementId);
+            const pElementId = `result-${message.index}`;
+            const pElement = document.getElementById(pElementId);
 
-            if (preElement) {
-                preElement.textContent = `Error al procesar la respuesta: ${error.message}\nRespuesta completa:\n${stdout}`;
+            if (pElement) {
+                pElement.textContent = `Error al procesar la respuesta: ${error.message}\nRespuesta completa:\n${stdout}`;
             }
         }
 
@@ -278,3 +312,67 @@ window.addEventListener('message', (event) => {
 
     }
 });
+
+let lastSelectedColumn = null; // Variable para rastrear la última columna seleccionada
+
+function seleccionarColumna(colIndex) {
+    const table = document.getElementById('tableContent');
+    const rows = table.querySelectorAll('tbody tr');
+    const columnData = [];
+
+    vscode.postMessage({ command: 'logMessage', text: '----------------------' });
+    vscode.postMessage({ command: 'logMessage', text: 'lastSelectedColumn: ' + lastSelectedColumn });
+    vscode.postMessage({ command: 'logMessage', text: 'colIndex: ' + colIndex });
+
+    // Si la columna seleccionada es la misma que la última, deseleccionarla
+    if (lastSelectedColumn === colIndex) {
+        // Limpiar resaltado previo
+        vscode.postMessage({ command: 'logMessage', text: 'Limpiar resaltado previo' });
+        table.querySelectorAll('td, th').forEach(cell => {
+            cell.classList.remove('selected-column');
+        });
+        lastSelectedColumn = null; // Restablecer la selección
+        return; // Salir de la función
+    }
+    vscode.postMessage({ command: 'logMessage', text: 'AAA' });
+    // Limpiar resaltado previo
+    table.querySelectorAll('td, th').forEach(cell => {
+        vscode.postMessage({ command: 'logMessage', text: 'Limpiar resaltado previoP' });
+        cell.classList.remove('selected-column');
+    });
+
+    vscode.postMessage({ command: 'logMessage', text: 'BBB' });
+    // Recopilar datos de la columna seleccionada y resaltar celdas
+    rows.forEach(row => {
+        vscode.postMessage({ command: 'logMessage', text: 'Recopilar datos de la columna seleccionada y resaltar celdas' });
+        const cell = row.cells[colIndex];
+        if (cell) {
+            columnData.push(cell.textContent.trim());
+            cell.classList.add('selected-column');
+        }
+    });
+
+    vscode.postMessage({ command: 'logMessage', text: 'CCC' });
+    // Resaltar el encabezado de la columna seleccionada
+    const headerCell = table.querySelector(`thead th:nth-child(${colIndex + 1})`);
+    if (headerCell) {
+        vscode.postMessage({ command: 'logMessage', text: 'Resaltar el encabezado de la columna seleccionada' });
+        headerCell.classList.add('selected-column');
+    }
+
+    vscode.postMessage({ command: 'logMessage', text: 'DDD' });
+    // Copiar los datos al portapapeles
+    const columnText = columnData.join('\n'); // Unir los datos con saltos de línea
+    navigator.clipboard.writeText(columnText).then(() => {
+        //alert('Columna copiada al portapapeles:\n' + columnText);
+        vscode.postMessage({ command: 'logMessage', text: 'Columna copiada al portapapeles:\n' + columnText });
+    }).catch(err => {
+        //console.error('Error al copiar al portapapeles:', err);
+        vscode.postMessage({ command: 'logMessage', text: 'Error al copiar al portapapeles:' + err });
+    });
+
+    vscode.postMessage({ command: 'logMessage', text: 'EEE' });
+    // Actualizar la última columna seleccionada
+    lastSelectedColumn = colIndex;
+    vscode.postMessage({ command: 'logMessage', text: 'lastSelectedColumn: ' + lastSelectedColumn });
+}
