@@ -93,7 +93,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         const tdBusqueda = document.createElement('td');
         tdBusqueda.id = `tdBusqueda-${i}`;
         //tdBusqueda.classList.add('row');
-        tdBusqueda.style.width = '200px'; // Establecer ancho fijo
+        tdBusqueda.style.width = '400px'; // Establecer ancho fijo
         trContent.appendChild(tdBusqueda);
 
         const spanBusqueda = document.createElement('span');
@@ -117,7 +117,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         const tdElement = document.createElement('td');
         tdElement.id = `tdElement-${i}`;
         //tdElement.classList.add('row');
-        tdElement.style.width = '500px'; // Establecer ancho fijo
+        //tdElement.style.width = '300px'; // Establecer ancho fijo
         //divMain.appendChild(tdElement);
         //tdElement.innerHTML = 'fffff';
         trContent.appendChild(tdElement);
@@ -132,8 +132,11 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         preElement.id = `result-${i}`;
         //preElement.classList.add('content');
         //preElement.innerHTML = `Procesando: ${elemento} ${environment} ${stage} ${system} ${subSystem} ${type} ${ccid}`;
-        //preElement.style.width = '100%'; // Establecer ancho fijo
+        preElement.style.width = '300px'; // Establecer ancho fijo
         tdElement.appendChild(preElement);
+
+        /*const spanElement = document.createElement('span');
+        spanElement.id = `spanElement-${i}`;*/
 
         // Crear una barra de progreso para esta consulta
         const progressBar = document.createElement('progress');
@@ -159,7 +162,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         tdExtra.appendChild(preExtra);
 
         if (!elemento || !environment || !stage || !system || !subSystem || !type || !ccid) {
-            preElement.textContent = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
+            preElement.innerHTML = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
             progressBar.style.display = 'none';
             //setTimeout(() => progressBar.remove(), 500); // Eliminar la barra después de 1 segundo
             continue; // Saltar líneas inválidas
@@ -286,6 +289,9 @@ window.addEventListener('message', (event) => {
             const preElementId = `result-${message.index}`;
             const preElement = document.getElementById(preElementId);
 
+            const spanElementId = `spanElement-${message.index}`;
+            const spanElement = document.getElementById(spanElementId);
+
             const preExtraId = `preExtra-${message.index}`;
             const preExtra = document.getElementById(preExtraId);
 
@@ -293,8 +299,9 @@ window.addEventListener('message', (event) => {
             //vscode.postMessage({ command: 'logMessage', text: 'click: ' + resultText });
 
             if (preElement) {
-                preElement.textContent = resultText || 'No se encontraron datos JSON válidos.' + '\n' + stdout;
+                preElement.innerHTML = resultText || 'No se encontraron datos JSON válidos.';
                 preExtra.textContent = resultExtraText;
+                vscode.postMessage({ command: 'logMessage', text: 'stdout: ' + stdout });
             }
         } catch (error) {
             // Si ocurre un error general, mostrar la respuesta completa
@@ -302,7 +309,7 @@ window.addEventListener('message', (event) => {
             const preElement = document.getElementById(preElementId);
 
             if (preElement) {
-                preElement.textContent = `Error al procesar la respuesta: ${error.message}\nRespuesta completa:\n${stdout}`;
+                preElement.innerHTML = `Error al procesar la respuesta: ${error.message}\nRespuesta completa:\n${stdout}`;
             }
         }
 
@@ -325,50 +332,37 @@ function seleccionarColumna(colIndex) {
     const rows = table.querySelectorAll('tbody tr');
     const columnData = [];
 
-    vscode.postMessage({ command: 'logMessage', text: '----------------------' });
-    vscode.postMessage({ command: 'logMessage', text: 'lastSelectedColumn: ' + lastSelectedColumn });
-    vscode.postMessage({ command: 'logMessage', text: 'colIndex: ' + colIndex });
+   
 
     // Si la columna seleccionada es la misma que la última, deseleccionarla
     if (lastSelectedColumn === colIndex) {
         // Limpiar resaltado previo
-        vscode.postMessage({ command: 'logMessage', text: 'Limpiar resaltado previo' });
         table.querySelectorAll('td, th').forEach(cell => {
             cell.classList.remove('selected-column');
         });
         lastSelectedColumn = null; // Restablecer la selección
         return; // Salir de la función
     }
-    vscode.postMessage({ command: 'logMessage', text: 'AAA' });
     // Limpiar resaltado previo
     table.querySelectorAll('td, th').forEach(cell => {
-        vscode.postMessage({ command: 'logMessage', text: 'Limpiar resaltado previoP' });
         cell.classList.remove('selected-column');
     });
 
-    vscode.postMessage({ command: 'logMessage', text: 'BBB' });
     // Recopilar datos de la columna seleccionada y resaltar celdas
     rows.forEach(row => {
-        vscode.postMessage({ command: 'logMessage', text: 'Recopilar datos de la columna seleccionada y resaltar celdas' });
         const cell = row.cells[colIndex];
         if (cell) {
-            vscode.postMessage({ command: 'logMessage', text: 'BBB2: ' + cell.textContent });
             columnData.push(cell.textContent.trim());
             cell.classList.add('selected-column');
-            vscode.postMessage({ command: 'logMessage', text: 'BBB3: ' + cell.classList });
-            vscode.postMessage({ command: 'logMessage', text: 'BBB4: ' + getComputedStyle(cell).color });
         }
     });
 
-    vscode.postMessage({ command: 'logMessage', text: 'CCC' });
     // Resaltar el encabezado de la columna seleccionada
     const headerCell = table.querySelector(`thead th:nth-child(${colIndex + 1})`);
     if (headerCell) {
-        vscode.postMessage({ command: 'logMessage', text: 'Resaltar el encabezado de la columna seleccionada' });
         headerCell.classList.add('selected-column');
     }
 
-    vscode.postMessage({ command: 'logMessage', text: 'DDD' });
     // Copiar los datos al portapapeles
     const columnText = columnData.join('\n'); // Unir los datos con saltos de línea
     navigator.clipboard.writeText(columnText).then(() => {
@@ -379,11 +373,7 @@ function seleccionarColumna(colIndex) {
         vscode.postMessage({ command: 'logMessage', text: 'Error al copiar al portapapeles:' + err });
     });
 
-    vscode.postMessage({ command: 'logMessage', text: 'EEE' });
     // Actualizar la última columna seleccionada
     lastSelectedColumn = colIndex;
-    vscode.postMessage({ command: 'logMessage', text: 'lastSelectedColumn: ' + lastSelectedColumn });
 
-    const tableContent = document.getElementById("tableContent");
-    vscode.postMessage({ command: 'logMessage', text: 'aquii tableContent.innerHTML: ' + tableContent.innerHTML });
 }
