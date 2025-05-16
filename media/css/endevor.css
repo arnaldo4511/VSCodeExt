@@ -115,3 +115,6 @@ th {
     /*color: black;*/
 }
 
+#tableContent td {
+    text-align: center;
+}
