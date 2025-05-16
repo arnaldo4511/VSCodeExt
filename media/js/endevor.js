@@ -61,7 +61,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
     thExtra.textContent = 'EXTRA';
     thExtra.onclick = () => seleccionarColumna(2); // Llamar a la función al hacer clic
     thExtra.style.cursor = 'pointer'; // Cambiar el cursor al pasar por encima
-    trHeader.appendChild(thExtra);
+    //trHeader.appendChild(thExtra);
 
     const tableBody = document.createElement('tbody');
     tableBody.innerHTML = ''; // Limpiar la tabla antes de agregar nuevos resultados
@@ -158,12 +158,12 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //tdElement.classList.add('row');
         tdExtra.style.width = '200px'; // Establecer ancho fijo
         //divMain.appendChild(tdElement);
-        trContent.appendChild(tdExtra);
+        //trContent.appendChild(tdExtra);
 
         const preExtra = document.createElement('pre');
         preExtra.id = `preExtra-${i}`;
         //preExtra.textContent = `Comando Zowe`;
-        tdExtra.appendChild(preExtra);
+        tdElement.appendChild(preExtra);
 
         if (!elemento || !environment || !stage || !system || !subSystem || !type || !ccid) {
             preElement.innerHTML = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
@@ -319,7 +319,7 @@ window.addEventListener('message', (event) => {
 
             if (preElement) {
                 preElement.innerHTML = resultText || 'No se encontraron datos JSON válidos.';
-                preExtra.textContent = resultExtraText;
+                preExtra.innerHTML = resultExtraText;
                 vscode.postMessage({ command: 'logMessage', text: 'stdout: ' + stdout });
 
             }
