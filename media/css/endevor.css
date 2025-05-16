@@ -115,6 +115,11 @@ th {
     /*color: black;*/
 }
 
-#tableContent td {
+
+td[id^="tdElement-"] {
     text-align: center;
+}
+td[id^="tdElement-"] pre {
+    display: inline-block;
+    text-align: left; /* Si quieres que el texto dentro del <pre> siga alineado a la izquierda */
 }
