@@ -120,8 +120,8 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
 
         const tdElement = document.createElement('td');
         tdElement.id = `tdElement-${i}`;
-        tdElement.classList.add('row');
-        tdElement.style.width = '200px'; // Establecer ancho fijo
+        //tdElement.classList.add('row');
+        tdElement.style.width = '400px'; // Establecer ancho fijo
         //divMain.appendChild(tdElement);
         //tdElement.innerHTML = 'fffff';
         trContent.appendChild(tdElement);
