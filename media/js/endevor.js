@@ -279,7 +279,14 @@ window.addEventListener('message', (event) => {
                         formatSysName + blank +
                         formatSbsName + blank + '\n';
 
+                    resultTextGlobal += formatElmName + blank +
+                        formatTypeName + blank +
+                        formatEnvName + blank +
+                        formatStgId + blank +
+                        formatSysName + blank +
+                        formatSbsName + blank + '\n';
 
+                    vscode.postMessage({ command: 'logMessage', text: 'resultTextGlobalIn: ' + resultTextGlobal });
 
                     resultExtraText +=
                         formatElmVVLL + blank +
