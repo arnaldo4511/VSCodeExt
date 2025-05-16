@@ -320,10 +320,6 @@ window.addEventListener('message', (event) => {
                 preExtra.textContent = resultExtraText;
                 vscode.postMessage({ command: 'logMessage', text: 'stdout: ' + stdout });
 
-                // Acumular el resultado
-                resultTextGlobal += resultText;
-
-                vscode.postMessage({ command: 'logMessage', text: 'resultTextGlobalIn: ' + resultTextGlobal });
             }
 
 
@@ -415,6 +411,8 @@ document.getElementById('exportarTxt').addEventListener('click', () => {
         command: 'exportarTxtBackend',
         content: resultTextGlobal // o la variable que acumula tu texto
     });
+
+    resultTextGlobal = '';
 
     // Crea un blob con el contenido acumulado
     const blob = new Blob([resultTextGlobal], { type: 'text/plain' });
