@@ -120,7 +120,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
 
         const tdElement = document.createElement('td');
         tdElement.id = `tdElement-${i}`;
-        //tdElement.classList.add('row');
+        tdElement.classList.add('rowSingle');
         tdElement.style.width = '400px'; // Establecer ancho fijo
         //divMain.appendChild(tdElement);
         //tdElement.innerHTML = 'fffff';
