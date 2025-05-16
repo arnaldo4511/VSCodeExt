@@ -8,6 +8,8 @@ const elementoValue = document.getElementById('elementosInput').value;
 
 document.getElementById('elementosBuscar').addEventListener('click', async () => {
 
+    resultTextGlobal = '';
+
     //vscode.postMessage({ command: 'logMessage', text: "clickJs" });
 
     const elementoValue = document.getElementById('elementosInput').value;
