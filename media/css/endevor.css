@@ -51,7 +51,7 @@ textarea {
 .rowSingle {
     display: flex;
     /* Alinear elementos horizontalmente */
-    flex-direction: row;
+    /*flex-direction: row;
     /* Mantener los elementos en una fila */
     align-items: flex-start;
     /* Alinear el contenido al inicio verticalmente */
