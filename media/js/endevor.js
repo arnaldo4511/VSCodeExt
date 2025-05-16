@@ -1,5 +1,7 @@
 const vscode = acquireVsCodeApi();
 
+let resultTextGlobal = '';
+
 //vscode.postMessage({ command: 'logMessage', text: "clickJs" });
 
 const elementoValue = document.getElementById('elementosInput').value;
@@ -96,19 +98,19 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         tdBusqueda.style.width = '150px'; // Establecer ancho fijo
         trContent.appendChild(tdBusqueda);
 
-        const spanBusqueda = document.createElement('span');
-        spanBusqueda.innerHTML = '<span style="display: inline-block; width: 100px;">Elemento:</span><b>' + elemento + '</b><br>' +
-            '<span style="display: inline-block; width: 100px;">Environment:</span><b>' + environment + '</b><br>' +
-            '<span style="display: inline-block; width: 100px;">Stage:</span><b>' + stage + '</b><br>' +
-            '<span style="display: inline-block; width: 100px;">System:</span><b>' + system + '</b><br>' +
-            '<span style="display: inline-block; width: 100px;">SubSystem:</span><b>' + subSystem + '</b><br>' +
-            '<span style="display: inline-block; width: 100px;">Type:</span><b>' + type + '</b><br>' +
-            '<span style="display: inline-block; width: 100px;">CCID:</span><b>' + ccid + '</b><br>';
+        const preBusqueda = document.createElement('pre');
+        preBusqueda.innerHTML =
+            'Elemento:      <b>' + elemento + '</b><br>' +
+            'Environment:   <b>' + environment + '</b><br>' +
+            'Stage:         <b>' + stage + '</b><br>' +
+            'System:        <b>' + system + '</b><br>' +
+            'SubSystem:     <b>' + subSystem + '</b><br>' +
+            'Type:          <b>' + type + '</b><br>' +
+            'CCID:          <b>' + ccid + '</b><br>';
 
-
-        spanBusqueda.style.fontWeight = 'normal'; // Aplicar negrita directamente
-        //spanBusqueda.style.width = '200px'; // Establecer ancho fijo
-        tdBusqueda.appendChild(spanBusqueda);
+        preBusqueda.style.fontWeight = 'normal'; // Aplicar negrita directamente
+        //preBusqueda.style.width = '200px'; // Establecer ancho fijo
+        tdBusqueda.appendChild(preBusqueda);
 
 
 
@@ -204,7 +206,11 @@ window.addEventListener('message', (event) => {
 
         const stdout = message.response;
 
+
+
         try {
+
+
             // Dividir la respuesta en líneas
             const lines = stdout.split('\n');
 
@@ -215,6 +221,9 @@ window.addEventListener('message', (event) => {
 
             lines.forEach((line) => {
                 try {
+
+
+
                     // Intentar analizar la línea como JSON
                     const jsonResponse = JSON.parse(line);
 
@@ -271,6 +280,7 @@ window.addEventListener('message', (event) => {
                         formatSbsName + blank + '\n';
 
 
+
                     resultExtraText +=
                         formatElmVVLL + blank +
                         formatProcGrpName + blank +
@@ -302,7 +312,13 @@ window.addEventListener('message', (event) => {
                 preElement.innerHTML = resultText || 'No se encontraron datos JSON válidos.';
                 preExtra.textContent = resultExtraText;
                 vscode.postMessage({ command: 'logMessage', text: 'stdout: ' + stdout });
+
+                // Acumular el resultado
+                resultTextGlobal += resultText;
             }
+
+
+
         } catch (error) {
             // Si ocurre un error general, mostrar la respuesta completa
             const preElementId = `result-${message.index}`;
@@ -320,7 +336,9 @@ window.addEventListener('message', (event) => {
             //setTimeout(() => progressBar.remove(), 1000); // Eliminar la barra después de 1 segundo
         }
 
-        
+
+
+
     }
 });
 
@@ -331,7 +349,7 @@ function seleccionarColumna(colIndex) {
     const rows = table.querySelectorAll('tbody tr');
     const columnData = [];
 
-   
+
 
     // Si la columna seleccionada es la misma que la última, deseleccionarla
     if (lastSelectedColumn === colIndex) {
@@ -376,3 +394,37 @@ function seleccionarColumna(colIndex) {
     lastSelectedColumn = colIndex;
 
 }
+
+
+document.getElementById('exportarTxt').addEventListener('click', () => {
+
+    vscode.postMessage({ command: 'logMessage', text: 'in' });
+
+    // Crea un blob con el contenido acumulado
+    const blob = new Blob([resultTextGlobal], { type: 'text/plain' });
+    vscode.postMessage({ command: 'logMessage', text: 'blob :' + blob });
+
+    const url = URL.createObjectURL(blob);
+    vscode.postMessage({ command: 'logMessage', text: 'url :' + url });
+
+    // Crea un enlace temporal y simula el click
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'resultado.txt';
+    document.body.appendChild(a);
+    a.click();
+
+    alert('here');
+
+    setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        alert('Si no ves el archivo "resultado.txt" en tu carpeta de descargas, revisa la configuración de seguridad de VS Code o intenta abrir la WebView en una ventana separada.');
+    }, 1000);
+
+    vscode.postMessage({ command: 'logMessage', text: 'a.textContent :' + a.textContent });
+
+    // Limpia el enlace temporal
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+});
