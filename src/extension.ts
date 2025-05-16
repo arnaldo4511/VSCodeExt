@@ -72,7 +72,7 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
 
 
     // Escuchar mensajes desde el Webview
-    panel.webview.onDidReceiveMessage((message) => {
+    panel.webview.onDidReceiveMessage(async (message) => {
         // Mostrar mensaje en log
         if (message.command === 'logMessage') {
             logChannel.appendLine(`Mensaje desde el Webview: ${message.text}`);
@@ -107,6 +107,18 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                     index: message.index
                 });
             });
+        }
+
+        if (message.command === 'exportarTxtBackend') {
+            // Mostrar diálogo para elegir ubicación y nombre del archivo
+            const uri = await vscode.window.showSaveDialog({
+                defaultUri: vscode.Uri.file('resultado.txt'),
+                filters: { 'Text Files': ['txt'] }
+            });
+            if (uri) {
+                fs.writeFileSync(uri.fsPath, message.content, 'utf8');
+                vscode.window.showInformationMessage('Archivo exportado correctamente: ' + uri.fsPath);
+            }
         }
     });
 

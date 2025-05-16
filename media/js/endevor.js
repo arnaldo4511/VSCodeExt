@@ -315,6 +315,8 @@ window.addEventListener('message', (event) => {
 
                 // Acumular el resultado
                 resultTextGlobal += resultText;
+
+                vscode.postMessage({ command: 'logMessage', text: 'resultTextGlobalIn: ' + resultTextGlobal });
             }
 
 
@@ -399,6 +401,13 @@ function seleccionarColumna(colIndex) {
 document.getElementById('exportarTxt').addEventListener('click', () => {
 
     vscode.postMessage({ command: 'logMessage', text: 'in' });
+
+    vscode.postMessage({ command: 'logMessage', text: 'resultTextGlobal: ' + resultTextGlobal });
+
+    vscode.postMessage({
+        command: 'exportarTxtBackend',
+        content: resultTextGlobal // o la variable que acumula tu texto
+    });
 
     // Crea un blob con el contenido acumulado
     const blob = new Blob([resultTextGlobal], { type: 'text/plain' });
