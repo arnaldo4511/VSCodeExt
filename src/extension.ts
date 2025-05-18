@@ -112,7 +112,7 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
         if (message.command === 'exportarTxtBackend') {
             // Mostrar diálogo para elegir ubicación y nombre del archivo
             const uri = await vscode.window.showSaveDialog({
-                defaultUri: vscode.Uri.file('resultado.txt'),
+                defaultUri: vscode.Uri.file('DESCARGAR.txt'),
                 filters: { 'Text Files': ['txt'] }
             });
             if (uri) {

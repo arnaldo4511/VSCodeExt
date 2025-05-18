@@ -349,96 +349,56 @@ window.addEventListener('message', (event) => {
     }
 });
 
-let lastSelectedColumn = null; // Variable para rastrear la última columna seleccionada
 
-function seleccionarColumna(colIndex) {
+
+
+function getResultadoColumnText() {
     const table = document.getElementById('tableContent');
     const rows = table.querySelectorAll('tbody tr');
-    const columnData = [];
-
-
-
-    // Si la columna seleccionada es la misma que la última, deseleccionarla
-    if (lastSelectedColumn === colIndex) {
-        // Limpiar resaltado previo
-        table.querySelectorAll('td, th').forEach(cell => {
-            cell.classList.remove('selected-column');
-        });
-        lastSelectedColumn = null; // Restablecer la selección
-        return; // Salir de la función
-    }
-    // Limpiar resaltado previo
-    table.querySelectorAll('td, th').forEach(cell => {
-        cell.classList.remove('selected-column');
-    });
-
-    // Recopilar datos de la columna seleccionada y resaltar celdas
+    const resultadoLines = [];
     rows.forEach(row => {
-        const cell = row.cells[colIndex];
+        const cell = row.cells[1]; // Columna RESULTADO (índice 1)
         if (cell) {
-            columnData.push(cell.textContent.trim());
-            cell.classList.add('selected-column');
+            // Obtén el texto y filtra líneas que no empiezan con "ELEMENT"
+            const lines = cell.textContent.split('\n').filter(line => !line.trim().startsWith('ELEMENT'));
+            resultadoLines.push(...lines);
         }
     });
-
-    // Resaltar el encabezado de la columna seleccionada
-    const headerCell = table.querySelector(`thead th:nth-child(${colIndex + 1})`);
-    if (headerCell) {
-        headerCell.classList.add('selected-column');
-    }
-
-    // Copiar los datos al portapapeles
-    const columnText = columnData.join('\n'); // Unir los datos con saltos de línea
-    navigator.clipboard.writeText(columnText).then(() => {
-        //alert('Columna copiada al portapapeles:\n' + columnText);
-        vscode.postMessage({ command: 'logMessage', text: 'Columna copiada al portapapeles:\n' + columnText });
-    }).catch(err => {
-        //console.error('Error al copiar al portapapeles:', err);
-        vscode.postMessage({ command: 'logMessage', text: 'Error al copiar al portapapeles:' + err });
-    });
-
-    // Actualizar la última columna seleccionada
-    lastSelectedColumn = colIndex;
-
+    // Une todas las líneas, separadas por salto de línea
+    return resultadoLines.join('\n');
 }
+
 
 
 document.getElementById('exportarTxt').addEventListener('click', () => {
 
-    vscode.postMessage({ command: 'logMessage', text: 'in' });
+    const resultadoTxt = getResultadoColumnText();
 
-    vscode.postMessage({ command: 'logMessage', text: 'resultTextGlobal: ' + resultTextGlobal });
+
 
     vscode.postMessage({
         command: 'exportarTxtBackend',
-        content: resultTextGlobal // o la variable que acumula tu texto
+        content: resultadoTxt // o la variable que acumula tu texto
     });
 
-    resultTextGlobal = '';
-
     // Crea un blob con el contenido acumulado
-    const blob = new Blob([resultTextGlobal], { type: 'text/plain' });
-    vscode.postMessage({ command: 'logMessage', text: 'blob :' + blob });
+    const blob = new Blob([resultadoTxt], { type: 'text/plain' });
 
     const url = URL.createObjectURL(blob);
-    vscode.postMessage({ command: 'logMessage', text: 'url :' + url });
 
     // Crea un enlace temporal y simula el click
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'resultado.txt';
+    a.download = 'DESCARGAR.txt';
     document.body.appendChild(a);
     a.click();
 
-    alert('here');
 
     setTimeout(() => {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        alert('Si no ves el archivo "resultado.txt" en tu carpeta de descargas, revisa la configuración de seguridad de VS Code o intenta abrir la WebView en una ventana separada.');
     }, 1000);
 
-    vscode.postMessage({ command: 'logMessage', text: 'a.textContent :' + a.textContent });
 
     // Limpia el enlace temporal
     document.body.removeChild(a);
