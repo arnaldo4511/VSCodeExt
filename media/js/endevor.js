@@ -52,7 +52,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
     trHeader.appendChild(thBusqueda);
 
     const thData = document.createElement('th');
-    thData.textContent = 'DATA';
+    thData.textContent = 'RESULTADO';
     thData.onclick = () => seleccionarColumna(1); // Llamar a la función al hacer clic
     thData.style.cursor = 'pointer'; // Cambiar el cursor al pasar por encima
     trHeader.appendChild(thData);
@@ -320,7 +320,7 @@ window.addEventListener('message', (event) => {
             if (preElement) {
                 preElement.innerHTML = resultText || 'No se encontraron datos JSON válidos.';
                 preExtra.innerHTML = resultExtraText;
-                vscode.postMessage({ command: 'logMessage', text: 'stdout: ' + stdout });
+                //vscode.postMessage({ command: 'logMessage', text: 'stdout: ' + stdout });
 
             }
 
@@ -443,4 +443,18 @@ document.getElementById('exportarTxt').addEventListener('click', () => {
     // Limpia el enlace temporal
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+});
+
+
+const textarea = document.getElementById('elementosInput');
+const MAX_ROWS = 10;
+
+textarea.addEventListener('input', function () {
+    const lines = textarea.value.split('\n');
+    if (lines.length > MAX_ROWS) {
+        textarea.value = lines.slice(0, MAX_ROWS).join('\n');
+        // Opcional: notificar al usuario
+        vscode.postMessage({ command: 'logMessage', text: '[ALERTA] Solo se permiten ' + MAX_ROWS + ' filas.' });
+        //alert('Solo se permiten ' + MAX_ROWS + ' filas.');
+    }
 });

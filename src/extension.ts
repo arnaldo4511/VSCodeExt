@@ -75,7 +75,7 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
     panel.webview.onDidReceiveMessage(async (message) => {
         // Mostrar mensaje en log
         if (message.command === 'logMessage') {
-            logChannel.appendLine(`Mensaje desde el Webview: ${message.text}`);
+            logChannel.appendLine(`Mensaje: ${message.text}`);
             logChannel.show(); // Mostrar el canal de log (opcional)
         }
 
