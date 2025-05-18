@@ -1,6 +1,5 @@
 const vscode = acquireVsCodeApi();
 
-let resultTextGlobal = '';
 
 //vscode.postMessage({ command: 'logMessage', text: "clickJs" });
 
@@ -8,7 +7,6 @@ const elementoValue = document.getElementById('elementosInput').value;
 
 document.getElementById('elementosBuscar').addEventListener('click', async () => {
 
-    resultTextGlobal = '';
 
     //vscode.postMessage({ command: 'logMessage', text: "clickJs" });
 
@@ -232,7 +230,19 @@ window.addEventListener('message', (event) => {
                     //vscode.postMessage({ command: 'logMessage', text: 'jsonResponse: ' + jsonResponse });
 
                     // Extraer los campos específicos del JSON
-                    const { elmName, typeName, envName, stgId, sysName, sbsName, elmVVLL, procGrpName, elmLastLLDate, elmLastLLCcid } = jsonResponse;
+                    const { 
+                        elmName, 
+                        typeName, 
+                        envName, 
+                        stgId, 
+                        sysName, 
+                        sbsName, 
+                        elmVVLL, 
+                        procGrpName, 
+                        elmLastLLDate, 
+                        elmLastLLCcid,
+                        signoutId 
+                    } = jsonResponse;
 
                     const blank = ' ';
                     const formatElmName = elmName.padEnd(12, ' ');
@@ -245,6 +255,8 @@ window.addEventListener('message', (event) => {
                     const formatElmVVLL = elmVVLL.padEnd(4, ' ');
                     const formatProcGrpName = procGrpName.padEnd(8, ' ');
                     const formatElmLastLLCcid = elmLastLLCcid.padEnd(11, ' ');
+                    const formatSignoutId = signoutId.padEnd(6, ' ');
+                    
 
                     if (!headerAdded) {
                         const headerElement = 'ELEMENT --  ';
@@ -257,6 +269,7 @@ window.addEventListener('message', (event) => {
                         const headerElmVVLL = 'VVLL';
                         const headerProcGrpName = 'PROCGRP ';
                         const headerElmLastLLCcid = 'CCID';
+                        const headerSignout = 'SIGNOUT';
 
                         resultText += headerElement + blank +
                             headerType + blank +
@@ -269,7 +282,9 @@ window.addEventListener('message', (event) => {
                         resultExtraText +=
                             headerElmVVLL + blank +
                             headerProcGrpName + blank +
-                            headerElmLastLLCcid + '\n';
+                            headerElmLastLLCcid + blank + 
+                            headerSignout + '\n';
+
                         headerAdded = true; // Marcar que la cabecera ya fue agregada
                     }
 
@@ -281,21 +296,11 @@ window.addEventListener('message', (event) => {
                         formatSysName + blank +
                         formatSbsName + blank + '\n';
 
-                    resultTextGlobal += formatElmName + blank +
-                        formatTypeName + blank +
-                        formatEnvName + blank +
-                        formatStgId + blank +
-                        formatSysName + blank +
-                        formatSbsName + blank + '\n';
-
-                    vscode.postMessage({ command: 'logMessage', text: 'resultTextGlobalIn: ' + resultTextGlobal });
-
                     resultExtraText +=
                         formatElmVVLL + blank +
                         formatProcGrpName + blank +
-                        formatElmLastLLCcid + '\n';
-
-
+                        formatElmLastLLCcid + blank +
+                        formatSignoutId + '\n';
 
                 } catch (jsonError) {
                     // Si la línea no es un JSON válido, ignorarla
@@ -353,16 +358,15 @@ window.addEventListener('message', (event) => {
 
 
 function getResultadoColumnText() {
-    const table = document.getElementById('tableContent');
-    const rows = table.querySelectorAll('tbody tr');
+    // Selecciona todos los <pre> cuyo id comienza con "result-"
+    const preElements = document.querySelectorAll('pre[id^="result-"]');
     const resultadoLines = [];
-    rows.forEach(row => {
-        const cell = row.cells[1]; // Columna RESULTADO (índice 1)
-        if (cell) {
-            // Obtén el texto y filtra líneas que no empiezan con "ELEMENT"
-            const lines = cell.textContent.split('\n').filter(line => !line.trim().startsWith('ELEMENT'));
-            resultadoLines.push(...lines);
-        }
+    preElements.forEach(pre => {
+        // Divide el contenido en líneas, filtra las que no empiezan con "ELEMENT" y no están vacías
+        const lines = pre.textContent
+            .split('\n')
+            .filter(line => line.trim() !== '' && !line.trim().startsWith('ELEMENT'));
+        resultadoLines.push(...lines);
     });
     // Une todas las líneas, separadas por salto de línea
     return resultadoLines.join('\n');
