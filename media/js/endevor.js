@@ -257,6 +257,8 @@ window.addEventListener('message', (event) => {
                     const formatElmVVLL = elmVVLL.padEnd(4, ' ');
                     const formatProcGrpName = procGrpName.padEnd(8, ' ');
                     const formatElmLastLLCcid = elmLastLLCcid.padEnd(11, ' ');
+
+                    vscode.postMessage({ command: 'logMessage', text: 'signoutId: ' + signoutId });
                     const formatSignoutId = signoutId.padEnd(6, ' ');
 
                     vscode.postMessage({ command: 'logMessage', text: 'formatSignoutId: ' + formatSignoutId });
