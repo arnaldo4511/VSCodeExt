@@ -2,7 +2,7 @@
   "name": "zos-dev",
   "displayName": "zOS-Dev",
   "description": "",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "publisher": "ArnaldoRamirez",
   "engines": {
     "vscode": "^1.99.0"
