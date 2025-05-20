@@ -230,19 +230,17 @@ window.addEventListener('message', (event) => {
                     vscode.postMessage({ command: 'logMessage', text: 'jsonResponse: ' + jsonResponse });
 
                     // Extraer los campos específicos del JSON
-                    const {
-                        elmName = '',
-                        typeName = '',
-                        envName = '',
-                        stgId = '',
-                        sysName = '',
-                        sbsName = '',
-                        elmVVLL = '',
-                        procGrpName = '',
-                        elmLastLLDate = '',
-                        elmLastLLCcid = '',
-                        signoutId = ' '
-                    } = jsonResponse;
+                    const elmName = (jsonResponse.elmName ?? '').toString();
+                    const typeName = (jsonResponse.typeName ?? '').toString();
+                    const envName = (jsonResponse.envName ?? '').toString();
+                    const stgId = (jsonResponse.stgId ?? '').toString();
+                    const sysName = (jsonResponse.sysName ?? '').toString();
+                    const sbsName = (jsonResponse.sbsName ?? '').toString();
+                    const elmVVLL = (jsonResponse.elmVVLL ?? '').toString();
+                    const procGrpName = (jsonResponse.procGrpName ?? '').toString();
+                    const elmLastLLDate = (jsonResponse.elmLastLLDate ?? '').toString();
+                    const elmLastLLCcid = (jsonResponse.elmLastLLCcid ?? '').toString();
+                    const signoutId = (jsonResponse.signoutId ?? '').toString();
 
                     vscode.postMessage({ command: 'logMessage', text: 'signoutId: ' + signoutId });
 
