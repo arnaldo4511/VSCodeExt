@@ -3,53 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DESLOGUE Webview</title>
+    <title>DESLOGUE</title>
+    <link rel="stylesheet" href="css/deslogue.css"> <!-- Enlace al archivo CSS -->
 </head>
 <body>
-    <h1>DESLOGUE Webview</h1>
-    <p>Este es el contenido del Webview para DESLOGUE.</p>
+    <h1>DESLOGUE</h1>
     <div class="row">
         <label for="matriculaInput">Matricula:</label>
         <input type="text" id="matriculaInput" value="" />
-
+        <button id="desloguearBuscar">Desloguear</button>
         <div class="row">
-            <button id="desloguearBuscar">Desloguear</button>
+            
             <progress id="progressBar" style="display: none;" max="100"></progress>
         </div>
 
     </div>
-    <pre id="output">La respuesta del comando aparecerá aquí...</pre>
+    <pre id="output"></pre>
 
-    <script>
-        const vscode = acquireVsCodeApi();
-
-        document.getElementById('desloguearBuscar').addEventListener('click', () => {
-            const matriculaValue = document.getElementById('matriculaInput').value;
-
-            // Mostrar el progreso
-            const progressBar = document.getElementById('progressBar');
-            progressBar.style.display = 'block';
-
-            // Enviar el comando al backend
-            vscode.postMessage({
-                command: 'runZoweCommand',
-                zoweCommand: `zowe tso issue cmd "EX 'T09579.JCLLIB(DESLOGUE)' '${matriculaValue}'" -a 9999/UTI/00` // Comando Zowe CLI
-            });
-        });
-
-        // Escuchar mensajes desde el backend
-        window.addEventListener('message', (event) => {
-            const message = event.data;
-
-            if (message.command === 'zoweResponse') {
-                // Mostrar la respuesta en el <pre>
-                document.getElementById('output').textContent = message.response;
-
-                // Ocultar el progreso
-                document.getElementById('progressBar').style.display = 'none';
-            }
-        });
-    </script>
+    <script src="js/deslogue.js"></script> <!-- Enlace al archivo JavaScript -->
 
 </body>
 </html>

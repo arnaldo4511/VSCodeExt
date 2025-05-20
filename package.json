@@ -2,7 +2,7 @@
   "name": "zos-dev",
   "displayName": "zOS-Dev",
   "description": "",
-  "version": "0.0.2",
+  "version": "0.0.8",
   "publisher": "ArnaldoRamirez",
   "engines": {
     "vscode": "^1.99.0"
@@ -13,12 +13,6 @@
   "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "vscodeext.helloWorld",
-        "title": "Hello World"
-      }
-    ],
     "viewsContainers": {
       "activitybar": [
         {

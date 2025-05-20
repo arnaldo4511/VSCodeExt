@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ENDEVOR</title>
+    <link rel="stylesheet" href="css/endevor.css"> <!-- Enlace al archivo CSS -->
+</head>
+
+<body>
+    <h1>ENDEVOR</h1>
+
+    <div class="row">
+        <label for="elementosInput" class="bold">Elementos:</label>
+        <button id="elementosBuscar" class="bold">BUSCAR</button>
+        <button id="exportarTxt">FPH</button>
+        <!--p class="bold">Uso:</p> <p>[Element];[Type]</p-->
+        <!--progress id="progressBarMain" style="display: none;" max="100"></progress-->
+    </div>
+
+    <p>Uso: [ELEMENTO];[ENVIRONMENT];[STAGE];[SYSTEM];[SUBSYSTEM];[TYPE];[CCID]</p>
+    <div>
+        <!--div class="row"-->
+        <textarea id="elementosInput" rows="8" cols="20">OFOACTL;BCP*;*;VPLUS*;*;*;*</textarea>
+        <p>Max. 10 consultas</p>
+                
+
+        <!--div class="row"-->
+        <div id="resultsContainer"></div> <!-- Contenedor para los resultados -->
+        <!--/div-->
+        <!--/div-->
+    </div>
+
+    <script src="js/endevor.js"></script> <!-- Enlace al archivo JavaScript -->
+</body>
+
+</html>

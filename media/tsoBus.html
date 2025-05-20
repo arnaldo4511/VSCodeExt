@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSO BUS</title>
+    <link rel="stylesheet" href="css/tsoBus.css"> <!-- Enlace al archivo CSS -->
+</head>
+
+<body>
+    <h1>TSO BUS</h1>
+    <div class="row" style="display: none;">
+        <label for="libreriaInput">Libreria: </label>
+        <input type="text" id="libreriaInput" value="T09579.JCLLIB(BU3)" />
+    </div>
+    <div class="row">
+        <label for="elementoInput">Elemento:</label>
+        <input type="text" id="elementoInput" value="BCVVCU20" />
+
+        <div class="row">
+            <label for="typeSelect">Tipo:</label>
+            <select id="typeSelect">
+                <option value="PRG">PRG</option>
+                <option value="CPY">CPY</option>
+                <option value="JOB">JOB</option>
+                <option value="PRC">PRC</option>
+                <option value="CTL">CTL</option>
+                <option value="OBJ">OBJ</option>
+            </select>
+        </div>
+
+        <div class="row">
+            <button id="elementoBuscar">Buscar</button>
+            <progress id="progressBar" style="display: none;" max="100"></progress>
+        </div>
+
+        <p id="additionalOutput"></p>
+    </div>
+    <p id="commandOutput"></p>
+
+    <p id="errorOutput"></p>
+    <p id="stderrOutput"></p>
+    a
+    <pre id="stdoutOutput"></pre>
+
+    b
+    <pre id="output"></pre>
+
+    <script src="js/tsoBus.js"></script> <!-- Enlace al archivo JavaScript -->
+</body>
+
+</html>
