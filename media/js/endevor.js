@@ -212,9 +212,15 @@ window.addEventListener('message', (event) => {
         );
 
         if (warnLines.length > 0) {
+
+            const preElementId = `result-${message.index}`;
+            const preElement = document.getElementById(preElementId);
+            preElement.innerHTML = 'No se encontraron los elementos';
+
             vscode.postMessage({ command: 'logMessage', text: 'No se encontraron los elementos' });
             // O si prefieres mostrarlo en la UI:
             // alert('No se encontraron los elementos');
+            return;
         }
 
         try {
