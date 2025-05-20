@@ -230,18 +230,18 @@ window.addEventListener('message', (event) => {
                     //vscode.postMessage({ command: 'logMessage', text: 'jsonResponse: ' + jsonResponse });
 
                     // Extraer los campos específicos del JSON
-                    const { 
-                        elmName, 
-                        typeName, 
-                        envName, 
-                        stgId, 
-                        sysName, 
-                        sbsName, 
-                        elmVVLL, 
-                        procGrpName, 
-                        elmLastLLDate, 
-                        elmLastLLCcid,
-                        signoutId 
+                    const {
+                        elmName = '',
+                        typeName = '',
+                        envName = '',
+                        stgId = '',
+                        sysName = '',
+                        sbsName = '',
+                        elmVVLL = '',
+                        procGrpName = '',
+                        elmLastLLDate = '',
+                        elmLastLLCcid = '',
+                        signoutId = ''
                     } = jsonResponse;
 
                     const blank = ' ';
@@ -256,7 +256,7 @@ window.addEventListener('message', (event) => {
                     const formatProcGrpName = procGrpName.padEnd(8, ' ');
                     const formatElmLastLLCcid = elmLastLLCcid.padEnd(11, ' ');
                     const formatSignoutId = signoutId.padEnd(6, ' ');
-                    
+
 
                     if (!headerAdded) {
                         const headerElement = 'ELEMENT --  ';
@@ -268,7 +268,7 @@ window.addEventListener('message', (event) => {
 
                         const headerElmVVLL = 'VVLL';
                         const headerProcGrpName = 'PROCGRP ';
-                        const headerElmLastLLCcid = 'CCID';
+                        const headerElmLastLLCcid = 'CCID       ';
                         const headerSignout = 'SIGNOUT';
 
                         resultText += headerElement + blank +
@@ -282,7 +282,7 @@ window.addEventListener('message', (event) => {
                         resultExtraText +=
                             headerElmVVLL + blank +
                             headerProcGrpName + blank +
-                            headerElmLastLLCcid + blank + 
+                            headerElmLastLLCcid + blank +
                             headerSignout + '\n';
 
                         headerAdded = true; // Marcar que la cabecera ya fue agregada
@@ -301,6 +301,9 @@ window.addEventListener('message', (event) => {
                         formatProcGrpName + blank +
                         formatElmLastLLCcid + blank +
                         formatSignoutId + '\n';
+
+                    vscode.postMessage({ command: 'logMessage', text: 'resultText: ' + resultText });
+                    vscode.postMessage({ command: 'logMessage', text: 'resultExtraText: ' + resultExtraText });
 
                 } catch (jsonError) {
                     // Si la línea no es un JSON válido, ignorarla
