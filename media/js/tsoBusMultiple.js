@@ -88,14 +88,14 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
 
 
         // Crear un nuevo <pre> para mostrar el resultado de esta consulta
-        const pElement = document.createElement('p');
-        pElement.id = `resultP-${i}`;
-        pElement.textContent = `${elementoValue} - ${typeValue}`;
-        pElement.style.fontWeight = 'bold'; // Aplicar negrita directamente
+        const preBusqueda = document.createElement('pre');
+        preBusqueda.id = `preElement-${i}`;
+        preBusqueda.textContent = `${elementoValue} - ${typeValue}`;
+        preBusqueda.style.fontWeight = 'bold'; // Aplicar negrita directamente
         //pElement.style.textDecoration = 'underline'; // Aplicar subrayado directamente
-        pElement.style.width = '150px'; // Establecer ancho fijo
-        pElement.classList.add('content');
-        tdBusqueda.appendChild(pElement);
+        preBusqueda.style.width = '150px'; // Establecer ancho fijo
+        preBusqueda.classList.add('content');
+        tdBusqueda.appendChild(preBusqueda);
 
 
         const tdResultado = document.createElement('td');
@@ -157,6 +157,26 @@ window.addEventListener('message', (event) => {
         //progressBar.value = 75;
 
         const stdout = message.response;
+
+        // Después de procesar stdout y antes de mostrar los resultados
+        const warnLines = stdout.split('\n').filter(line =>
+            line.startsWith('[WARN]') && line.includes('No matching elements found.')
+        );
+
+        if (warnLines.length > 0) {
+
+            const preElementId = `result-${message.index}`;
+            const preElement = document.getElementById(preElementId);
+            preElement.innerHTML = 'No se encontraron los elementos';
+
+            progressBar.style.display = 'none';
+
+            //vscode.postMessage({ command: 'logMessage', text: 'No se encontraron los elementos' });
+            // O si prefieres mostrarlo en la UI:
+            // alert('No se encontraron los elementos');
+            return;
+        }
+
 
         // Dividir stdout en líneas
         const lines = stdout.split('\n');
@@ -226,5 +246,19 @@ window.addEventListener('message', (event) => {
         // Ocultar la barra de progreso al finalizar
         //progressBarMain.style.display = 'none';
 
+    }
+});
+
+
+const textarea = document.getElementById('elementosInput');
+const MAX_ROWS = 10;
+
+textarea.addEventListener('input', function () {
+    const lines = textarea.value.split('\n');
+    if (lines.length > MAX_ROWS) {
+        textarea.value = lines.slice(0, MAX_ROWS).join('\n');
+        // Opcional: notificar al usuario
+        vscode.postMessage({ command: 'logMessage', text: '[ALERTA] Solo se permiten ' + MAX_ROWS + ' consultas.' });
+        //alert('Solo se permiten ' + MAX_ROWS + ' filas.');
     }
 });
