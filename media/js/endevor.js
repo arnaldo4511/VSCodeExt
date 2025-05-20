@@ -241,7 +241,7 @@ window.addEventListener('message', (event) => {
                         procGrpName = '',
                         elmLastLLDate = '',
                         elmLastLLCcid = '',
-                        signoutId = ''
+                        signoutId = ' '
                     } = jsonResponse;
 
                     vscode.postMessage({ command: 'logMessage', text: 'signoutId: ' + signoutId });
