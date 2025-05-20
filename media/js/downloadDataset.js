@@ -7,13 +7,14 @@ document.getElementById('datasetBuscar').addEventListener('click', () => {
     const progressBar = document.getElementById('progressBar');
     progressBar.style.display = 'block';
 
-    // Obtener el directorio del espacio de trabajo desde el backend
+    // Solicitar al backend que muestre el diálogo para elegir carpeta y descargue el archivo
     vscode.postMessage({
-        command: 'getWorkspaceFolder'
+        command: 'descargarDataset',
+        datasetName: datasetValue
     });
 
     // Escuchar la respuesta del backend para obtener el directorio
-    window.addEventListener('message', (event) => {
+    /*window.addEventListener('message', (event) => {
         const message = event.data;
 
         if (message.command === 'workspaceFolder') {
@@ -33,7 +34,7 @@ document.getElementById('datasetBuscar').addEventListener('click', () => {
                 zoweCommand: `zowe zos-files download data-set "'${datasetValue}'" -f "${filePath}"`
             });
         }
-    });
+    });*/
 });
 
 // Escuchar mensajes desde el backend

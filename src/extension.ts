@@ -79,6 +79,44 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
             logChannel.show(); // Mostrar el canal de log (opcional)
         }
 
+        if (message.command === 'descargarDataset') {
+            // Mostrar diálogo para elegir carpeta
+            const folderUris = await vscode.window.showOpenDialog({
+                canSelectFolders: true,
+                canSelectFiles: false,
+                canSelectMany: false,
+                openLabel: 'Seleccionar carpeta de destino'
+            });
+
+            if (folderUris && folderUris.length > 0) {
+                const folderPath = folderUris[0].fsPath;
+                const fileName = `${message.datasetName}.txt`;
+                const filePath = path.join(folderPath, fileName);
+
+                // Ejecutar el comando Zowe CLI para descargar el dataset
+                const zoweCommand = `zowe zos-files download data-set "'${message.datasetName}'" -f "${filePath}"`;
+
+                exec(zoweCommand, (error, stdout, stderr) => {
+                    if (error) {
+                        panel.webview.postMessage({
+                            command: 'zoweResponse',
+                            response: `Error: ${stderr || error.message}`
+                        });
+                    } else {
+                        panel.webview.postMessage({
+                            command: 'zoweResponse',
+                            response: `Archivo descargado en: ${filePath}\n${stdout}`
+                        });
+                    }
+                });
+            } else {
+                panel.webview.postMessage({
+                    command: 'zoweResponse',
+                    response: 'Operación cancelada por el usuario.'
+                });
+            }
+        }
+
         if (message.command === 'getWorkspaceFolder') {
             const workspaceFolder = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath || '';
             panel.webview.postMessage({

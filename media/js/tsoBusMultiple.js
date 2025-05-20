@@ -158,24 +158,7 @@ window.addEventListener('message', (event) => {
 
         const stdout = message.response;
 
-        // Después de procesar stdout y antes de mostrar los resultados
-        const warnLines = stdout.split('\n').filter(line =>
-            line.startsWith('[WARN]') && line.includes('No matching elements found.')
-        );
-
-        if (warnLines.length > 0) {
-
-            const preElementId = `result-${message.index}`;
-            const preElement = document.getElementById(preElementId);
-            preElement.innerHTML = 'No se encontraron los elementos';
-
-            progressBar.style.display = 'none';
-
-            //vscode.postMessage({ command: 'logMessage', text: 'No se encontraron los elementos' });
-            // O si prefieres mostrarlo en la UI:
-            // alert('No se encontraron los elementos');
-            return;
-        }
+    
 
 
         // Dividir stdout en líneas
