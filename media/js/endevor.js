@@ -227,7 +227,7 @@ window.addEventListener('message', (event) => {
                     // Intentar analizar la línea como JSON
                     const jsonResponse = JSON.parse(line);
 
-                    vscode.postMessage({ command: 'logMessage', text: 'jsonResponse: ' + jsonResponse });
+                    //vscode.postMessage({ command: 'logMessage', text: 'jsonResponse: ' + jsonResponse });
 
                     // Extraer los campos específicos del JSON
                     const elmName = (jsonResponse.elmName ?? '').toString();
@@ -242,7 +242,7 @@ window.addEventListener('message', (event) => {
                     const elmLastLLCcid = (jsonResponse.elmLastLLCcid ?? '').toString();
                     const signoutId = (jsonResponse.signoutId ?? '').toString();
 
-                    vscode.postMessage({ command: 'logMessage', text: 'signoutId: ' + signoutId });
+                    //vscode.postMessage({ command: 'logMessage', text: 'signoutId: ' + signoutId });
 
                     const blank = ' ';
                     const formatElmName = elmName.padEnd(12, ' ');
@@ -255,11 +255,9 @@ window.addEventListener('message', (event) => {
                     const formatElmVVLL = elmVVLL.padEnd(4, ' ');
                     const formatProcGrpName = procGrpName.padEnd(8, ' ');
                     const formatElmLastLLCcid = elmLastLLCcid.padEnd(11, ' ');
-
-                    vscode.postMessage({ command: 'logMessage', text: 'signoutId: ' + signoutId });
                     const formatSignoutId = signoutId.padEnd(6, ' ');
 
-                    vscode.postMessage({ command: 'logMessage', text: 'formatSignoutId: ' + formatSignoutId });
+                    //vscode.postMessage({ command: 'logMessage', text: 'formatSignoutId: ' + formatSignoutId });
 
                     if (!headerAdded) {
                         const headerElement = 'ELEMENT --  ';
@@ -299,7 +297,6 @@ window.addEventListener('message', (event) => {
                         formatSysName + blank +
                         formatSbsName + blank + '\n';
 
-                    vscode.postMessage({ command: 'logMessage', text: 'formatElmName: ' + formatElmName });
 
                     resultExtraText +=
                         formatElmVVLL + blank +
@@ -307,10 +304,9 @@ window.addEventListener('message', (event) => {
                         formatElmLastLLCcid + blank +
                         formatSignoutId + '\n';
 
-                    vscode.postMessage({ command: 'logMessage', text: 'formatSignoutId: ' + formatSignoutId });
 
-                    vscode.postMessage({ command: 'logMessage', text: 'resultText: ' + resultText });
-                    vscode.postMessage({ command: 'logMessage', text: 'resultExtraText: ' + resultExtraText });
+                    //vscode.postMessage({ command: 'logMessage', text: 'resultText: ' + resultText });
+                    //vscode.postMessage({ command: 'logMessage', text: 'resultExtraText: ' + resultExtraText });
 
                 } catch (jsonError) {
                     // Si la línea no es un JSON válido, ignorarla
