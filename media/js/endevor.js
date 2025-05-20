@@ -259,6 +259,7 @@ window.addEventListener('message', (event) => {
                     const formatElmLastLLCcid = elmLastLLCcid.padEnd(11, ' ');
                     const formatSignoutId = signoutId.padEnd(6, ' ');
 
+                    vscode.postMessage({ command: 'logMessage', text: 'formatSignoutId: ' + formatSignoutId });
 
                     if (!headerAdded) {
                         const headerElement = 'ELEMENT --  ';
@@ -298,11 +299,15 @@ window.addEventListener('message', (event) => {
                         formatSysName + blank +
                         formatSbsName + blank + '\n';
 
+                    vscode.postMessage({ command: 'logMessage', text: 'formatElmName: ' + formatElmName });
+
                     resultExtraText +=
                         formatElmVVLL + blank +
                         formatProcGrpName + blank +
                         formatElmLastLLCcid + blank +
                         formatSignoutId + '\n';
+
+                    vscode.postMessage({ command: 'logMessage', text: 'formatSignoutId: ' + formatSignoutId });
 
                     vscode.postMessage({ command: 'logMessage', text: 'resultText: ' + resultText });
                     vscode.postMessage({ command: 'logMessage', text: 'resultExtraText: ' + resultExtraText });
