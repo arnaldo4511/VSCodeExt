@@ -244,6 +244,8 @@ window.addEventListener('message', (event) => {
                         signoutId = ''
                     } = jsonResponse;
 
+                    vscode.postMessage({ command: 'logMessage', text: 'signoutId: ' + signoutId });
+
                     const blank = ' ';
                     const formatElmName = elmName.padEnd(12, ' ');
                     const formatTypeName = typeName.padEnd(10, ' ');
