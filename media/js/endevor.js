@@ -219,7 +219,7 @@ window.addEventListener('message', (event) => {
 
             progressBar.style.display = 'none';
 
-            vscode.postMessage({ command: 'logMessage', text: 'No se encontraron los elementos' });
+            //vscode.postMessage({ command: 'logMessage', text: 'No se encontraron los elementos' });
             // O si prefieres mostrarlo en la UI:
             // alert('No se encontraron los elementos');
             return;
@@ -244,7 +244,7 @@ window.addEventListener('message', (event) => {
                     // Intentar analizar la línea como JSON
                     const jsonResponse = JSON.parse(line);
 
-                    vscode.postMessage({ command: 'logMessage', text: 'jsonResponse: ' + jsonResponse });
+                    //vscode.postMessage({ command: 'logMessage', text: 'jsonResponse: ' + jsonResponse });
 
                     // Extraer los campos específicos del JSON
                     const elmName = (jsonResponse.elmName ?? '').toString();

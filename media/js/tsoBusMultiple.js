@@ -28,6 +28,32 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
     const resultsContainer = document.getElementById('resultsContainer');
     resultsContainer.innerHTML = ''; // Limpiar resultados previos
 
+    const tableContent = document.createElement('table');
+    tableContent.id = 'tableContent';
+    resultsContainer.appendChild(tableContent);
+
+    const theadContent = document.createElement('thead');
+    tableContent.appendChild(theadContent);
+
+    const trHeader = document.createElement('tr');
+    theadContent.appendChild(trHeader);
+
+    const thBusqueda = document.createElement('th');
+    thBusqueda.textContent = 'BUSQUEDA';
+    thBusqueda.onclick = () => seleccionarColumna(0); // Llamar a la función al hacer clic
+    thBusqueda.style.cursor = 'pointer'; // Cambiar el cursor al pasar por encima
+    trHeader.appendChild(thBusqueda);
+
+    const thData = document.createElement('th');
+    thData.textContent = 'RESULTADO';
+    thData.onclick = () => seleccionarColumna(1); // Llamar a la función al hacer clic
+    thData.style.cursor = 'pointer'; // Cambiar el cursor al pasar por encima
+    trHeader.appendChild(thData);
+
+    const tableBody = document.createElement('tbody');
+    tableBody.innerHTML = ''; // Limpiar la tabla antes de agregar nuevos resultados
+    tableContent.appendChild(tableBody);
+
     // Recorrer cada línea
     for (let i = 0; i < lines.length; i++) {
 
@@ -48,11 +74,18 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
 
         //vscode.postMessage({command: 'logMessage',text: "qqq"});
 
-        const divMain = document.createElement('div');
-        divMain.id = `divMain-${i}`;
-        divMain.classList.add('row');
-        //divMain.style.width = '450px'; // Establecer ancho fijo
-        resultsContainer.appendChild(divMain);
+        const trMain = document.createElement('tr');
+        trMain.id = `trMain-${i}`;
+        //trMain.classList.add('row');
+        //trMain.style.width = '450px'; // Establecer ancho fijo
+        tableBody.appendChild(trMain);
+
+        const tdBusqueda = document.createElement('td');
+        tdBusqueda.id = `tdBusqueda-${i}`;
+        //tdElement.classList.add('row');
+        //tdElement.style.width = '450px'; // Establecer ancho fijo
+        trMain.appendChild(tdBusqueda);
+
 
         // Crear un nuevo <pre> para mostrar el resultado de esta consulta
         const pElement = document.createElement('p');
@@ -62,13 +95,14 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //pElement.style.textDecoration = 'underline'; // Aplicar subrayado directamente
         pElement.style.width = '150px'; // Establecer ancho fijo
         pElement.classList.add('content');
-        divMain.appendChild(pElement);
+        tdBusqueda.appendChild(pElement);
 
-        const divElement = document.createElement('div');
-        divElement.id = `divElement-${i}`;
-        //divElement.classList.add('row');
-        //divElement.style.width = '450px'; // Establecer ancho fijo
-        divMain.appendChild(divElement);
+
+        const tdResultado = document.createElement('td');
+        tdResultado.id = `tdResultado-${i}`;
+        //tdElement.classList.add('row');
+        //tdElement.style.width = '450px'; // Establecer ancho fijo
+        trMain.appendChild(tdResultado);
 
         // Crear una barra de progreso para esta consulta
         const progressBar = document.createElement('progress');
@@ -76,15 +110,15 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //progressBar.max = 100;
         //progressBar.value = 0;
         //progressBar.classList.add('row');
-        divElement.appendChild(progressBar);
+        tdResultado.appendChild(progressBar);
 
         // Crear un nuevo <pre> para mostrar el resultado de esta consulta
         const preElement = document.createElement('pre');
         preElement.id = `result-${i}`;
         preElement.classList.add('content');
-        preElement.textContent = `Procesando: TSO BUS ${typeValue} ${elementoValue} ...`;
+        //preElement.textContent = `Procesando: TSO BUS ${typeValue} ${elementoValue} ...`;
         preElement.style.width = '400px'; // Establecer ancho fijo
-        divElement.appendChild(preElement);
+        tdResultado.appendChild(preElement);
 
         //vscode.postMessage({command: 'logMessage',text: "sss " + preElement.getHTML()});
 
@@ -100,7 +134,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         // Esperar un breve momento para evitar saturar el backend
         await new Promise(resolve => setTimeout(resolve, 500));
 
-        
+
     }
 
 
