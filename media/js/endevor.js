@@ -206,7 +206,16 @@ window.addEventListener('message', (event) => {
 
         const stdout = message.response;
 
+        // Después de procesar stdout y antes de mostrar los resultados
+        const warnLines = stdout.split('\n').filter(line =>
+            line.startsWith('[WARN]') && line.includes('No matching elements found.')
+        );
 
+        if (warnLines.length > 0) {
+            vscode.postMessage({ command: 'logMessage', text: 'No se encontraron los elementos' });
+            // O si prefieres mostrarlo en la UI:
+            // alert('No se encontraron los elementos');
+        }
 
         try {
 
