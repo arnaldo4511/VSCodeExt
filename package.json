@@ -18,7 +18,7 @@
         {
           "id": "vscodeext-activitybar",
           "title": "z/OS Dev",
-          "icon": "./resources/icon.png"
+          "icon": "resources/icons8.png"
         }
       ]
     },
@@ -28,8 +28,7 @@
           "id": "vscodeext-activitybar.vscodeext-view",
           "name": "Herramientas",
           "content": "Hello World",
-          "type": "webview",
-          "icon": "./resources/icon.png"
+          "type": "webview"
         }
       ]
     }

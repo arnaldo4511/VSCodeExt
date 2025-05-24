@@ -35,10 +35,10 @@ export function activate(context: vscode.ExtensionContext) {
 
 
     // Registrar un proveedor de vista para la Activity Bar
-    const myViewProvider = new MyViewProvider(context.extensionUri, context);
-    //context.subscriptions.push(
-    vscode.window.registerWebviewViewProvider('vscodeext-activitybar.vscodeext-view', myViewProvider);
-    //);
+    //const myViewProvider = new MyViewProvider(context.extensionUri, context);
+    context.subscriptions.push(
+        vscode.window.registerWebviewViewProvider('vscodeext-activitybar.vscodeext-view', new MyViewProvider(context.extensionUri, context))
+    );
 
 
 }
@@ -228,6 +228,10 @@ class MyViewProvider implements vscode.WebviewViewProvider {
             enableScripts: true,
             localResourceRoots: [vscode.Uri.file(path.join(this.extensionPath, 'media'))] // Permitir acceso a la carpeta 'media'
         };
+
+        const logChannel = vscode.window.createOutputChannel('Webview Logs');
+        logChannel.appendLine('Mensaje desde MyViewProvider!!!');
+        logChannel.show();
 
 
         // Leer el contenido del archivo HTML
