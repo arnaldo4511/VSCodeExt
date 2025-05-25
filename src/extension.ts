@@ -124,6 +124,8 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                 openLabel: 'Seleccionar carpeta de destino'
             });
 
+            
+
             if (folderUris && folderUris.length > 0) {
                 const folderPath = folderUris[0].fsPath;
                 const fileName = `${message.datasetName}.txt`;
@@ -131,6 +133,8 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
 
                 // Ejecutar el comando Zowe CLI para descargar el dataset
                 const zoweCommand = `zowe zos-files download data-set "'${message.datasetName}'" -f "${filePath}"`;
+                logChannel.appendLine('Comando Zowe CLI: ' + zoweCommand);
+                logChannel.show();
 
                 exec(zoweCommand, (error, stdout, stderr) => {
                     if (error) {
