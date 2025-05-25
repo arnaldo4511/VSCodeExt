@@ -46,7 +46,7 @@ window.addEventListener('message', (event) => {
     }
     if (message.command === 'zoweResponse') {
         // Mostrar la respuesta en el <pre>
-        document.getElementById('output').textContent = message.response;
+        //document.getElementById('output').textContent = message.response;
 
         console.log('Respuesta del backend:', message.response);
         console.log('Índice de la respuesta:', message.index);
@@ -55,10 +55,11 @@ window.addEventListener('message', (event) => {
         const tdResultado = document.getElementById(`result-${message.index}`);
         if (tdResultado) {
             tdResultado.textContent = message.response;
+            document.getElementById(`progress${message.index}`).style.display = 'none';
         }
 
         // Ocultar el progreso
-        document.getElementById('progressBar').style.display = 'none';
+        //document.getElementById('progressBar').style.display = 'none';
     }
 });
 
@@ -69,11 +70,11 @@ function downloadDataset(carpeta) {
     console.log('Carpeta seleccionadaaa:', carpeta);
 
     const datasetValue = document.getElementById('datasetInput');
-    console.log('datasetValue', datasetValue);
-    document.getElementById('output').textContent = ''; // Limpiar el contenido previo
+    //console.log('datasetValue', datasetValue);
+    //document.getElementById('output').textContent = ''; // Limpiar el contenido previo
     // Mostrar el progreso
-    const progressBar = document.getElementById('progressBar');
-    progressBar.style.display = 'block';
+    //const progressBar = document.getElementById('progressBar');
+    //progressBar.style.display = 'block';
 
     const datasets = datasetValue.value
         .split('\n')
@@ -98,11 +99,11 @@ function downloadDataset(carpeta) {
     thead.appendChild(trHead);
 
     const thBusqueda = document.createElement('th');
-    thBusqueda.textContent = 'BUSQUEDA';
+    thBusqueda.textContent = 'ARCHIVO';
     trHead.appendChild(thBusqueda);
 
     const thResultado = document.createElement('th');
-    thResultado.textContent = 'RESULTADO';
+    thResultado.textContent = 'DESTINO';
     trHead.appendChild(thResultado);
 
     // Cuerpo de la tabla
@@ -129,6 +130,10 @@ function downloadDataset(carpeta) {
         tdResultado.id = `result-${i}`;
         tdResultado.textContent = 'Procesando...';
         tr.appendChild(tdResultado);
+
+        const progressBar = document.createElement('progress');
+        progressBar.id = `progress-${i}`;
+        tdResultado.appendChild(progressBar);
 
         // Construir la ruta completa para guardar el archivo
         const filePath = `${carpeta}/${datasetName}.txt`;
