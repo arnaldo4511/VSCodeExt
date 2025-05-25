@@ -11,14 +11,21 @@
 
 <body>
     <h1>DOWNLOAD DATASET</h1>
-    <div class="row">
-        <label for="datasetInput">Dataset:</label>
-        <textarea id="datasetInput" rows="8" cols="40" placeholder="Ingresa un dataset por línea"></textarea>
-        <button id="datasetBuscar">Descargar</button>
-        
 
+    <div class="instructions" style="margin-bottom: 1em;">
+        <strong>Instrucciones:</strong>
+        <ul>
+            <li>Ingresa cada archivo en una línea</li>
+            <li>Puedes descargar hasta <strong>10 elementos</strong> a la vez.</li>
+        </ul>
+    </div>
+
+    <div class="row">
+        <textarea id="datasetInput" rows="8" cols="40"></textarea>
+        <button id="datasetBuscar">Descargar</button>
     </div>
     <!--pre id="output"></pre-->
+    
     <div id="resultsContainer"></div>
     <script src="js/downloadDataset.js"></script> <!-- Enlace al archivo JavaScript -->
 

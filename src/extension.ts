@@ -124,14 +124,14 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                 openLabel: 'Seleccionar carpeta de destino'
             });
 
-            logChannel.appendLine('message.index ts: ' + message.index);
-            logChannel.appendLine('message.datasetName ts: ' + message.datasetName);
-            logChannel.appendLine('folderUris ts: ' + folderUris);
-            logChannel.appendLine('folderUris ts: ' + folderUris?.length);
+            //logChannel.appendLine('message.index ts: ' + message.index);
+            //logChannel.appendLine('message.datasetName ts: ' + message.datasetName);
+            //logChannel.appendLine('folderUris ts: ' + folderUris);
+            //logChannel.appendLine('folderUris ts: ' + folderUris?.length);
 
             if (folderUris && folderUris.length > 0) {
                 const folderPath = folderUris[0].fsPath;
-                logChannel.appendLine('Carpeta seleccionada: ' + folderPath);
+                //logChannel.appendLine('Carpeta seleccionada: ' + folderPath);
 
                 panel.webview.postMessage({
                     command: 'descargarDatasetResponse',
@@ -158,7 +158,9 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
             const zoweCommand = message.zoweCommand;
 
             //logChannel.appendLine('message.index ts: ' + message.index);
-            logChannel.appendLine('Comando Zowe CLI: ' + zoweCommand);
+            //logChannel.appendLine('Comando Zowe CLI: ' + zoweCommand);
+
+            vscode.window.showInformationMessage('Comando Zowe CLI: ' + zoweCommand);
 
             exec(zoweCommand, (error, stdout, stderr) => {
                 if (handleZoweCommandError(panel, error, stderr, message)) {
@@ -173,6 +175,8 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                     response: stdout,
                     index: message.index
                 });
+
+                
             });
         }
 

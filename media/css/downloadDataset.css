@@ -1,6 +1,4 @@
-* {
-    font-family: "Courier New";
-}
+
 
 h1 , label, pre{
     color: white;
@@ -10,4 +8,18 @@ h1 , label, pre{
 
 input {
     font-weight: bold; /* Hacer el texto de los inputs en negrita */
+}
+
+.row {
+    display: flex;
+    /* Alinear elementos horizontalmente */
+    flex-direction: row;
+    /* Mantener los elementos en una fila */
+    align-items: flex-start;
+    /* Alinear el contenido al inicio verticalmente */
+    gap: 20px;
+    /* Espaciado entre los elementos */
+    margin-bottom: 5px;
+    margin-top: 5px;
+
 }

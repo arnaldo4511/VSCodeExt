@@ -4,6 +4,10 @@ table {
     /*margin-top: 10px;*/
 }
 
+h1, label, p, pre{
+    color: white;
+}
+
 th, td {
     border: 1px solid #ccc;
     /*padding: 8px;*/
