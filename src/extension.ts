@@ -124,39 +124,23 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                 openLabel: 'Seleccionar carpeta de destino'
             });
 
+            logChannel.appendLine('message.index ts: ' + message.index);
+            logChannel.appendLine('message.datasetName ts: ' + message.datasetName);
+            logChannel.appendLine('folderUris ts: ' + folderUris);
+            logChannel.appendLine('folderUris ts: ' + folderUris?.length);
+
             if (folderUris && folderUris.length > 0) {
                 const folderPath = folderUris[0].fsPath;
-                // Ahora datasets es un array
-                const datasetList: string[] = Array.isArray(message.datasets) ? message.datasets : [];
+                logChannel.appendLine('Carpeta seleccionada: ' + folderPath);
 
-                for (const datasetName of datasetList) {
-                    const fileName = `${datasetName}.txt`;
-                    const filePath = path.join(folderPath, fileName);
-
-                    const zoweCommand = `zowe zos-files download data-set "'${datasetName}'" -f "${filePath}"`;
-                    logChannel.appendLine('Comando Zowe CLI: ' + zoweCommand);
-                    logChannel.show();
-
-                    await new Promise<void>((resolve) => {
-                        exec(zoweCommand, (error, stdout, stderr) => {
-                            if (error) {
-                                panel.webview.postMessage({
-                                    command: 'zoweResponse',
-                                    response: `Error al descargar ${datasetName}: ${stderr || error.message}`
-                                });
-                            } else {
-                                panel.webview.postMessage({
-                                    command: 'zoweResponse',
-                                    response: `Archivo descargado: ${filePath}\n${stdout}`
-                                });
-                            }
-                            resolve();
-                        });
-                    });
-                }
+                panel.webview.postMessage({
+                    command: 'descargarDatasetResponse',
+                    response: folderPath
+                });
+                
             } else {
                 panel.webview.postMessage({
-                    command: 'zoweResponse',
+                    command: 'descargarDatasetResponse',
                     response: 'Operación cancelada por el usuario.'
                 });
             }
