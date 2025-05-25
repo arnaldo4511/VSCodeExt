@@ -20,8 +20,8 @@ export function activate(context: vscode.ExtensionContext) {
         { command: 'vscodeext.openTsoBusMultipleWebview', viewId: 'tsoBusMultipleWebview', title: 'TSO BUS', htmlFile: 'tsoBusMultiple.html' },
         { command: 'vscodeext.openDestaWebview', viewId: 'destaWebview', title: 'DESTA', htmlFile: 'desta.html' },
         { command: 'vscodeext.openDeslogueWebview', viewId: 'deslogueWebview', title: 'DESLOGUE', htmlFile: 'deslogue.html' },
-        { command: 'vscodeext.openDownloadDatasetWebview', viewId: 'downloadDatasetWebview', title: 'Download Dataset', htmlFile: 'downloadDataset.html' },
-        { command: 'vscodeext.openEndevorWebview', viewId: 'endevorWebview', title: 'Endevor', htmlFile: 'endevor.html' },
+        { command: 'vscodeext.openDownloadDatasetWebview', viewId: 'downloadDatasetWebview', title: 'DOWNLOAD DATASET', htmlFile: 'downloadDataset.html' },
+        { command: 'vscodeext.openEndevorWebview', viewId: 'endevorWebview', title: 'ENDEVOR', htmlFile: 'endevor.html' },
 
     ];
 
@@ -36,11 +36,42 @@ export function activate(context: vscode.ExtensionContext) {
 
     // Registrar un proveedor de vista para la Activity Bar
     //const myViewProvider = new MyViewProvider(context.extensionUri, context);
-    context.subscriptions.push(
+    /*context.subscriptions.push(
         vscode.window.registerWebviewViewProvider('vscodeext-activitybar.vscodeext-view', new MyViewProvider(context.extensionUri, context))
+    );*/
+
+
+    const disposable = vscode.commands.registerCommand(
+        'welcome-view-content-sample.hello',
+        async () => {
+            vscode.window.showInformationMessage('Hello world!');
+        }
+    );
+    context.subscriptions.push(disposable);
+
+
+    const treeDataProvider = new EmptyTreeDataProvider();
+    vscode.window.createTreeView('vscodeext-view', {
+        treeDataProvider
+    });
+
+    // Ejemplo de comando para el enlace del Welcome View
+    context.subscriptions.push(
+        vscode.commands.registerCommand('extension.tuComando', () => {
+            vscode.window.showInformationMessage('¡Bienvenido a z/OS Dev!');
+        })
     );
 
+}
 
+class EmptyTreeDataProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
+    getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
+        return element;
+    }
+    getChildren(element?: vscode.TreeItem): vscode.ProviderResult<vscode.TreeItem[]> {
+        // Devuelve un array vacío para que el Welcome View siempre se muestre
+        return [];
+    }
 }
 
 function createWebview(context: vscode.ExtensionContext, viewId: string, title: string, htmlFileName: string) {
@@ -73,6 +104,11 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
 
     // Escuchar mensajes desde el Webview
     panel.webview.onDidReceiveMessage(async (message) => {
+
+        if (message.command === 'alertaMaxRows') {
+            vscode.window.showWarningMessage(message.text);
+        }
+
         // Mostrar mensaje en log
         if (message.command === 'logMessage') {
             logChannel.appendLine(`Mensaje: ${message.text}`);
@@ -174,6 +210,9 @@ function replacePathsInHtml(
     const cssFileName = htmlFileName.replace('.html', '.css'); // Asumir que el CSS tiene el mismo nombre que el HTML
     const jsFileName = htmlFileName.replace('.html', '.js');   // Asumir que el JS tiene el mismo nombre que el HTML
 
+    // Generar URI para el archivo CSS Style
+    const cssStylePath = vscode.Uri.file(path.join(context.extensionPath, 'media', 'css', "style.css"));
+    const cssStyleUri = panel.webview.asWebviewUri(cssStylePath);
 
     // Generar URI para el archivo CSS
     const cssPath = vscode.Uri.file(path.join(context.extensionPath, 'media', 'css', cssFileName));
@@ -184,6 +223,7 @@ function replacePathsInHtml(
     const jsUri = panel.webview.asWebviewUri(jsPath);
 
     // Reemplazar las rutas en el contenido HTML
+    htmlContent = htmlContent.replace(`css/style.css`, cssStyleUri.toString());
     htmlContent = htmlContent.replace(`css/${cssFileName}`, cssUri.toString());
     htmlContent = htmlContent.replace(`js/${jsFileName}`, jsUri.toString());
 

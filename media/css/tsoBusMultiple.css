@@ -1,6 +1,6 @@
-* {
+/* {
     font-family: "Courier New";
-}
+}*/
 
 h1, label, p, pre{
     color: white;
@@ -12,15 +12,14 @@ h1, label, p, pre{
     white-space: pre-wrap; /* Mantener saltos de línea y ajustar el texto */
 }
 
-button {
-    font-weight: bold; /* Hacer el texto del botón en negrita */
-}
+
 
 input {
     font-weight: bold; /* Hacer el texto de los inputs en negrita */
 }
 
 textarea {
+    font-family: "Courier New";
     width: 150px; /* Ancho fijo */
     font-weight: bold; /* Mantener el texto en negrita */
     resize: none; /* Opcional: Deshabilitar el redimensionamiento */
@@ -82,7 +81,4 @@ th {
     color: white;
 }
 
-pre {
-    margin: 0;
-    padding: 0;
-}
+
