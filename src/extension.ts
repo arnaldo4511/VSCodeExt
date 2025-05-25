@@ -124,31 +124,36 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                 openLabel: 'Seleccionar carpeta de destino'
             });
 
-            
-
             if (folderUris && folderUris.length > 0) {
                 const folderPath = folderUris[0].fsPath;
-                const fileName = `${message.datasetName}.txt`;
-                const filePath = path.join(folderPath, fileName);
+                // Ahora datasets es un array
+                const datasetList: string[] = Array.isArray(message.datasets) ? message.datasets : [];
 
-                // Ejecutar el comando Zowe CLI para descargar el dataset
-                const zoweCommand = `zowe zos-files download data-set "'${message.datasetName}'" -f "${filePath}"`;
-                logChannel.appendLine('Comando Zowe CLI: ' + zoweCommand);
-                logChannel.show();
+                for (const datasetName of datasetList) {
+                    const fileName = `${datasetName}.txt`;
+                    const filePath = path.join(folderPath, fileName);
 
-                exec(zoweCommand, (error, stdout, stderr) => {
-                    if (error) {
-                        panel.webview.postMessage({
-                            command: 'zoweResponse',
-                            response: `Error: ${stderr || error.message}`
+                    const zoweCommand = `zowe zos-files download data-set "'${datasetName}'" -f "${filePath}"`;
+                    logChannel.appendLine('Comando Zowe CLI: ' + zoweCommand);
+                    logChannel.show();
+
+                    await new Promise<void>((resolve) => {
+                        exec(zoweCommand, (error, stdout, stderr) => {
+                            if (error) {
+                                panel.webview.postMessage({
+                                    command: 'zoweResponse',
+                                    response: `Error al descargar ${datasetName}: ${stderr || error.message}`
+                                });
+                            } else {
+                                panel.webview.postMessage({
+                                    command: 'zoweResponse',
+                                    response: `Archivo descargado: ${filePath}\n${stdout}`
+                                });
+                            }
+                            resolve();
                         });
-                    } else {
-                        panel.webview.postMessage({
-                            command: 'zoweResponse',
-                            response: `Archivo descargado en: ${filePath}\n${stdout}`
-                        });
-                    }
-                });
+                    });
+                }
             } else {
                 panel.webview.postMessage({
                     command: 'zoweResponse',

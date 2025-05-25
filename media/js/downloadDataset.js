@@ -1,16 +1,24 @@
 const vscode = acquireVsCodeApi();
 
 document.getElementById('datasetBuscar').addEventListener('click', () => {
-    const datasetValue = document.getElementById('datasetInput').value;
-    document.getElementById('output').textContent =''; // Limpiar el contenido previo
+    const datasetValue = document.getElementById('datasetInput');
+    console.log('datasetValue', datasetValue);
+    document.getElementById('output').textContent = ''; // Limpiar el contenido previo
     // Mostrar el progreso
     const progressBar = document.getElementById('progressBar');
     progressBar.style.display = 'block';
 
+    const datasets = datasetValue.value
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => line.length > 0);
+    console.log('datasets', datasets);
+    //vscode.postMessage({command: 'logMessage',text: "aqui " + filePath});
+
     // Solicitar al backend que muestre el diálogo para elegir carpeta y descargue el archivo
     vscode.postMessage({
         command: 'descargarDataset',
-        datasetName: datasetValue
+        datasets
     });
 
     // Escuchar la respuesta del backend para obtener el directorio
