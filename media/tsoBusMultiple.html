@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TSO BUS</title>
+    <link rel="stylesheet" href="css/style.css"> <!-- Enlace al archivo CSS -->
     <link rel="stylesheet" href="css/tsoBusMultiple.css"> <!-- Enlace al archivo CSS -->
+
 </head>
 
 <body>
@@ -15,25 +17,31 @@
         <input type="text" id="libreriaInput" value="T09579.JCLLIB(BU3)" />
     </div>
 
-    <div class="row">
-        <label for="elementosInput" class="bold">Elementos:</label>
-        <button id="elementosBuscar" class="bold">Buscar</button>
-        <!--p class="bold">Uso:</p> <p>[Element];[Type]</p-->
-        <!--progress id="progressBarMain" style="display: none;" max="100"></progress-->
+
+    <div class="instructions" style="margin-bottom: 1em;">
+        <strong>Instrucciones:</strong>
+        <ul>
+            <li>Ingresa cada elemento en una línea siguiendo el formato: <code class="courier">[ELEMENTO];[TIPO]</code></li>
+            <li>Puedes consultar hasta <strong>10 elementos</strong> a la vez.</li>
+        </ul>
+        <div>
+            <strong>Ejemplo:</strong>
+            <code class="courier">BCVVCU20;PRG</code>
+        </div>
     </div>
-    <p>Uso: [ELEMENTO];[TIPO]</p>
+
     <div class="row">
         <div>
-            <textarea id="elementosInput" rows="15" cols="20">BCVVCU20;PRG</textarea>
-            <p>Max. 10 consultas</p>
+            <textarea data-vscode-context='{"webviewSection": "editor"}' id="elementosInput" rows="15" cols="20"></textarea>
+
         </div>
-        
+        <button id="elementosBuscar">Buscar</button>
         <!--div class="row"-->
-            <div id="resultsContainer"></div> <!-- Contenedor para los resultados -->
+        <div id="resultsContainer"></div> <!-- Contenedor para los resultados -->
         <!--/div-->
 
     </div>
-    
+
 
     <script src="js/tsoBusMultiple.js"></script> <!-- Enlace al archivo JavaScript -->
 </body>

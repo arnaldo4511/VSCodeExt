@@ -1,0 +1,27 @@
+pre {
+    font-family: "Courier New";
+    margin: 0;
+    padding: 0;
+}
+
+#resultsContainer {
+    font-family: "Courier New";
+}
+
+.courier {
+    font-family: "Courier New";
+
+}
+
+button {
+  background: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--vscode-button-hoverBackground);
+}

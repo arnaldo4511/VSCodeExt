@@ -25,13 +25,28 @@
     "views": {
       "vscodeext-activitybar": [
         {
-          "id": "vscodeext-activitybar.vscodeext-view",
-          "name": "Herramientas",
-          "content": "Hello World",
-          "type": "webview"
+          "id": "vscodeext-view",
+          "name": "Herramientas"
         }
       ]
-    }
+    },
+    "viewsWelcome": [
+      {
+        "view": "vscodeext-view",
+        "contents": "[TSO BUS](command:vscodeext.openTsoBusMultipleWebview)\n [ENDEVOR](command:vscodeext.openEndevorWebview)\n\n[DOWNLOAD DATASET](command:vscodeext.openDownloadDatasetWebview)\n [DESTA](command:vscodeext.openDestaWebview)\n [DELOGUE](command:vscodeext.openDeslogueWebview)"
+        
+      }
+    ],
+    "commands": [
+      {
+        "command": "extension.tuComando",
+        "title": "Abrir z/OS Dev"
+      },
+      {
+        "command": "welcome-view-content-sample.hello",
+        "title": "Hello World!"
+      }
+    ]
   },
   "files": [
     "media/**",

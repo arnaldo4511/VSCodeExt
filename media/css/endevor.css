@@ -18,9 +18,7 @@ pre {
     white-space: pre-wrap; /* Mantener saltos de línea y ajustar el texto */
 }
 
-button {
-    font-weight: bold; /* Hacer el texto del botón en negrita */
-}
+
 
 input {
     font-weight: bold; /* Hacer el texto de los inputs en negrita */
@@ -122,4 +120,13 @@ td[id^="tdElement-"] {
 td[id^="tdElement-"] pre {
     display: inline-block;
     text-align: left; /* Si quieres que el texto dentro del <pre> siga alineado a la izquierda */
+}
+
+
+/* Puedes agregar esto en tu archivo endevor.css */
+.button-column {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em; /* Espacio entre botones */
+    align-items: flex-start; /* Opcional: alinea los botones a la izquierda */
 }
