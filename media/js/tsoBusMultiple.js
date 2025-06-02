@@ -69,7 +69,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //vscode.postMessage({command: 'logMessage',text: "i: " + i});
 
         // Generar el comando Zowe CLI
-        const zoweCommandConcat = 'zowe tso issue cmd "EX \'' + libreriaValue + '\' \'' + typeValue + ' ' + elementoValue + '\'" -a 9999/UTI/00 --ru false';
+        const zoweCommandConcat = 'tso issue cmd "EX \'' + libreriaValue + '\' \'' + typeValue + ' ' + elementoValue + '\'" -a 9999/UTI/00 --ru false';
 
 
         //vscode.postMessage({command: 'logMessage',text: "qqq"});
