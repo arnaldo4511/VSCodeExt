@@ -175,22 +175,30 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                 });
             });
 
-            exec(zoweCommand, (error, stdout, stderr) => {
-                if (handleZoweCommandError(panel, error, stderr, message)) {
-                    return;
-                }
+            getZowePath((zowePath) => {
+                logChannel.appendLine('Zowe CLI Pathh: ' + zowePath);
+                if (!zowePath) return;
+                // Ejecutar el comando Zowe CLI
+                exec(zoweCommand, (error, stdout, stderr) => {
+                    if (handleZoweCommandError(panel, error, stderr, message)) {
+                        return;
+                    }
 
-                //logChannel.appendLine('message.index ' + message.index);
-                //logChannel.show();
+                    //logChannel.appendLine('message.index ' + message.index);
+                    //logChannel.show();
 
-                panel.webview.postMessage({
-                    command: 'zoweResponse',
-                    response: stdout,
-                    index: message.index
+                    panel.webview.postMessage({
+                        command: 'zoweResponse',
+                        response: stdout,
+                        index: message.index
+                    });
+
+
                 });
 
-
             });
+
+
         }
 
         if (message.command === 'exportarTxtBackend') {
