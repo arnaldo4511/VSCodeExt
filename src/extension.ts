@@ -361,7 +361,8 @@ function getZowePath(callback: (zowePath: string | null) => void) {
 
 
         // En Windows, el ejecutable suele ser zowe.cmd
-        const zowePath = path.join(prefix, 'zowe.cmd');
+        let zowePath = path.join(prefix, 'zowe.cmd');
+        zowePath = zowePath.replace(/\\/g, '/');
         callback(zowePath);
     });
 }
