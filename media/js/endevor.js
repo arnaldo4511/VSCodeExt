@@ -441,7 +441,7 @@ textarea.addEventListener('input', function () {
     if (lines.length > MAX_ROWS) {
         textarea.value = lines.slice(0, MAX_ROWS).join('\n');
         // Opcional: notificar al usuario
-        vscode.postMessage({ command: 'logMessage', text: '[ALERTA] Solo se permiten ' + MAX_ROWS + ' consultas.' });
+        vscode.postMessage({ command: 'alertaMaxRows', text: ' Solo se permiten ' + MAX_ROWS + ' consultas.' });
         //alert('Solo se permiten ' + MAX_ROWS + ' filas.');
     }
 });

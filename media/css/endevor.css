@@ -78,7 +78,7 @@ textarea {
 }
 
 #elementosInput {
-    width: 400px; /* Ocupa el 100% del ancho disponible */
+    width: 600px; /* Ocupa el 100% del ancho disponible */
     box-sizing: border-box; /* Incluye el padding y el borde en el cálculo del ancho */
 }
 
@@ -111,4 +111,9 @@ td[id^="tdElement-"] pre {
     flex-direction: column;
     gap: 0.5em; /* Espacio entre botones */
     align-items: flex-start; /* Opcional: alinea los botones a la izquierda */
+}
+
+
+#tableContent{
+    width: 1000px;
 }

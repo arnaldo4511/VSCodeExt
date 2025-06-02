@@ -112,7 +112,7 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
         // Mostrar mensaje en log
         if (message.command === 'logMessage') {
             logChannel.appendLine(`Mensaje: ${message.text}`);
-            logChannel.show(); // Mostrar el canal de log (opcional)
+            //logChannel.show(); // Mostrar el canal de log (opcional)
         }
 
         if (message.command === 'descargarDataset') {
@@ -137,7 +137,7 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                     command: 'descargarDatasetResponse',
                     response: folderPath
                 });
-                
+
             } else {
                 panel.webview.postMessage({
                     command: 'descargarDatasetResponse',
@@ -162,13 +162,26 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
 
             vscode.window.showInformationMessage('Comando Zowe CLI: ' + zoweCommand);
 
+            // Ejemplo de uso:
+            getZowePath((zowePath) => {
+                logChannel.appendLine('Zowe CLI Path: ' + zowePath);
+                if (!zowePath) return;
+                exec(`"${zowePath}" --version`, (error, stdout, stderr) => {
+                    if (error) {
+                        vscode.window.showErrorMessage('No se pudo ejecutar Zowe CLI.');
+                        return;
+                    }
+                    vscode.window.showInformationMessage('Zowe CLI versión: ' + stdout);
+                });
+            });
+
             exec(zoweCommand, (error, stdout, stderr) => {
                 if (handleZoweCommandError(panel, error, stderr, message)) {
                     return;
                 }
 
                 //logChannel.appendLine('message.index ' + message.index);
-                logChannel.show();
+                //logChannel.show();
 
                 panel.webview.postMessage({
                     command: 'zoweResponse',
@@ -176,7 +189,7 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                     index: message.index
                 });
 
-                
+
             });
         }
 
@@ -268,7 +281,7 @@ class MyViewProvider implements vscode.WebviewViewProvider {
 
         const logChannel = vscode.window.createOutputChannel('Webview Logs');
         logChannel.appendLine('Mensaje desde MyViewProvider!!!');
-        logChannel.show();
+        //logChannel.show();
 
 
         // Leer el contenido del archivo HTML
@@ -306,4 +319,19 @@ class MyViewProvider implements vscode.WebviewViewProvider {
         //const htmlPath = path.join("d:", 'VSCodeExtension', 'vscodeext', '..', 'media', 'view.html'); // Ruta al archivo HTML
         return fs.readFileSync(htmlPath, 'utf8'); // Leer el contenido del archivo HTML
     }
+}
+
+// Función para obtener el prefijo de npm y construir la ruta a zowe
+function getZowePath(callback: (zowePath: string | null) => void) {
+    exec('npm config get prefix', (error, stdout, stderr) => {
+        if (error) {
+            vscode.window.showErrorMessage('No se pudo obtener el prefijo de npm.');
+            callback(null);
+            return;
+        }
+        const prefix = stdout.trim();
+        // En Windows, el ejecutable suele ser zowe.cmd
+        const zowePath = path.join(prefix, 'zowe.cmd');
+        callback(zowePath);
+    });
 }

@@ -151,3 +151,16 @@ function downloadDataset(carpeta) {
 
 
 }
+
+const textarea = document.getElementById('datasetInput');
+const MAX_ROWS = 10;
+
+textarea.addEventListener('input', function () {
+    const lines = textarea.value.split('\n');
+    if (lines.length > MAX_ROWS) {
+        textarea.value = lines.slice(0, MAX_ROWS).join('\n');
+        // Opcional: notificar al usuario
+        vscode.postMessage({ command: 'alertaMaxRows', text: ' Solo se permiten ' + MAX_ROWS + ' consultas.' });
+        //alert('Solo se permiten ' + MAX_ROWS + ' filas.');
+    }
+});
