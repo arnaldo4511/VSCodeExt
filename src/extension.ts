@@ -192,7 +192,7 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                 logChannel.appendLine('Zowe CLI Path: ' + zowePath);
                 if (!zowePath) return;
                 // Ejecutar el comando Zowe CLI
-                exec(`"${zowePath} "`+zoweCommand, (error, stdout, stderr) => {
+                exec(`"${zowePath}" `+zoweCommand, (error, stdout, stderr) => {
                     if (handleZoweCommandError(panel, error, stderr, message)) {
                         return;
                     }
