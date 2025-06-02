@@ -192,7 +192,7 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                 logChannel.appendLine('Zowe CLI Path: ' + zowePath);
                 if (!zowePath) return;
                 // Ejecutar el comando Zowe CLI
-                exec(zowePath+" "+zoweCommand, (error, stdout, stderr) => {
+                exec(`"${zowePath} "`+zoweCommand, (error, stdout, stderr) => {
                     if (handleZoweCommandError(panel, error, stderr, message)) {
                         return;
                     }
@@ -343,13 +343,23 @@ class MyViewProvider implements vscode.WebviewViewProvider {
 
 // Función para obtener el prefijo de npm y construir la ruta a zowe
 function getZowePath(callback: (zowePath: string | null) => void) {
+
+    const logChannel = vscode.window.createOutputChannel('Webview Logs');
+
     exec('npm config get prefix', (error, stdout, stderr) => {
         if (error) {
             vscode.window.showErrorMessage('No se pudo obtener el prefijo de npm.');
             callback(null);
             return;
         }
+        
+        logChannel.appendLine('stdout: ' + stdout);
+
         const prefix = stdout.trim();
+
+        logChannel.appendLine('prefix: ' + prefix);
+
+
         // En Windows, el ejecutable suele ser zowe.cmd
         const zowePath = path.join(prefix, 'zowe.cmd');
         callback(zowePath);
