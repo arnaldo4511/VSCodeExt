@@ -174,31 +174,37 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                     vscode.window.showInformationMessage('Zowe CLI versión: ' + stdout);
                 });
             });
-
+            
+            // Ejemplo de uso:
             getZowePath((zowePath) => {
-                logChannel.appendLine('Zowe CLI Pathh: ' + zowePath);
+                logChannel.appendLine('Zowe CLI Path: ' + zowePath);
                 if (!zowePath) return;
-                // Ejecutar el comando Zowe CLI
-                exec(zowePath + " " + zoweCommand, (error, stdout, stderr) => {
-                    if (handleZoweCommandError(panel, error, stderr, message)) {
+                exec(`set PATH=%PATH%;"${zowePath}"`, (error, stdout, stderr) => {
+                    if (error) {
+                        vscode.window.showErrorMessage('No se pudo ejecutar PATH.');
                         return;
                     }
-
-                    //logChannel.appendLine('message.index ' + message.index);
-                    //logChannel.show();
-
-                    panel.webview.postMessage({
-                        command: 'zoweResponse',
-                        response: stdout,
-                        index: message.index
-                    });
-
-
+                    vscode.window.showInformationMessage('PATH: ' + stdout);
                 });
-
             });
 
 
+            exec(zoweCommand, (error, stdout, stderr) => {
+                if (handleZoweCommandError(panel, error, stderr, message)) {
+                    return;
+                }
+
+                //logChannel.appendLine('message.index ' + message.index);
+                //logChannel.show();
+
+                panel.webview.postMessage({
+                    command: 'zoweResponse',
+                    response: stdout,
+                    index: message.index
+                });
+
+
+            });
         }
 
         if (message.command === 'exportarTxtBackend') {
