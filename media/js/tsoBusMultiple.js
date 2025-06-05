@@ -148,11 +148,18 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
 window.addEventListener('message', (event) => {
     const message = event.data;
 
+
     if (message.command === 'zoweResponse') {
-        //const progressBarMain = document.getElementById('progressBarMain');
 
         const progressBarId = `progress-${message.index}`;
         const progressBar = document.getElementById(progressBarId);
+
+        if (message.status === 'success') {
+
+        
+        //const progressBarMain = document.getElementById('progressBarMain');
+
+        
 
         //progressBar.value = 75;
 
@@ -203,8 +210,6 @@ window.addEventListener('message', (event) => {
 
             }
 
-
-
             // Si no se encuentra "BUSCANDO", mostrar un mensaje de error
             //document.getElementById('stdoutOutput').textContent = "No se encontró la línea 'BUSCANDO' en la salida.";
         }
@@ -221,11 +226,20 @@ window.addEventListener('message', (event) => {
 
         //if (progressBar) {
         //progressBar.value = 100; // Completar la barra de progreso
-        setTimeout(() => progressBar.remove(), 1000); // Eliminar la barra después de 1 segundo
+        
         //}
+        } else {
+            if (message.status === 'error' || message.status === 'stderror') {
+                // Mostrar mensaje de error en el <pre>
+                const preElementId = `result-${message.index}`;
+                const preElement = document.getElementById(preElementId);
+                if (preElement) {
+                    preElement.textContent = `Error: Revisar WebView Logs en Output.`;
+                }
+            }
+        }
 
-
-
+        setTimeout(() => progressBar.remove(), 1000); // Eliminar la barra después de 1 segundo
         // Ocultar la barra de progreso al finalizar
         //progressBarMain.style.display = 'none';
 

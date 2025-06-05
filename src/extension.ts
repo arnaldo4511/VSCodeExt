@@ -7,12 +7,29 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 
+const logChannel = vscode.window.createOutputChannel('Webview Logs');
+
+let zowePathMain: string = '';
 
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
+    logChannel.appendLine('Activating z/OS Dev Extension...');
+
+
+    exec('npm config get prefix', (error, stdout, stderr) => {
+        if (error) {
+            vscode.window.showErrorMessage('No se pudo obtener el prefijo de npm.');
+            zowePathMain = '';
+        } else {
+            zowePathMain = stdout.trim().replace(/\\/g, '/');
+            zowePathMain = path.join(zowePathMain, 'zowe.cmd');
+            logChannel.appendLine('npm prefix: ' + zowePathMain);
+        }
+        const prefix = stdout.trim();
+    });
 
 
     const webviews = [
@@ -76,7 +93,7 @@ class EmptyTreeDataProvider implements vscode.TreeDataProvider<vscode.TreeItem> 
 
 function createWebview(context: vscode.ExtensionContext, viewId: string, title: string, htmlFileName: string) {
 
-    const logChannel = vscode.window.createOutputChannel('Webview Logs');
+    //const logChannel = vscode.window.createOutputChannel('Webview Logs');
 
     const panel = vscode.window.createWebviewPanel(
         viewId,
@@ -164,7 +181,7 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
 
             // Ejemplo de uso:
             getZowePath((zowePath) => {
-                logChannel.appendLine('Zowe CLI Path: ' + zowePath);
+                //logChannel.appendLine('Zowe CLI Path: ' + zowePath);
                 if (!zowePath) return;
                 exec(`"${zowePath}" --version`, (error, stdout, stderr) => {
                     if (error) {
@@ -177,7 +194,7 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
 
             // Ejemplo de uso:
             getZowePath((zowePath) => {
-                logChannel.appendLine('Zowe CLI Path: ' + zowePath);
+                //logChannel.appendLine('Zowe CLI Path: ' + zowePath);
                 if (!zowePath) return;
                 exec(`set PATH=%PATH%;"${zowePath}"`, (error, stdout, stderr) => {
                     if (error) {
@@ -188,29 +205,30 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                 });
             });
 
-            getZowePath((zowePath) => {
-                logChannel.appendLine('Zowe CLI Path: ' + zowePath);
-                if (!zowePath) return;
-                // Ejecutar el comando Zowe CLI
-                exec(`"${zowePath}" `+zoweCommand, (error, stdout, stderr) => {
-                    if (handleZoweCommandError(panel, error, stderr, message)) {
-                        return;
-                    }
-
-                    //logChannel.appendLine('message.index ' + message.index);
-                    //logChannel.show();
-
-                    panel.webview.postMessage({
-                        command: 'zoweResponse',
-                        response: stdout,
-                        index: message.index
-                    });
 
 
+            logChannel.appendLine('zowePathMain: ' + zowePathMain);
+            // Ejecutar el comando Zowe CLI
+            exec(`"${zowePathMain}" ` + zoweCommand, (error, stdout, stderr) => {
+                if (handleZoweCommandError(panel, error, stderr, message)) {
+                    return;
+                }
+
+                logChannel.appendLine('message.index ' + message.index);
+                //logChannel.show();
+
+                panel.webview.postMessage({
+                    command: 'zoweResponse',
+                    response: stdout,
+                    index: message.index,
+                    status: 'success'
                 });
-            });            
 
-            
+
+            });
+
+
+
         }
 
         if (message.command === 'exportarTxtBackend') {
@@ -262,19 +280,24 @@ function replacePathsInHtml(
 
 function handleZoweCommandError(panel: vscode.WebviewPanel, error: Error | null, stderr: string | null, message: any) {
     if (error) {
+
+        logChannel.appendLine(`Error ejecutando comando Zowe: ${error.message}`);
         panel.webview.postMessage({
             command: 'zoweResponse',
             response: `Error: ${error.message}`,
-            index: message.index
+            index: message.index,
+            status: 'error'
         });
         return true;
     }
 
     if (stderr) {
+        logChannel.appendLine(`Stderr ejecutando comando Zowe: ${stderr}`);
         panel.webview.postMessage({
             command: 'zoweResponse',
             response: `Stderr: ${stderr}`,
-            index: message.index
+            index: message.index,
+            status: 'stderror'
         });
         return true;
     }
@@ -299,7 +322,7 @@ class MyViewProvider implements vscode.WebviewViewProvider {
             localResourceRoots: [vscode.Uri.file(path.join(this.extensionPath, 'media'))] // Permitir acceso a la carpeta 'media'
         };
 
-        const logChannel = vscode.window.createOutputChannel('Webview Logs');
+        //const logChannel = vscode.window.createOutputChannel('Webview Logs');
         logChannel.appendLine('Mensaje desde MyViewProvider!!!');
         //logChannel.show();
 
@@ -344,7 +367,7 @@ class MyViewProvider implements vscode.WebviewViewProvider {
 // Función para obtener el prefijo de npm y construir la ruta a zowe
 function getZowePath(callback: (zowePath: string | null) => void) {
 
-    const logChannel = vscode.window.createOutputChannel('Webview Logs');
+    //const logChannel = vscode.window.createOutputChannel('Webview Logs');
 
     exec('npm config get prefix', (error, stdout, stderr) => {
         if (error) {
@@ -352,13 +375,7 @@ function getZowePath(callback: (zowePath: string | null) => void) {
             callback(null);
             return;
         }
-        
-        logChannel.appendLine('stdout: ' + stdout);
-
         const prefix = stdout.trim();
-
-        logChannel.appendLine('prefix: ' + prefix);
-
 
         // En Windows, el ejecutable suele ser zowe.cmd
         let zowePath = path.join(prefix, 'zowe.cmd');

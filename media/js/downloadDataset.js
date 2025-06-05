@@ -143,7 +143,7 @@ function downloadDataset(carpeta) {
         // Enviar el comando Zowe CLI al backend
         vscode.postMessage({
             command: 'runZoweCommand',
-            zoweCommand: `zowe zos-files download data-set "'${datasetName}'" -f "${filePath}"`,
+            zoweCommand: `zos-files download data-set "'${datasetName}'" -f "${filePath}"`,
             index: i 
         });
 

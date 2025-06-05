@@ -10,7 +10,7 @@ document.getElementById('desestandarizarBuscar').addEventListener('click', () =>
     // Enviar el comando al backend
     vscode.postMessage({
         command: 'runZoweCommand',
-        zoweCommand: `zowe tso issue cmd "EX 'T09579.JCLLIB(DESTA2)' 'T ${archivoValue}'" -a 9999/UTI/00`
+        zoweCommand: `tso issue cmd "EX 'T09579.JCLLIB(DESTA2)' 'T ${archivoValue}'" -a 9999/UTI/00`
     });
 });
 

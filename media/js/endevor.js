@@ -82,7 +82,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //vscode.postMessage({ command: 'logMessage', text: "111" });
 
         // Generar el comando Zowe CLI
-        const zoweCommandConcat = 'zowe endevor list elements ' + elemento + ' -i ENDEVOR --env ' + environment + ' --sn ' + stage + ' --sys ' + system + ' --sub ' + subSystem + ' --typ ' + type + ' --rft list --data ALL --wcll ' + ccid;
+        const zoweCommandConcat = 'endevor list elements ' + elemento + ' -i ENDEVOR --env ' + environment + ' --sn ' + stage + ' --sys ' + system + ' --sub ' + subSystem + ' --typ ' + type + ' --rft list --data ALL --wcll ' + ccid;
 
 
         //vscode.postMessage({ command: 'logMessage', text: "222" });
