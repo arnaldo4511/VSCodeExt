@@ -193,7 +193,7 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
             });
 
             // Ejemplo de uso:
-            getZowePath((zowePath) => {
+            /*getZowePath((zowePath) => {
                 //logChannel.appendLine('Zowe CLI Path: ' + zowePath);
                 if (!zowePath) return;
                 exec(`set PATH=%PATH%;"${zowePath}"`, (error, stdout, stderr) => {
@@ -203,7 +203,7 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                     }
                     vscode.window.showInformationMessage('PATH: ' + stdout);
                 });
-            });
+            });*/
 
 
 
