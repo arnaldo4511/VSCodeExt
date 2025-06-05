@@ -4,7 +4,7 @@
   "description": "",
   "version": "0.0.10",
   "publisher": "ArnaldoRamirez",
-  "icon": "resources/icon01.png",
+  "icon": "resources/icon01.1.png",
   "engines": {
     "vscode": "^1.99.0"
   },
