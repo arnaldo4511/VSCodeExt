@@ -33,7 +33,7 @@
     "viewsWelcome": [
       {
         "view": "vscodeext-view",
-        "contents": "[TSO BUS](command:vscodeext.openTsoBusMultipleWebview)\n [ENDEVOR](command:vscodeext.openEndevorWebview)\n\n[DOWNLOAD DATASET](command:vscodeext.openDownloadDatasetWebview)\n [DESTA](command:vscodeext.openDestaWebview)\n [DELOGUE](command:vscodeext.openDeslogueWebview)"
+        "contents": "[TSO BUS](command:vscodeext.openTsoBusMultipleWebview)\n [ENDEVOR](command:vscodeext.openEndevorWebview)\n\n[DOWNLOAD DATASET](command:vscodeext.openDownloadDatasetWebview)\n [TSO DESTA](command:vscodeext.openDestaWebview)\n [TSO DELOGUE](command:vscodeext.openDeslogueWebview)"
         
       }
     ],

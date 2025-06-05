@@ -35,8 +35,8 @@ export function activate(context: vscode.ExtensionContext) {
     const webviews = [
         { command: 'vscodeext.openTsoBusWebview', viewId: 'tsoBusWebview', title: 'TSO BUS', htmlFile: 'tsoBus.html' },
         { command: 'vscodeext.openTsoBusMultipleWebview', viewId: 'tsoBusMultipleWebview', title: 'TSO BUS', htmlFile: 'tsoBusMultiple.html' },
-        { command: 'vscodeext.openDestaWebview', viewId: 'destaWebview', title: 'DESTA', htmlFile: 'desta.html' },
-        { command: 'vscodeext.openDeslogueWebview', viewId: 'deslogueWebview', title: 'DESLOGUE', htmlFile: 'deslogue.html' },
+        { command: 'vscodeext.openDestaWebview', viewId: 'destaWebview', title: 'TSO DESTA', htmlFile: 'desta.html' },
+        { command: 'vscodeext.openDeslogueWebview', viewId: 'deslogueWebview', title: 'TSO DESLOGUE', htmlFile: 'deslogue.html' },
         { command: 'vscodeext.openDownloadDatasetWebview', viewId: 'downloadDatasetWebview', title: 'DOWNLOAD DATASET', htmlFile: 'downloadDataset.html' },
         { command: 'vscodeext.openEndevorWebview', viewId: 'endevorWebview', title: 'ENDEVOR', htmlFile: 'endevor.html' },
 
