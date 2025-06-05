@@ -2,8 +2,9 @@
   "name": "zos-dev",
   "displayName": "zOS-Dev",
   "description": "",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "publisher": "ArnaldoRamirez",
+  "icon": "resources/icon01.png",
   "engines": {
     "vscode": "^1.99.0"
   },
