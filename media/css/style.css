@@ -4,7 +4,7 @@ table {
     /*margin-top: 10px;*/
 }
 
-h1, label, p, pre{
+h1, label, p, pre, strong,ul, li, code {
     color: white;
 }
 
