@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,21 +8,27 @@
     <link rel="stylesheet" href="css/style.css"> <!-- Enlace al archivo CSS -->
     <link rel="stylesheet" href="css/downloadDataset.css"> <!-- Enlace al archivo CSS -->
 </head>
+
 <body>
     <h1>DOWNLOAD DATASET</h1>
-    <div class="row">
-        <label for="datasetInput">Dataset:</label>
-        <input type="text" id="datasetInput" value="" />
-        <button id="datasetBuscar">Descargar</button>
-        <div class="row">
-            
-            <progress id="progressBar" style="display: none;" max="100"></progress>
-        </div>
 
+    <div class="instructions" style="margin-bottom: 1em;">
+        <strong>Instrucciones:</strong>
+        <ul>
+            <li>Ingresa cada archivo en una línea</li>
+            <li>Puedes descargar hasta <strong>10 elementos</strong> a la vez.</li>
+        </ul>
     </div>
-    <pre id="output"></pre>
 
+    <div class="row">
+        <textarea id="datasetInput" rows="8" cols="40"></textarea>
+        <button id="datasetBuscar">Descargar</button>
+    </div>
+    <!--pre id="output"></pre-->
+    
+    <div id="resultsContainer"></div>
     <script src="js/downloadDataset.js"></script> <!-- Enlace al archivo JavaScript -->
 
 </body>
+
 </html>

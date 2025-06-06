@@ -1,3 +1,25 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    /*margin-top: 10px;*/
+}
+
+h1, label, p, pre, strong,ul, li, code {
+    color: white;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    /*padding: 8px;*/
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    /*background-color: #858585;*/
+    color: white;
+}
+
 pre {
     font-family: "Courier New";
     margin: 0;

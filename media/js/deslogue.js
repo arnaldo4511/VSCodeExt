@@ -10,7 +10,7 @@ document.getElementById('desloguearBuscar').addEventListener('click', () => {
     // Enviar el comando al backend
     vscode.postMessage({
         command: 'runZoweCommand',
-        zoweCommand: `zowe tso issue cmd "EX 'T09579.JCLLIB(DESLOGUE)' '${matriculaValue}'" -a 9999/UTI/00` // Comando Zowe CLI
+        zoweCommand: `tso issue cmd "EX 'T09579.JCLLIB(DESLOGUE)' '${matriculaValue}'" -a 9999/UTI/00` // Comando Zowe CLI
     });
 });
 

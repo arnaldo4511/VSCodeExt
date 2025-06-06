@@ -1,6 +1,4 @@
-* {
-    font-family: "Courier New";
-}
+
 
 h1, label, p, pre, span {
     color: white;
@@ -80,7 +78,7 @@ textarea {
 }
 
 #elementosInput {
-    width: 400px; /* Ocupa el 100% del ancho disponible */
+    width: 600px; /* Ocupa el 100% del ancho disponible */
     box-sizing: border-box; /* Incluye el padding y el borde en el cálculo del ancho */
 }
 
@@ -88,23 +86,7 @@ textarea {
     width: 100%; /* Ancho fijo */
 }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-    /*margin-top: 10px;*/
-}
 
-th, td {
-    border: 1px solid #ccc;
-    /*padding: 8px;*/
-    text-align: left;
-    vertical-align: top;
-}
-
-th {
-    /*background-color: #858585;*/
-    color: white;
-}
 
 
 /* Resaltar la columna seleccionada */
@@ -129,4 +111,9 @@ td[id^="tdElement-"] pre {
     flex-direction: column;
     gap: 0.5em; /* Espacio entre botones */
     align-items: flex-start; /* Opcional: alinea los botones a la izquierda */
+}
+
+
+#tableContent{
+    width: 1000px;
 }
