@@ -307,13 +307,7 @@ window.addEventListener('message', (event) => {
                     }
 
                     // Construir el texto para mostrar en el <pre>
-                    resultText += '<button>Cclick</button>' +
-                        formatElmName + blank +
-                        formatTypeName + blank +
-                        formatEnvName + blank +
-                        formatStgId + blank +
-                        formatSysName + blank +
-                        formatSbsName + blank;
+                    resultText += '<button>D</button>';
                     resultText += formatElmName + blank +
                         formatTypeName + blank +
                         formatEnvName + blank +
