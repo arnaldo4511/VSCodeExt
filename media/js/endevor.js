@@ -307,7 +307,7 @@ window.addEventListener('message', (event) => {
                     }
 
                     // Construir el texto para mostrar en el <pre>
-                    resultText += <button id="btn-${message.index}" class="btn btn-primary" onclick="vscode.postMessage({ command: 'logMessage', text: 'click: ' + resultText })">Click</button> +
+                    resultText += <button id="btn-${message.index}" class="btn btn-primary" onclick="vscode.postMessage({ command: 'logMessage', text: 'click: ' + resultText })">Cclick</button> +
                         '<span id="spanElement-' + message.index + '">' +
                         '<b>' + elmName + '</b></span>' + blank +
                         formatElmName + blank +
