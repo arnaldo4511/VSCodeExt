@@ -206,22 +206,38 @@ window.addEventListener('message', (event) => {
 
         const stdout = message.response;
 
+        console.log('stdout:', stdout);
+
         // Después de procesar stdout y antes de mostrar los resultados
         const warnLines = stdout.split('\n').filter(line =>
             line.startsWith('[WARN]') && line.includes('No matching elements found.')
         );
 
+
+
         if (warnLines.length > 0) {
 
             const preElementId = `result-${message.index}`;
             const preElement = document.getElementById(preElementId);
-            preElement.innerHTML = 'No se encontraron los elementos';
+            preElement.innerHTML = '[WARN] No se encontraron los elementos';
 
             progressBar.style.display = 'none';
+            
+            return;
+        }
 
-            //vscode.postMessage({ command: 'logMessage', text: 'No se encontraron los elementos' });
-            // O si prefieres mostrarlo en la UI:
-            // alert('No se encontraron los elementos');
+        const errorLines = stdout.split('\n').filter(line =>
+            line.startsWith('Error:')
+        );
+
+        if (errorLines.length > 0) {
+
+            const preElementId = `result-${message.index}`;
+            const preElement = document.getElementById(preElementId);
+            preElement.innerHTML = stdout;
+
+            progressBar.style.display = 'none';
+            
             return;
         }
 
@@ -347,7 +363,7 @@ window.addEventListener('message', (event) => {
             //vscode.postMessage({ command: 'logMessage', text: 'click: ' + resultText });
 
             if (preElement) {
-                preElement.innerHTML = resultText || 'No se encontraron datos JSON válidos.';
+                preElement.innerHTML = resultText;
                 preExtra.innerHTML = resultExtraText;
                 //vscode.postMessage({ command: 'logMessage', text: 'stdout: ' + stdout });
 
