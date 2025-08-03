@@ -102,7 +102,6 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         preBusqueda.innerHTML =
             'Elemento:      <b>' + elemento + '</b><br>' +
             'Environment:   <b>' + environment + '</b><br>' +
-            'Stage:         <b>' + stage + '</b><br>' +
             'System:        <b>' + system + '</b><br>' +
             'SubSystem:     <b>' + subSystem + '</b><br>' +
             'Type:          <b>' + type + '</b><br>' +
@@ -163,7 +162,7 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
         //preExtra.textContent = `Comando Zowe`;
         tdElement.appendChild(preExtra);
 
-        if (!elemento || !environment || !stage || !system || !subSystem || !type || !ccid) {
+        if (!elemento || !environment || !system || !subSystem || !type || !ccid) {
             preElement.innerHTML = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
             progressBar.style.display = 'none';
             //setTimeout(() => progressBar.remove(), 500); // Eliminar la barra después de 1 segundo
