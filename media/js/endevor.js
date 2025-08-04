@@ -1,41 +1,67 @@
 const vscode = acquireVsCodeApi();
 
-
-//vscode.postMessage({ command: 'logMessage', text: "clickJs" });
-
-const elementoValue = document.getElementById('elementosInput').value;
-
-document.getElementById('elementosBuscar').addEventListener('click', async () => {
+const detalleBusqueda =
 
 
     //vscode.postMessage({ command: 'logMessage', text: "clickJs" });
 
-    const elementoValue = document.getElementById('elementosInput').value;
-
-    //vscode.postMessage({ command: 'logMessage', text: "elementoValue: " + elementoValue });
-
-    // Dividir el contenido del textarea en líneas
-    const lines = elementoValue.split('\n').filter(line => line.trim() !== '');
-
-    //vscode.postMessage({command: 'logMessage',text: "lines: " + lines});
-
-    //vscode.postMessage({command: 'logMessage',text: "lines: " + lines.length});
-
-    // Configurar la barra de progreso
-    //const progressBarMain = document.getElementById('progressBarMain');
-    //progressBarMain.style.display = 'block';
-    //progressBar.max = lines.length;
-    //progressBar.value = 0;
+    document.getElementById('elementosBuscar').addEventListener('click', async () => {
 
 
+
+        const elementosValue = document.getElementById('elementosTextarea').value;
+
+        console.log('elementosValue:', elementosValue);
+        // Dividir el contenido del textarea en líneas
+        const linesConsult = elementosValue.split('\n').filter(line => line.trim() !== '');
+
+        console.log('linesConsult:', linesConsult);
+
+        // crear tabla de resultados (THEAD y TBODY)
+        const tableBody = crearTablaResultados();
+
+        // Recorrer cada línea
+        for (let i = 0; i < linesConsult.length; i++) {
+
+            //vscode.postMessage({command: 'logMessage',text: "i: " + i});
+
+            const lineConsult = linesConsult[i].trim();
+
+            console.log('lineConsult:', lineConsult);
+
+            const [elemento, environment, system, subSystem, type, ccid] = lineConsult.split(';');
+
+            const errorParametros = crearTablaLine(i, tableBody, elemento, environment, system, subSystem, type, ccid);
+
+            if (errorParametros) {
+                // Si hay un error en los parámetros, continuar con la siguiente línea
+                continue;
+            }
+
+            // Generar el comando Zowe CLI
+            const zoweCommandConcat = 'endevor list elements ' + elemento + ' -i ENDEVOR --env ' + environment + ' --sys ' + system + ' --sub ' + subSystem + ' --typ ' + type + ' --rft list --data ALL --wcll ' + ccid;
+
+            // Enviar el comando al backend
+            vscode.postMessage({ command: 'runZoweCommand', zoweCommand: zoweCommandConcat, index: i });
+
+            // Esperar un breve momento para evitar saturar el backend
+            await new Promise(resolve => setTimeout(resolve, 500));
+
+        }
+
+        //vscode.postMessage({command: 'logMessage',text: 'click Procesamiento completado para todos los elementos.'});
+    });
+
+
+function crearTablaResultados() {
     // Contenedor para los resultados
-    const resultsContainer = document.getElementById('resultsContainer');
-    resultsContainer.innerHTML = ''; // Limpiar resultados previos
+    const tablaContenedora = document.getElementById('tablaContenedora');
+    tablaContenedora.innerHTML = ''; // Limpiar resultados previos
 
 
     const tableContent = document.createElement('table');
     tableContent.id = 'tableContent';
-    resultsContainer.appendChild(tableContent);
+    tablaContenedora.appendChild(tableContent);
 
     const theadContent = document.createElement('thead');
     tableContent.appendChild(theadContent);
@@ -45,19 +71,16 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
 
     const thBusqueda = document.createElement('th');
     thBusqueda.textContent = 'BUSQUEDA';
-    thBusqueda.onclick = () => seleccionarColumna(0); // Llamar a la función al hacer clic
     thBusqueda.style.cursor = 'pointer'; // Cambiar el cursor al pasar por encima
     trHeader.appendChild(thBusqueda);
 
     const thData = document.createElement('th');
     thData.textContent = 'RESULTADO';
-    thData.onclick = () => seleccionarColumna(1); // Llamar a la función al hacer clic
     thData.style.cursor = 'pointer'; // Cambiar el cursor al pasar por encima
     trHeader.appendChild(thData);
 
     const thExtra = document.createElement('th');
     thExtra.textContent = 'EXTRA';
-    thExtra.onclick = () => seleccionarColumna(2); // Llamar a la función al hacer clic
     thExtra.style.cursor = 'pointer'; // Cambiar el cursor al pasar por encima
     //trHeader.appendChild(thExtra);
 
@@ -65,135 +88,74 @@ document.getElementById('elementosBuscar').addEventListener('click', async () =>
     tableBody.innerHTML = ''; // Limpiar la tabla antes de agregar nuevos resultados
     tableContent.appendChild(tableBody);
 
+    return tableBody;
+}
+
+function crearTablaLine(i, tableBody, elemento, environment, system, subSystem, type, ccid) {
+
+    // Crear una nueva fila para la tabla de resultados
+    
+
+    const trContent = document.createElement('tr');
+    trContent.id = `trContent-${i}`;
+    //trContent.classList.add('row');
+    tableBody.appendChild(trContent);
+
+    const tdBusqueda = document.createElement('td');
+    tdBusqueda.id = `tdBusqueda-${i}`;
+    //tdBusqueda.classList.add('row');
+    tdBusqueda.style.width = '150px'; // Establecer ancho fijo
+    trContent.appendChild(tdBusqueda);
+
+    const preBusqueda = document.createElement('pre');
+    preBusqueda.innerHTML =
+        'Elemento:      <b>' + elemento + '</b><br>' +
+        'Environment:   <b>' + environment + '</b><br>' +
+        'System:        <b>' + system + '</b><br>' +
+        'SubSystem:     <b>' + subSystem + '</b><br>' +
+        'Type:          <b>' + type + '</b><br>' +
+        'CCID:          <b>' + ccid + '</b><br>';
+    preBusqueda.style.fontWeight = 'normal'; // Aplicar negrita directamente
+    tdBusqueda.appendChild(preBusqueda);
+
+    const tdElement = document.createElement('td');
+    tdElement.id = `tdElement-${i}`;
+    //tdElement.classList.add('rowSingle');
+    tdElement.style.width = '800px'; // Establecer ancho fijo
+    //divMain.appendChild(tdElement);
+    //tdElement.innerHTML = 'fffff';
+    trContent.appendChild(tdElement);
 
 
-    // Recorrer cada línea
-    for (let i = 0; i < lines.length; i++) {
-
-        //vscode.postMessage({command: 'logMessage',text: "i: " + i});
-
-        const line = lines[i].trim();
-        const [elemento, environment, system, subSystem, type, ccid] = line.split(';');
+    // Crear un nuevo <pre> para mostrar el resultado de esta consulta
+    const preElement = document.createElement('pre');
+    preElement.id = `result-${i}`;
+    tdElement.appendChild(preElement);
 
 
+    // Crear una barra de progreso para esta consulta
+    const progressBar = document.createElement('progress');
+    progressBar.id = `progress-${i}`;
+    tdElement.appendChild(progressBar);
 
-        //vscode.postMessage({command: 'logMessage',text: "i: " + i});
-
-        //vscode.postMessage({ command: 'logMessage', text: "111" });
-
-        // Generar el comando Zowe CLI
-        const zoweCommandConcat = 'endevor list elements ' + elemento + ' -i ENDEVOR --env ' + environment + ' --sys ' + system + ' --sub ' + subSystem + ' --typ ' + type + ' --rft list --data ALL --wcll ' + ccid;
-
-
-        //vscode.postMessage({ command: 'logMessage', text: "222" });
-
-        const trContent = document.createElement('tr');
-        trContent.id = `trContent-${i}`;
-        //trContent.classList.add('row');
-        tableBody.appendChild(trContent);
-
-        const tdBusqueda = document.createElement('td');
-        tdBusqueda.id = `tdBusqueda-${i}`;
-        //tdBusqueda.classList.add('row');
-        tdBusqueda.style.width = '150px'; // Establecer ancho fijo
-        trContent.appendChild(tdBusqueda);
-
-        const preBusqueda = document.createElement('pre');
-        preBusqueda.innerHTML =
-            'Elemento:      <b>' + elemento + '</b><br>' +
-            'Environment:   <b>' + environment + '</b><br>' +
-            'System:        <b>' + system + '</b><br>' +
-            'SubSystem:     <b>' + subSystem + '</b><br>' +
-            'Type:          <b>' + type + '</b><br>' +
-            'CCID:          <b>' + ccid + '</b><br>';
-
-        preBusqueda.style.fontWeight = 'normal'; // Aplicar negrita directamente
-        //preBusqueda.style.width = '200px'; // Establecer ancho fijo
-        tdBusqueda.appendChild(preBusqueda);
+    const tdExtra = document.createElement('td');
+    tdExtra.id = `tdExtra-${i}`;
+    tdExtra.style.width = '200px'; // Establecer ancho fijo
 
 
+    const preExtra = document.createElement('pre');
+    preExtra.id = `preExtra-${i}`;
+    tdElement.appendChild(preExtra);
 
-
-
-        const tdElement = document.createElement('td');
-        tdElement.id = `tdElement-${i}`;
-        //tdElement.classList.add('rowSingle');
-        tdElement.style.width = '800px'; // Establecer ancho fijo
-        //divMain.appendChild(tdElement);
-        //tdElement.innerHTML = 'fffff';
-        trContent.appendChild(tdElement);
-
-
-
-        // Agregar un salto de línea después de la barra de progreso
-        //tdElement.appendChild(document.createElement('br'));
-
-        // Crear un nuevo <pre> para mostrar el resultado de esta consulta
-        const preElement = document.createElement('pre');
-        preElement.id = `result-${i}`;
-        //preElement.classList.add('content');
-        //preElement.innerHTML = `Procesando: ${elemento} ${environment} ${stage} ${system} ${subSystem} ${type} ${ccid}`;
-        //preElement.style.width = '100%'; // Establecer ancho fijo
-        tdElement.appendChild(preElement);
-
-        /*const spanElement = document.createElement('span');
-        spanElement.id = `spanElement-${i}`;*/
-
-        // Crear una barra de progreso para esta consulta
-        const progressBar = document.createElement('progress');
-        progressBar.id = `progress-${i}`;
-        //progressBar.max = 100;
-        //progressBar.value = 0;
-        //progressBar.classList.add('row');
-        tdElement.appendChild(progressBar);
-
-
-
-
-        const tdExtra = document.createElement('td');
-        tdExtra.id = `tdExtra-${i}`;
-        //tdElement.classList.add('row');
-        tdExtra.style.width = '200px'; // Establecer ancho fijo
-        //divMain.appendChild(tdElement);
-        //trContent.appendChild(tdExtra);
-
-        const preExtra = document.createElement('pre');
-        preExtra.id = `preExtra-${i}`;
-        //preExtra.textContent = `Comando Zowe`;
-        tdElement.appendChild(preExtra);
-
-        if (!elemento || !environment || !system || !subSystem || !type || !ccid) {
-            preElement.innerHTML = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
-            progressBar.style.display = 'none';
-            //setTimeout(() => progressBar.remove(), 500); // Eliminar la barra después de 1 segundo
-            continue; // Saltar líneas inválidas
-        }
-
-
-
-        //vscode.postMessage({command: 'logMessage',text: "sss " + preElement.getHTML()});
-
-        // Simular progreso inicial
-        //progressBar.value = 50;
-
-        // Enviar el comando al backend
-        vscode.postMessage({ command: 'runZoweCommand', zoweCommand: zoweCommandConcat, index: i });
-
-        // Actualizar la barra de progreso
-        //progressBar.value = i + 1;
-
-        // Esperar un breve momento para evitar saturar el backend
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-
+    if (!elemento || !environment || !system || !subSystem || !type || !ccid) {
+        preElement.innerHTML = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
+        progressBar.style.display = 'none';
+        return true; // Retornar true para indicar que hay un error
     }
 
+    return false; // Retornar false para indicar que no hay error
 
-
-
-    //vscode.postMessage({command: 'logMessage',text: 'click Procesamiento completado para todos los elementos.'});
-});
-
+}
 
 // Escuchar mensajes desde el backend
 window.addEventListener('message', (event) => {
@@ -221,7 +183,7 @@ window.addEventListener('message', (event) => {
             preElement.innerHTML = '[WARN] No se encontraron los elementos';
 
             progressBar.style.display = 'none';
-            
+
             return;
         }
 
@@ -236,7 +198,7 @@ window.addEventListener('message', (event) => {
             preElement.innerHTML = stdout;
 
             progressBar.style.display = 'none';
-            
+
             return;
         }
 
