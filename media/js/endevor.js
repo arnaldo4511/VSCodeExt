@@ -1,56 +1,55 @@
 const vscode = acquireVsCodeApi();
 
-const detalleBusqueda =
+let elementosFPH;
+
+//vscode.postMessage({ command: 'logMessage', text: "clickJs" });
+
+document.getElementById('elementosBuscar').addEventListener('click', async () => {
 
 
-    //vscode.postMessage({ command: 'logMessage', text: "clickJs" });
 
-    document.getElementById('elementosBuscar').addEventListener('click', async () => {
+    const elementosValue = document.getElementById('elementosTextarea').value;
 
+    console.log('elementosValue:', elementosValue);
+    // Dividir el contenido del textarea en líneas
+    const linesConsult = elementosValue.split('\n').filter(line => line.trim() !== '');
 
+    console.log('linesConsult:', linesConsult);
 
-        const elementosValue = document.getElementById('elementosTextarea').value;
+    // crear tabla de resultados (THEAD y TBODY)
+    const tableBody = crearTablaResultados();
 
-        console.log('elementosValue:', elementosValue);
-        // Dividir el contenido del textarea en líneas
-        const linesConsult = elementosValue.split('\n').filter(line => line.trim() !== '');
+    // Recorrer cada línea
+    for (let i = 0; i < linesConsult.length; i++) {
 
-        console.log('linesConsult:', linesConsult);
+        //vscode.postMessage({command: 'logMessage',text: "i: " + i});
 
-        // crear tabla de resultados (THEAD y TBODY)
-        const tableBody = crearTablaResultados();
+        const lineConsult = linesConsult[i].trim();
 
-        // Recorrer cada línea
-        for (let i = 0; i < linesConsult.length; i++) {
+        console.log('lineConsult:', lineConsult);
 
-            //vscode.postMessage({command: 'logMessage',text: "i: " + i});
+        const [elemento, environment, system, subSystem, type, ccid] = lineConsult.split(';');
 
-            const lineConsult = linesConsult[i].trim();
+        const errorParametros = crearTablaLine(i, tableBody, elemento, environment, system, subSystem, type, ccid);
 
-            console.log('lineConsult:', lineConsult);
-
-            const [elemento, environment, system, subSystem, type, ccid] = lineConsult.split(';');
-
-            const errorParametros = crearTablaLine(i, tableBody, elemento, environment, system, subSystem, type, ccid);
-
-            if (errorParametros) {
-                // Si hay un error en los parámetros, continuar con la siguiente línea
-                continue;
-            }
-
-            // Generar el comando Zowe CLI
-            const zoweCommandConcat = 'endevor list elements ' + elemento + ' -i ENDEVOR --env ' + environment + ' --sys ' + system + ' --sub ' + subSystem + ' --typ ' + type + ' --rft list --data ALL --wcll ' + ccid;
-
-            // Enviar el comando al backend
-            vscode.postMessage({ command: 'runZoweCommand', zoweCommand: zoweCommandConcat, index: i });
-
-            // Esperar un breve momento para evitar saturar el backend
-            await new Promise(resolve => setTimeout(resolve, 500));
-
+        if (errorParametros) {
+            // Si hay un error en los parámetros, continuar con la siguiente línea
+            continue;
         }
 
-        //vscode.postMessage({command: 'logMessage',text: 'click Procesamiento completado para todos los elementos.'});
-    });
+        // Generar el comando Zowe CLI
+        const zoweCommandConcat = 'endevor list elements ' + elemento + ' -i ENDEVOR --env ' + environment + ' --sys ' + system + ' --sub ' + subSystem + ' --typ ' + type + ' --rft list --data ALL --wcll ' + ccid;
+
+        // Enviar el comando al backend
+        vscode.postMessage({ command: 'runZoweCommand', zoweCommand: zoweCommandConcat, index: i });
+
+        // Esperar un breve momento para evitar saturar el backend
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+    }
+
+    //vscode.postMessage({command: 'logMessage',text: 'click Procesamiento completado para todos los elementos.'});
+});
 
 
 function crearTablaResultados() {
@@ -94,7 +93,7 @@ function crearTablaResultados() {
 function crearTablaLine(i, tableBody, elemento, environment, system, subSystem, type, ccid) {
 
     // Crear una nueva fila para la tabla de resultados
-    
+
 
     const trContent = document.createElement('tr');
     trContent.id = `trContent-${i}`;
@@ -162,12 +161,15 @@ window.addEventListener('message', (event) => {
     const message = event.data;
 
     if (message.command === 'zoweResponse') {
-        const progressBarId = `progress-${message.index}`;
-        const progressBar = document.getElementById(progressBarId);
 
         const stdout = message.response;
 
         console.log('stdout:', stdout);
+
+        const progressBarId = `progress-${message.index}`;
+        const progressBar = document.getElementById(progressBarId);
+
+
 
         // Después de procesar stdout y antes de mostrar los resultados
         const warnLines = stdout.split('\n').filter(line =>
@@ -252,7 +254,7 @@ window.addEventListener('message', (event) => {
 
                     //vscode.postMessage({ command: 'logMessage', text: 'formatSignoutId: ' + formatSignoutId });
 
-                    if (!headerAdded) {
+                    /*if (!headerAdded) {
                         const headerElement = 'ELEMENT --  ';
                         const headerType = 'TYPE      ';
                         const headerEnv = 'ENVIRON ';
@@ -280,7 +282,7 @@ window.addEventListener('message', (event) => {
                             headerSignout + '\n';
 
                         headerAdded = true; // Marcar que la cabecera ya fue agregada
-                    }
+                    }*/
 
                     // Construir el texto para mostrar en el <pre>
                     resultText += '<button>D</button>';
@@ -326,6 +328,8 @@ window.addEventListener('message', (event) => {
                 preElement.innerHTML = resultText;
                 preExtra.innerHTML = resultExtraText;
                 //vscode.postMessage({ command: 'logMessage', text: 'stdout: ' + stdout });
+
+                elementosFPH = resultText; // Acumula el texto en la variable global
 
             }
 
@@ -378,6 +382,7 @@ document.getElementById('exportarTxt').addEventListener('click', () => {
 
     const resultadoTxt = getResultadoColumnText();
 
+    console.log('elementosFPH: ', elementosFPH);
 
 
     vscode.postMessage({
