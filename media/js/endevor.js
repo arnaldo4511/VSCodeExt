@@ -330,7 +330,7 @@ window.addEventListener('message', (event) => {
                 //vscode.postMessage({ command: 'logMessage', text: 'stdout: ' + stdout });
 
                 elementosFPH = resultText; // Acumula el texto en la variable global
-
+                console.log('elementosFPH 1: ', elementosFPH);
             }
 
 
