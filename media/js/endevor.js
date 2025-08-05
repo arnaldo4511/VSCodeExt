@@ -329,7 +329,7 @@ window.addEventListener('message', (event) => {
                 preExtra.innerHTML = resultExtraText;
                 //vscode.postMessage({ command: 'logMessage', text: 'stdout: ' + stdout });
 
-                elementosFPH = resultText; // Acumula el texto en la variable global
+                elementosFPH += resultText; // Acumula el texto en la variable global
                 console.log('elementosFPH 1: ', elementosFPH);
             }
 
