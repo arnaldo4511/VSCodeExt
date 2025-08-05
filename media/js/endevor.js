@@ -164,7 +164,7 @@ window.addEventListener('message', (event) => {
 
         const stdout = message.response;
 
-        console.log('stdout:', stdout);
+        //console.log('stdout:', stdout);
 
         const progressBarId = `progress-${message.index}`;
         const progressBar = document.getElementById(progressBarId);
