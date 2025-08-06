@@ -172,9 +172,6 @@ window.addEventListener('message', (event) => {
 
         const tdBusqueda = document.getElementById(`tdElement-${message.index}`);
 
-        const trResultContent = document.createElement('tr');
-        trResultContent.id = `trResultContent-${message.index}`;
-        tdBusqueda.appendChild(trResultContent);
 
 
         // Después de procesar stdout y antes de mostrar los resultados
@@ -308,6 +305,9 @@ window.addEventListener('message', (event) => {
 
 
 
+                    const trResultContent = document.createElement('tr');
+                    trResultContent.id = `trResultContent-${message.index}`;
+                    tdBusqueda.appendChild(trResultContent);
 
 
                     const tdElemento = document.createElement('td');
