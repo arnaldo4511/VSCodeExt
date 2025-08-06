@@ -264,8 +264,8 @@ window.addEventListener('message', (event) => {
 
                     //vscode.postMessage({ command: 'logMessage', text: 'formatSignoutId: ' + formatSignoutId });
 
-                    /*if (!headerAdded) {
-                        const headerElement = 'ELEMENT --  ';
+                    if (!headerAdded) {
+                        /*const headerElement = 'ELEMENT --  ';
                         const headerType = 'TYPE      ';
                         const headerEnv = 'ENVIRON ';
                         const headerStgId = 'S';
@@ -291,8 +291,10 @@ window.addEventListener('message', (event) => {
                             headerElmLastLLCcid + blank +
                             headerSignout + '\n';
 
-                        headerAdded = true; // Marcar que la cabecera ya fue agregada
-                    }*/
+                        headerAdded = true; // Marcar que la cabecera ya fue agregada*/
+
+
+                    }
 
                     // Construir el texto para mostrar en el <pre>
                     resultText += '<button>D</button>';
@@ -320,14 +322,32 @@ window.addEventListener('message', (event) => {
                     const tdElemento = document.createElement('td');
                     //tdBusquedaLine.id = `tdBusquedaLine-${message.index}`;
                     tdElemento.innerHTML = formatElmName;
-                    tdElemento.style.width = '150px'; // Establecer ancho fijo
                     trResultContent.appendChild(tdElemento);
 
                     const tdType = document.createElement('td');
                     //tdBusquedaLine.id = `tdBusquedaLine-${message.index}`;
                     tdType.innerHTML = formatTypeName;
-                    tdType.style.width = '150px'; // Establecer ancho fijo
                     trResultContent.appendChild(tdType);
+
+                    const tdEnviroment = document.createElement('td');
+                    //tdBusquedaLine.id = `tdBusquedaLine-${message.index}`;
+                    tdEnviroment.innerHTML = formatEnvName;
+                    trResultContent.appendChild(tdEnviroment);
+
+                    const tdStage = document.createElement('td');
+                    //tdBusquedaLine.id = `tdBusquedaLine-${message.index}`;
+                    tdStage.innerHTML = formatStgId;
+                    trResultContent.appendChild(tdStage);
+
+                    const tdSystem = document.createElement('td');
+                    //tdBusquedaLine.id = `tdBusquedaLine-${message.index}`;
+                    tdSystem.innerHTML = formatSysName;
+                    trResultContent.appendChild(tdSystem);
+
+                    const tdSubSystem = document.createElement('td');
+                    //tdBusquedaLine.id = `tdBusquedaLine-${message.index}`;
+                    tdSubSystem.innerHTML = formatSbsName;
+                    trResultContent.appendChild(tdSubSystem);
 
                     //vscode.postMessage({ command: 'logMessage', text: 'resultText: ' + resultText });
                     //vscode.postMessage({ command: 'logMessage', text: 'resultExtraText: ' + resultExtraText });
