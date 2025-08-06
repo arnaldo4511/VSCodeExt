@@ -175,6 +175,8 @@ window.addEventListener('message', (event) => {
         const tdBusqueda = document.getElementById(`tdElement-${message.index}`);
         tdBusqueda.style.color = 'white';
 
+        console.log('stdout:', stdout);
+
         // Después de procesar stdout y antes de mostrar los resultados
         const warnLines = stdout.split('\n').filter(line =>
             line.startsWith('[WARN]') && line.includes('No matching elements found.')
