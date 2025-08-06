@@ -215,7 +215,7 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                 }
 
                 logChannel.appendLine('message.index ' + message.index);
-                //logChannel.show();
+                logChannel.show();
 
                 panel.webview.postMessage({
                     command: 'zoweResponse',
