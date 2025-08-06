@@ -171,8 +171,7 @@ window.addEventListener('message', (event) => {
 
 
         const tdBusqueda = document.getElementById(`tdElement-${message.index}`);
-        tdBusqueda.color = 'white';
-
+        tdBusqueda.style.color = 'white';
 
         // Después de procesar stdout y antes de mostrar los resultados
         const warnLines = stdout.split('\n').filter(line =>
