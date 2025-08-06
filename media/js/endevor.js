@@ -330,7 +330,7 @@ window.addEventListener('message', (event) => {
                 }
             });
 
-
+            console.log('lines.length: ', lines.length);
 
             // Buscar el <pre> correspondiente al comando actual
             const preElementId = `result-${message.index}`;
