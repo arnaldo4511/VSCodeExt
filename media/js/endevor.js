@@ -162,6 +162,8 @@ window.addEventListener('message', (event) => {
 
     if (message.command === 'zoweResponse') {
 
+        console.log('message:', message);
+
         const stdout = message.response;
 
         //console.log('stdout:', stdout);
