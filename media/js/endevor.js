@@ -213,6 +213,9 @@ window.addEventListener('message', (event) => {
             // Dividir la respuesta en líneas
             const lines = stdout.split('\n');
 
+            console.log('lines: ', lines);
+            console.log('lines.length: ', lines.length);
+
             // Procesar cada línea para buscar JSON válidos
             let resultText = '';
             let resultExtraText = '';
@@ -330,7 +333,7 @@ window.addEventListener('message', (event) => {
                 }
             });
 
-            console.log('lines.length: ', lines.length);
+            
 
             // Buscar el <pre> correspondiente al comando actual
             const preElementId = `result-${message.index}`;
