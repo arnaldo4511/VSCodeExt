@@ -355,8 +355,9 @@ window.addEventListener('message', (event) => {
             //vscode.postMessage({ command: 'logMessage', text: 'click: ' + resultText });
 
             if (preElement) {
-                preElement.innerHTML = resultText;
-                preExtra.innerHTML = resultExtraText;
+                //preElement.innerHTML = resultText;
+                //preExtra.innerHTML = resultExtraText;
+                
                 //vscode.postMessage({ command: 'logMessage', text: 'stdout: ' + stdout });
 
                 elementosFPH += resultText; // Acumula el texto en la variable global
