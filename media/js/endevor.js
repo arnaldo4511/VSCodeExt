@@ -170,7 +170,7 @@ window.addEventListener('message', (event) => {
         const progressBar = document.getElementById(progressBarId);
 
 
-        const tdBusqueda = document.getElementById(`tdBusqueda-${message.index}`);
+        const tdBusqueda = document.getElementById(`tdElement-${message.index}`);
 
         const trResultContent = document.createElement('tr');
         trResultContent.id = `trResultContent-${message.index}`;
@@ -318,7 +318,7 @@ window.addEventListener('message', (event) => {
 
                     const tdType = document.createElement('td');
                     //tdBusquedaLine.id = `tdBusquedaLine-${message.index}`;
-                    tdType.innerHTML = formatElmName;
+                    tdType.innerHTML = formatTypeName;
                     tdType.style.width = '150px'; // Establecer ancho fijo
                     trResultContent.appendChild(tdType);
 
