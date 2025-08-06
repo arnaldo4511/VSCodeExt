@@ -171,7 +171,7 @@ window.addEventListener('message', (event) => {
 
 
         const tdBusqueda = document.getElementById(`tdElement-${message.index}`);
-
+        tdBusqueda.color = 'white';
 
 
         // Después de procesar stdout y antes de mostrar los resultados
@@ -296,6 +296,7 @@ window.addEventListener('message', (event) => {
                         const trHeadContent = document.createElement('tr');
                         trHeadContent.id = `trHeadContent-${message.index}`;
                         trHeadContent.style.fontFamily = 'Courier New';
+                        trHeadContent.style.fontWeight = 'bold'; // Aplicar negrita a toda la fila
                         tdBusqueda.appendChild(trHeadContent);
 
                         const tdHeadElemento = document.createElement('td');
@@ -317,12 +318,12 @@ window.addEventListener('message', (event) => {
                         const tdHeadSystem = document.createElement('td');
                         tdHeadSystem.innerHTML = "SYSTEM";
                         trHeadContent.appendChild(tdHeadSystem);
-                        
+
                         const tdHeadSubSystem = document.createElement('td');
                         tdHeadSubSystem.innerHTML = "SUBSYS";
                         trHeadContent.appendChild(tdHeadSubSystem);
 
-
+                        headerAdded = true; // Marcar que la cabecera ya fue agregada
 
                         
 
