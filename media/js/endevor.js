@@ -225,13 +225,14 @@ window.addEventListener('message', (event) => {
             lines.forEach((line) => {
                 try {
 
-                    cantidadLines++;
+                    
 
 
 
                     // Intentar analizar la línea como JSON
                     const jsonResponse = JSON.parse(line);
 
+                    cantidadLines++;
 
                     // Extraer los campos específicos del JSON
                     const elmName = (jsonResponse.elmName ?? '').toString();
