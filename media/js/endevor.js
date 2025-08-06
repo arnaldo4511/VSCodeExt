@@ -293,6 +293,39 @@ window.addEventListener('message', (event) => {
 
                         headerAdded = true; // Marcar que la cabecera ya fue agregada*/
 
+                        const trHeadContent = document.createElement('tr');
+                        trHeadContent.id = `trHeadContent-${message.index}`;
+                        trHeadContent.style.fontFamily = 'Courier New';
+                        tdBusqueda.appendChild(trHeadContent);
+
+                        const tdHeadElemento = document.createElement('td');
+                        tdHeadElemento.innerHTML = "ELEMENT";
+                        trHeadContent.appendChild(tdHeadElemento);
+
+                        const tdHeadType = document.createElement('td');
+                        tdHeadType.innerHTML = "TYPE";
+                        trHeadContent.appendChild(tdHeadType);
+
+                        const tdHeadEnviroment = document.createElement('td');
+                        tdHeadEnviroment.innerHTML = "ENVIRON";
+                        trHeadContent.appendChild(tdHeadEnviroment);
+
+                        const tdHeadStage = document.createElement('td');
+                        tdHeadStage.innerHTML = "S";
+                        trHeadContent.appendChild(tdHeadStage);
+
+                        const tdHeadSystem = document.createElement('td');
+                        tdHeadSystem.innerHTML = "SYSTEM";
+                        trHeadContent.appendChild(tdHeadSystem);
+                        
+                        const tdHeadSubSystem = document.createElement('td');
+                        tdHeadSubSystem.innerHTML = "SUBSYS";
+                        trHeadContent.appendChild(tdHeadSubSystem);
+
+
+
+                        
+
 
                     }
 
@@ -316,37 +349,31 @@ window.addEventListener('message', (event) => {
 
                     const trResultContent = document.createElement('tr');
                     trResultContent.id = `trResultContent-${message.index}`;
-                    trResultContent.style.fontFamily = 'Courier New'; // Cambia la fuente de toda la fila
+                    trResultContent.style.fontFamily = 'Courier New';
                     tdBusqueda.appendChild(trResultContent);
 
 
                     const tdElemento = document.createElement('td');
-                    //tdBusquedaLine.id = `tdBusquedaLine-${message.index}`;
                     tdElemento.innerHTML = formatElmName;
                     trResultContent.appendChild(tdElemento);
 
                     const tdType = document.createElement('td');
-                    //tdBusquedaLine.id = `tdBusquedaLine-${message.index}`;
                     tdType.innerHTML = formatTypeName;
                     trResultContent.appendChild(tdType);
 
                     const tdEnviroment = document.createElement('td');
-                    //tdBusquedaLine.id = `tdBusquedaLine-${message.index}`;
                     tdEnviroment.innerHTML = formatEnvName;
                     trResultContent.appendChild(tdEnviroment);
 
                     const tdStage = document.createElement('td');
-                    //tdBusquedaLine.id = `tdBusquedaLine-${message.index}`;
                     tdStage.innerHTML = formatStgId;
                     trResultContent.appendChild(tdStage);
 
                     const tdSystem = document.createElement('td');
-                    //tdBusquedaLine.id = `tdBusquedaLine-${message.index}`;
                     tdSystem.innerHTML = formatSysName;
                     trResultContent.appendChild(tdSystem);
 
                     const tdSubSystem = document.createElement('td');
-                    //tdBusquedaLine.id = `tdBusquedaLine-${message.index}`;
                     tdSubSystem.innerHTML = formatSbsName;
                     trResultContent.appendChild(tdSubSystem);
 
@@ -360,7 +387,7 @@ window.addEventListener('message', (event) => {
 
             console.log('cantidadLines: ', cantidadLines);
 
-            
+
 
             // Buscar el <pre> correspondiente al comando actual
             const preElementId = `result-${message.index}`;
@@ -378,7 +405,7 @@ window.addEventListener('message', (event) => {
             if (preElement) {
                 //preElement.innerHTML = resultText;
                 //preExtra.innerHTML = resultExtraText;
-                
+
                 //vscode.postMessage({ command: 'logMessage', text: 'stdout: ' + stdout });
 
                 elementosFPH += resultText; // Acumula el texto en la variable global
