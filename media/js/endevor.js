@@ -221,8 +221,12 @@ window.addEventListener('message', (event) => {
             let resultExtraText = '';
             let headerAdded = false; // Bandera para controlar la cabecera
 
+            let cantidadLines = 0; // Contador de líneas procesadas
+
             lines.forEach((line) => {
                 try {
+
+                    cantidadLines++;
 
 
 
@@ -332,6 +336,8 @@ window.addEventListener('message', (event) => {
                     // Si la línea no es un JSON válido, ignorarla
                 }
             });
+
+            console.log('cantidadLines: ', cantidadLines);
 
             
 
