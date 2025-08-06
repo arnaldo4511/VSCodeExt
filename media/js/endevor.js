@@ -170,6 +170,12 @@ window.addEventListener('message', (event) => {
         const progressBar = document.getElementById(progressBarId);
 
 
+        const tdBusqueda = document.getElementById(`tdBusqueda-${message.index}`);
+
+        const trResultContent = document.createElement('tr');
+        trResultContent.id = `trResultContent-${message.index}`;
+        tdBusqueda.appendChild(trResultContent);
+
 
         // Después de procesar stdout y antes de mostrar los resultados
         const warnLines = stdout.split('\n').filter(line =>
@@ -300,6 +306,21 @@ window.addEventListener('message', (event) => {
                         formatElmLastLLCcid + blank +
                         formatSignoutId + '\n';
 
+
+
+
+
+                    const tdElemento = document.createElement('td');
+                    //tdBusquedaLine.id = `tdBusquedaLine-${message.index}`;
+                    tdElemento.innerHTML = formatElmName;
+                    tdElemento.style.width = '150px'; // Establecer ancho fijo
+                    trResultContent.appendChild(tdElemento);
+
+                    const tdType = document.createElement('td');
+                    //tdBusquedaLine.id = `tdBusquedaLine-${message.index}`;
+                    tdType.innerHTML = formatElmName;
+                    tdType.style.width = '150px'; // Establecer ancho fijo
+                    trResultContent.appendChild(tdType);
 
                     //vscode.postMessage({ command: 'logMessage', text: 'resultText: ' + resultText });
                     //vscode.postMessage({ command: 'logMessage', text: 'resultExtraText: ' + resultExtraText });
