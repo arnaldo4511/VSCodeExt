@@ -316,6 +316,7 @@ window.addEventListener('message', (event) => {
 
                     const trResultContent = document.createElement('tr');
                     trResultContent.id = `trResultContent-${message.index}`;
+                    trResultContent.style.fontFamily = 'Courier New'; // Cambia la fuente de toda la fila
                     tdBusqueda.appendChild(trResultContent);
 
 
