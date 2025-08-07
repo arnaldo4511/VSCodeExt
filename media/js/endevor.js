@@ -253,6 +253,8 @@ window.addEventListener('message', (event) => {
 
                     //vscode.postMessage({ command: 'logMessage', text: 'signoutId: ' + signoutId });
 
+                    console.log('forEach');
+
                     const blank = ' ';
                     const formatElmName = elmName.padEnd(12, ' ');
                     const formatTypeName = typeName.padEnd(10, ' ');
