@@ -231,7 +231,7 @@ window.addEventListener('message', (event) => {
 
                     
 
-
+                    console.log('try');
 
                     // Intentar analizar la línea como JSON
                     const jsonResponse = JSON.parse(line);
@@ -242,6 +242,7 @@ window.addEventListener('message', (event) => {
 
                     // Extraer los campos específicos del JSON
                     const elmName = (jsonResponse.elmName ?? '').toString();
+                    console.log('elmName: ', elmName);
                     const typeName = (jsonResponse.typeName ?? '').toString();
                     const envName = (jsonResponse.envName ?? '').toString();
                     const stgId = (jsonResponse.stgId ?? '').toString();
