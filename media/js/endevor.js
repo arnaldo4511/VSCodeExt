@@ -236,6 +236,8 @@ window.addEventListener('message', (event) => {
                     // Intentar analizar la línea como JSON
                     const jsonResponse = JSON.parse(line);
 
+                    console.log('jsonResponse: ', jsonResponse);
+
                     cantidadLines++;
 
                     // Extraer los campos específicos del JSON
