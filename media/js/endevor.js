@@ -460,6 +460,14 @@ window.addEventListener('message', (event) => {
                 console.log('elementosFPH 1: ', elementosFPH);
             }
 
+            if (cantidadLines === 0) {
+                // Si no se encontraron elementos, mostrar un mensaje
+                if (preElement) {
+                    preElement.innerHTML = 'No se encontraron elementos para esta consulta.';
+                }
+            }
+
+
 
 
         } catch (error) {
