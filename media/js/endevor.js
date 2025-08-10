@@ -373,7 +373,8 @@ window.addEventListener('message', (event) => {
                     const btn = document.createElement('button');
                     btn.id = `btn-${message.index}`;
                     btn.style.paddingBlock = '3px'; // Ajustar el padding del botón
-                    btn.style.textAlign = 'center'; // Ajustar el padding del botón
+                    btn.style.textAlign = 'center';
+                    btn.style.marginInline = '1px'; // Ajustar el margen del botón
                     btn.textContent = 'Acción'; // Texto del botón
                     // Opcional: agrega un evento al botón
                     btn.addEventListener('click', () => {
