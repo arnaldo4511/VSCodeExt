@@ -244,6 +244,7 @@ window.addEventListener('message', (event) => {
                     console.log('jsonResponse: ', jsonResponse);
 
                     cantidadLines++;
+                    console.log('cantidadLine: ', cantidadLines);
 
                     // Extraer los campos específicos del JSON
                     const elmName = (jsonResponse.elmName ?? '').toString();
