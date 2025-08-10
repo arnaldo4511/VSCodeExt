@@ -308,6 +308,10 @@ window.addEventListener('message', (event) => {
                         trHeadContent.style.fontWeight = 'bold'; // Aplicar negrita a toda la fila
                         tdBusqueda.appendChild(trHeadContent);
 
+                        const tdHeadButton = document.createElement('td');
+                        tdHeadButton.innerHTML = "";
+                        trHeadContent.appendChild(tdHeadButton);
+
                         const tdHeadElemento = document.createElement('td');
                         tdHeadElemento.innerHTML = "ELEMENT";
                         trHeadContent.appendChild(tdHeadElemento);
@@ -429,7 +433,7 @@ window.addEventListener('message', (event) => {
             //vscode.postMessage({ command: 'logMessage', text: 'click: ' + resultText });
 
             if (preElement) {
-                preElement.innerHTML = resultText;
+                //preElement.innerHTML = resultText;
                 //preExtra.innerHTML = resultExtraText;
 
                 //vscode.postMessage({ command: 'logMessage', text: 'stdout: ' + stdout });
