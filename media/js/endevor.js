@@ -127,9 +127,9 @@ function crearTablaLine(i, tableBody, elemento, environment, system, subSystem, 
 
 
     // Crear un nuevo <pre> para mostrar el resultado de esta consulta
-    const preElement = document.createElement('pre');
+    /*const preElement = document.createElement('pre');
     preElement.id = `result-${i}`;
-    tdElement.appendChild(preElement);
+    tdElement.appendChild(preElement);*/
 
 
     // Crear una barra de progreso para esta consulta
@@ -137,14 +137,14 @@ function crearTablaLine(i, tableBody, elemento, environment, system, subSystem, 
     progressBar.id = `progress-${i}`;
     tdElement.appendChild(progressBar);
 
-    const tdExtra = document.createElement('td');
+    /*const tdExtra = document.createElement('td');
     tdExtra.id = `tdExtra-${i}`;
     tdExtra.style.width = '200px'; // Establecer ancho fijo
 
 
     const preExtra = document.createElement('pre');
     preExtra.id = `preExtra-${i}`;
-    tdElement.appendChild(preExtra);
+    tdElement.appendChild(preExtra);*/
 
     if (!elemento || !environment || !system || !subSystem || !type || !ccid) {
         preElement.innerHTML = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
