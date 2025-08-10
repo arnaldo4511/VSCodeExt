@@ -127,9 +127,9 @@ function crearTablaLine(i, tableBody, elemento, environment, system, subSystem, 
 
 
     // Crear un nuevo <pre> para mostrar el resultado de esta consulta
-    /*const preElement = document.createElement('pre');
+    const preElement = document.createElement('pre');
     preElement.id = `result-${i}`;
-    tdElement.appendChild(preElement);*/
+    tdElement.appendChild(preElement);
 
 
     // Crear una barra de progreso para esta consulta
