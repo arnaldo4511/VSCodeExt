@@ -62,7 +62,7 @@ function crearTablaResultados() {
     tableContent.id = 'tableContent';
     tablaContenedora.appendChild(tableContent);
 
-    const theadContent = document.createElement('thead');
+    /*const theadContent = document.createElement('thead');
     tableContent.appendChild(theadContent);
 
     const trHeader = document.createElement('tr');
@@ -81,7 +81,7 @@ function crearTablaResultados() {
     const thExtra = document.createElement('th');
     thExtra.textContent = 'EXTRA';
     thExtra.style.cursor = 'pointer'; // Cambiar el cursor al pasar por encima
-    //trHeader.appendChild(thExtra);
+    //trHeader.appendChild(thExtra);*/
 
     const tableBody = document.createElement('tbody');
     tableBody.innerHTML = ''; // Limpiar la tabla antes de agregar nuevos resultados
@@ -274,7 +274,7 @@ window.addEventListener('message', (event) => {
                     //vscode.postMessage({ command: 'logMessage', text: 'formatSignoutId: ' + formatSignoutId });
 
                     if (!headerAdded) {
-                        /*const headerElement = 'ELEMENT --  ';
+                        const headerElement = 'ELEMENT --  ';
                         const headerType = 'TYPE      ';
                         const headerEnv = 'ENVIRON ';
                         const headerStgId = 'S';
@@ -300,9 +300,9 @@ window.addEventListener('message', (event) => {
                             headerElmLastLLCcid + blank +
                             headerSignout + '\n';
 
-                        headerAdded = true; // Marcar que la cabecera ya fue agregada*/
+                        headerAdded = true; // Marcar que la cabecera ya fue agregada
 
-                        const trHeadContent = document.createElement('tr');
+                        /*const trHeadContent = document.createElement('tr');
                         trHeadContent.id = `trHeadContent-${message.index}`;
                         trHeadContent.style.fontFamily = 'Courier New';
                         trHeadContent.style.fontWeight = 'bold'; // Aplicar negrita a toda la fila
@@ -332,7 +332,7 @@ window.addEventListener('message', (event) => {
                         tdHeadSubSystem.innerHTML = "SUBSYS";
                         trHeadContent.appendChild(tdHeadSubSystem);
 
-                        headerAdded = true; // Marcar que la cabecera ya fue agregada
+                        headerAdded = true; // Marcar que la cabecera ya fue agregada*/
 
                         
 
@@ -413,7 +413,7 @@ window.addEventListener('message', (event) => {
             //vscode.postMessage({ command: 'logMessage', text: 'click: ' + resultText });
 
             if (preElement) {
-                //preElement.innerHTML = resultText;
+                preElement.innerHTML = resultText;
                 //preExtra.innerHTML = resultExtraText;
 
                 //vscode.postMessage({ command: 'logMessage', text: 'stdout: ' + stdout });
