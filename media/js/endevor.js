@@ -129,7 +129,7 @@ function crearTablaLine(i, tableBody, elemento, environment, system, subSystem, 
     // Crear un nuevo <pre> para mostrar el resultado de esta consulta
     const preElement = document.createElement('pre');
     preElement.id = `result-${i}`;
-    tdElement.appendChild(preElement);
+    //tdElement.appendChild(preElement);
 
 
     // Crear una barra de progreso para esta consulta
@@ -187,7 +187,9 @@ window.addEventListener('message', (event) => {
         if (warnLines.length > 0) {
 
             const preElementId = `result-${message.index}`;
-            const preElement = document.getElementById(preElementId);
+            const tdElementId = `tdElement-${message.index}`;
+            //const preElement = document.getElementById(preElementId);
+            const preElement = document.getElementById(tdElementId);
             preElement.innerHTML = '[WARN] No se encontraron los elementos';
 
             progressBar.style.display = 'none';
@@ -202,7 +204,9 @@ window.addEventListener('message', (event) => {
         if (errorLines.length > 0) {
 
             const preElementId = `result-${message.index}`;
-            const preElement = document.getElementById(preElementId);
+            const tdElementId = `tdElement-${message.index}`;
+            //const preElement = document.getElementById(preElementId);
+            const preElement = document.getElementById(tdElementId);
             preElement.innerHTML = stdout;
 
             progressBar.style.display = 'none';
@@ -431,7 +435,9 @@ window.addEventListener('message', (event) => {
 
             // Buscar el <pre> correspondiente al comando actual
             const preElementId = `result-${message.index}`;
-            const preElement = document.getElementById(preElementId);
+            const tdElementId = `tdElement-${message.index}`;
+            //const preElement = document.getElementById(preElementId);
+            const preElement = document.getElementById(tdElementId);
 
             const spanElementId = `spanElement-${message.index}`;
             const spanElement = document.getElementById(spanElementId);
@@ -457,7 +463,9 @@ window.addEventListener('message', (event) => {
         } catch (error) {
             // Si ocurre un error general, mostrar la respuesta completa
             const preElementId = `result-${message.index}`;
-            const preElement = document.getElementById(preElementId);
+            const tdElementId = `tdElement-${message.index}`;
+            //const preElement = document.getElementById(preElementId);
+            const preElement = document.getElementById(tdElementId);
 
             if (preElement) {
                 preElement.innerHTML = `Error al procesar la respuesta: ${error.message}\nRespuesta completa:\n${stdout}`;
