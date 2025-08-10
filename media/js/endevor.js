@@ -364,7 +364,6 @@ window.addEventListener('message', (event) => {
                     const trResultContent = document.createElement('tr');
                     trResultContent.id = `trResultContent-${message.index}`;
                     trResultContent.style.fontFamily = 'Courier New';
-                    trResultContent.style.verticalAlign = 'middle'; // Aplicar negrita a toda la fila
                     tdBusqueda.appendChild(trResultContent);
 
                     console.log('trResultContent: ', trResultContent);
@@ -388,26 +387,32 @@ window.addEventListener('message', (event) => {
 
                     const tdElemento = document.createElement('td');
                     tdElemento.innerHTML = formatElmName;
+                    tdElemento.style.verticalAlign = 'middle';
                     trResultContent.appendChild(tdElemento);
 
                     const tdType = document.createElement('td');
                     tdType.innerHTML = formatTypeName;
+                    tdType.style.verticalAlign = 'middle';
                     trResultContent.appendChild(tdType);
 
                     const tdEnviroment = document.createElement('td');
                     tdEnviroment.innerHTML = formatEnvName;
+                    tdEnviroment.style.verticalAlign = 'middle';
                     trResultContent.appendChild(tdEnviroment);
 
                     const tdStage = document.createElement('td');
                     tdStage.innerHTML = formatStgId;
+                    tdStage.style.verticalAlign = 'middle';
                     trResultContent.appendChild(tdStage);
 
                     const tdSystem = document.createElement('td');
                     tdSystem.innerHTML = formatSysName;
+                    tdSystem.style.verticalAlign = 'middle';
                     trResultContent.appendChild(tdSystem);
 
                     const tdSubSystem = document.createElement('td');
                     tdSubSystem.innerHTML = formatSbsName;
+                    tdSubSystem.style.verticalAlign = 'middle';
                     trResultContent.appendChild(tdSubSystem);
 
                     //vscode.postMessage({ command: 'logMessage', text: 'resultText: ' + resultText });
