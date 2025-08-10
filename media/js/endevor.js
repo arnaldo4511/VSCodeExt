@@ -147,7 +147,8 @@ function crearTablaLine(i, tableBody, elemento, environment, system, subSystem, 
     tdElement.appendChild(preExtra);*/
 
     if (!elemento || !environment || !system || !subSystem || !type || !ccid) {
-        preElement.innerHTML = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
+        //preElement.innerHTML = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
+        tdElement.innerHTML = `Error: Línea inválida. Asegúrate de que todos los campos estén completos.`;
         progressBar.style.display = 'none';
         return true; // Retornar true para indicar que hay un error
     }
