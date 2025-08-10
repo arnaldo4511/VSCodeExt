@@ -362,8 +362,9 @@ window.addEventListener('message', (event) => {
                     trResultContent.style.fontFamily = 'Courier New';
                     tdBusqueda.appendChild(trResultContent);
 
+                    console.log('trResultContent: ', trResultContent);
                     const tdButton = document.createElement('td');
-                    tdButton.id = `tdButton-${i}`;
+                    tdButton.id = `tdButton-${message.index}`;
                     // Crear el botón
                     const btn = document.createElement('button');
                     btn.textContent = 'Acción'; // Texto del botón
@@ -376,6 +377,7 @@ window.addEventListener('message', (event) => {
                     tdButton.appendChild(btn);
                     // Añadir la celda al tr correspondiente
                     trResultContent.appendChild(tdButton);
+                    console.log('tdButton: ', tdButton);
 
                     const tdElemento = document.createElement('td');
                     tdElemento.innerHTML = formatElmName;
