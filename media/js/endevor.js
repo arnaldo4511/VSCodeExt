@@ -325,7 +325,7 @@ window.addEventListener('message', (event) => {
                         trHeadContent.appendChild(tdHeadEnviroment);
 
                         const tdHeadStage = document.createElement('td');
-                        tdHeadStage.innerHTML = "S";
+                        tdHeadStage.innerHTML = "STAGE";
                         trHeadContent.appendChild(tdHeadStage);
 
                         const tdHeadSystem = document.createElement('td');
@@ -364,6 +364,7 @@ window.addEventListener('message', (event) => {
                     const trResultContent = document.createElement('tr');
                     trResultContent.id = `trResultContent-${message.index}`;
                     trResultContent.style.fontFamily = 'Courier New';
+                    trResultContent.style.verticalAlign = 'middle'; // Aplicar negrita a toda la fila
                     tdBusqueda.appendChild(trResultContent);
 
                     console.log('trResultContent: ', trResultContent);

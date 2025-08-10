@@ -117,3 +117,7 @@ td[id^="tdElement-"] pre {
 #tableContent{
     width: 1000px;
 }
+
+td[id^="tdButton-"] {
+    padding-block: 3px;
+}
