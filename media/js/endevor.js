@@ -229,7 +229,7 @@ window.addEventListener('message', (event) => {
             lines.forEach((line) => {
                 try {
 
-                    
+
 
                     console.log('try');
 
@@ -300,9 +300,9 @@ window.addEventListener('message', (event) => {
                             headerElmLastLLCcid + blank +
                             headerSignout + '\n';
 
-                        headerAdded = true; // Marcar que la cabecera ya fue agregada
+                        //headerAdded = true; // Marcar que la cabecera ya fue agregada
 
-                        /*const trHeadContent = document.createElement('tr');
+                        const trHeadContent = document.createElement('tr');
                         trHeadContent.id = `trHeadContent-${message.index}`;
                         trHeadContent.style.fontFamily = 'Courier New';
                         trHeadContent.style.fontWeight = 'bold'; // Aplicar negrita a toda la fila
@@ -332,9 +332,9 @@ window.addEventListener('message', (event) => {
                         tdHeadSubSystem.innerHTML = "SUBSYS";
                         trHeadContent.appendChild(tdHeadSubSystem);
 
-                        headerAdded = true; // Marcar que la cabecera ya fue agregada*/
+                        headerAdded = true; // Marcar que la cabecera ya fue agregada
 
-                        
+
 
 
                     }
@@ -362,6 +362,20 @@ window.addEventListener('message', (event) => {
                     trResultContent.style.fontFamily = 'Courier New';
                     tdBusqueda.appendChild(trResultContent);
 
+                    const tdButton = document.createElement('td');
+                    tdButton.id = `tdButton-${i}`;
+                    // Crear el botón
+                    const btn = document.createElement('button');
+                    btn.textContent = 'Acción'; // Texto del botón
+                    // Opcional: agrega un evento al botón
+                    btn.addEventListener('click', () => {
+                        // Aquí va la acción que quieres realizar
+                        alert('Botón de la fila ' + i + ' presionado');
+                    });
+                    // Añadir el botón a la celda
+                    tdButton.appendChild(btn);
+                    // Añadir la celda al tr correspondiente
+                    trResultContent.appendChild(tdButton);
 
                     const tdElemento = document.createElement('td');
                     tdElemento.innerHTML = formatElmName;
