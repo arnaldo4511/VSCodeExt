@@ -372,6 +372,8 @@ window.addEventListener('message', (event) => {
                     tdButton.id = `tdButton-${message.index}`;
                     // Crear el botón
                     const btn = document.createElement('button');
+                    btn.id = `btn-${message.index}`;
+                    btn.style.paddingBlock = '3px'; // Ajustar el padding del botón
                     btn.textContent = 'Acción'; // Texto del botón
                     // Opcional: agrega un evento al botón
                     btn.addEventListener('click', () => {
