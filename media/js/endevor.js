@@ -382,10 +382,11 @@ window.addEventListener('message', (event) => {
                     btn.style.textAlign = 'center';
                     btn.style.marginInline = '1px'; // Ajustar el margen del botón
                     btn.textContent = 'Acción'; // Texto del botón
+                    btn.setAttribute('data-elemento', elmName);
                     // Opcional: agrega un evento al botón
                     btn.addEventListener('click', () => {
                         // Aquí va la acción que quieres realizar
-                        console.log('Botón de la fila ' + message.index + ' presionado');
+                        console.log('Botón de la fila ' + message.index + ' presionado'+e.target.getAttribute('data-elemento'));
                         // Envía los datos necesarios al backend para ejecutar el comando
                         vscode.postMessage({
                             command: 'mostrarElementoEndevor',
