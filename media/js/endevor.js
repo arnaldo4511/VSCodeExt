@@ -383,19 +383,24 @@ window.addEventListener('message', (event) => {
                     btn.style.marginInline = '1px'; // Ajustar el margen del botón
                     btn.textContent = 'Acción'; // Texto del botón
                     btn.setAttribute('data-elemento', elmName);
+                    btn.setAttribute('data-type', typeName);
+                    btn.setAttribute('data-env', envName);
+                    btn.setAttribute('data-stg', stgId);
+                    btn.setAttribute('data-sys', sysName);
+                    btn.setAttribute('data-sbs', sbsName);
                     // Opcional: agrega un evento al botón
                     btn.addEventListener('click', (e) => {
                         // Aquí va la acción que quieres realizar
-                        console.log('Botón de la fila ' + message.index + ' presionado'+e.target.getAttribute('data-elemento'));
+                        console.log('Botón de la fila ' + message.index + ' presionado '+e.target.getAttribute('data-elemento'));
                         // Envía los datos necesarios al backend para ejecutar el comando
                         vscode.postMessage({
                             command: 'mostrarElementoEndevor',
-                            elmName,
-                            typeName,
-                            envName,
-                            stgId,
-                            sysName,
-                            sbsName
+                            elmName: e.target.getAttribute('data-elemento'),
+                            typeName: e.target.getAttribute('data-type'),
+                            envName: e.target.getAttribute('data-env'),
+                            stgId: e.target.getAttribute('data-stg'),
+                            sysName: e.target.getAttribute('data-sys'),
+                            sbsName: e.target.getAttribute('data-sbs')
                         });
                         console.log('boton fin');
                     });
