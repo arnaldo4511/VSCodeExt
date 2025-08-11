@@ -247,7 +247,7 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
             logChannel.appendLine('message ' + message);
 
             // Construye el comando Zowe CLI 
-            const zoweCmd = `"${zowePathMain}" endevor view element ${message.elmName} -i ENDEVOR --env ${message.envName} --sn ${message.stgId} --sys ${message.sysName} --sub ${message.sbsName} --typ ${message.typeName}`;
+            const zoweCmd = `"${zowePathMain}" endevor view element ${message.elmName} -i ENDEVOR --env ${message.envName} --sn ${message.stgId} --sys ${message.sysName} --sub ${message.sbsName} --typ ${message.typeName} --sm true`;
 
             exec(zoweCmd, async (error, stdout, stderr) => {
                 if (error || stderr) {
