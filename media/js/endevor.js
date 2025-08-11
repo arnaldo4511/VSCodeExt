@@ -384,7 +384,7 @@ window.addEventListener('message', (event) => {
                     btn.textContent = 'Acción'; // Texto del botón
                     btn.setAttribute('data-elemento', elmName);
                     // Opcional: agrega un evento al botón
-                    btn.addEventListener('click', () => {
+                    btn.addEventListener('click', (e) => {
                         // Aquí va la acción que quieres realizar
                         console.log('Botón de la fila ' + message.index + ' presionado'+e.target.getAttribute('data-elemento'));
                         // Envía los datos necesarios al backend para ejecutar el comando
