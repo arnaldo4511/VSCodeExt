@@ -385,7 +385,18 @@ window.addEventListener('message', (event) => {
                     // Opcional: agrega un evento al botón
                     btn.addEventListener('click', () => {
                         // Aquí va la acción que quieres realizar
-                        alert('Botón de la fila ' + i + ' presionado');
+                        console.log('Botón de la fila ' + i + ' presionado');
+                        // Envía los datos necesarios al backend para ejecutar el comando
+                        vscode.postMessage({
+                            command: 'mostrarElementoEndevor',
+                            elmName,
+                            typeName,
+                            envName,
+                            stgId,
+                            sysName,
+                            sbsName
+                        });
+                        console.log('boton fin');
                     });
                     // Añadir el botón a la celda
                     tdButton.appendChild(btn);

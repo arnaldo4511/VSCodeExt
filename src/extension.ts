@@ -242,9 +242,54 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                 vscode.window.showInformationMessage('Archivo exportado correctamente: ' + uri.fsPath);
             }
         }
+
+        if (message.command === 'mostrarElementoEndevor') {
+            // Construye el comando Zowe CLI
+            const zoweCmd = `"${zowePathMain}" endevor retrieve element ${message.elemento} -i ENDEVOR --env ${message.environment} --sys ${message.system} --sub ${message.subSystem} --typ ${message.type} --ccid ${message.ccid} --outfmt text`;
+
+            exec(zoweCmd, async (error, stdout, stderr) => {
+                if (error || stderr) {
+                    vscode.window.showErrorMessage('Error al mostrar el elemento: ' + (stderr || error));
+                    return;
+                }
+
+                // Crea un documento temporal y muestra el resultado
+                /*const doc = await vscode.workspace.openTextDocument({ content: stdout, language: 'plaintext' });
+                await vscode.window.showTextDocument(doc, { preview: true });*/
+                mostrarResultadoEnWebview(`Elemento: ${message.elemento}`, stdout);
+            });
+        }
     });
 
     return panel;
+}
+
+function mostrarResultadoEnWebview(title: string, content: string) {
+    const panel = vscode.window.createWebviewPanel(
+        'endevorElemento', // Identificador
+        title,             // Título de la pestaña
+        vscode.ViewColumn.One,
+        { enableScripts: true }
+    );
+
+    // Puedes personalizar el HTML según lo que necesites
+    panel.webview.html = `
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <title>${title}</title>
+            <style>
+                body { font-family: monospace; background: #222; color: #fff; padding: 1em; }
+                pre { white-space: pre-wrap; word-break: break-all; }
+            </style>
+        </head>
+        <body>
+            <h2>${title}</h2>
+            <pre>${content}</pre>
+        </body>
+        </html>
+    `;
 }
 
 function replacePathsInHtml(
