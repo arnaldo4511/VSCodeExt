@@ -385,7 +385,7 @@ window.addEventListener('message', (event) => {
                     // Opcional: agrega un evento al botón
                     btn.addEventListener('click', () => {
                         // Aquí va la acción que quieres realizar
-                        console.log('Botón de la fila ' + i + ' presionado');
+                        console.log('Botón de la fila ' + message.index + ' presionado');
                         // Envía los datos necesarios al backend para ejecutar el comando
                         vscode.postMessage({
                             command: 'mostrarElementoEndevor',
