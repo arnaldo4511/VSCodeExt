@@ -256,9 +256,9 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                 }
 
                 // Crea un documento temporal y muestra el resultado
-                /*const doc = await vscode.workspace.openTextDocument({ content: stdout, language: 'plaintext' });
-                await vscode.window.showTextDocument(doc, { preview: true });*/
-                mostrarResultadoEnWebview(`Elemento: ${message.elemento}`, stdout);
+                const doc = await vscode.workspace.openTextDocument({ content: stdout, language: 'plaintext' });
+                await vscode.window.showTextDocument(doc, { preview: true });
+                //mostrarResultadoEnWebview(`Elemento: ${message.elemento}`, stdout);
             });
         }
     });
