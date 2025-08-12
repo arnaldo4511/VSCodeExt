@@ -342,6 +342,24 @@ window.addEventListener('message', (event) => {
                         tdHeadSubSystem.innerHTML = "SUBSYS";
                         trHeadContent.appendChild(tdHeadSubSystem);
 
+                        const tdHeadElmVVLL = document.createElement('td');
+                        tdHeadElmVVLL.innerHTML = "VVLL";
+                        trHeadContent.appendChild(tdHeadElmVVLL);
+
+                        const tdHeadProcGrpName = document.createElement('td');
+                        tdHeadProcGrpName.innerHTML = "PROCGRP";
+                        trHeadContent.appendChild(tdHeadProcGrpName);
+
+                        const tdHeadElmLastLLCcid = document.createElement('td');
+                        tdHeadElmLastLLCcid.innerHTML = "CCID";
+                        trHeadContent.appendChild(tdHeadElmLastLLCcid);
+
+                        const tdHeadSignout = document.createElement('td');
+                        tdHeadSignout.innerHTML = "SIGNOUT";
+                        trHeadContent.appendChild(tdHeadSignout);
+
+
+
                         headerAdded = true; // Marcar que la cabecera ya fue agregada
 
 
@@ -439,6 +457,26 @@ window.addEventListener('message', (event) => {
                     tdSubSystem.innerHTML = formatSbsName;
                     tdSubSystem.style.verticalAlign = 'middle';
                     trResultContent.appendChild(tdSubSystem);
+
+                    const tdElmVVLL = document.createElement('td');
+                    tdElmVVLL.innerHTML = formatElmVVLL;
+                    tdElmVVLL.style.verticalAlign = 'middle';
+                    trResultContent.appendChild(tdElmVVLL);
+
+                    const tdProcGrpName = document.createElement('td');
+                    tdProcGrpName.innerHTML = formatProcGrpName;
+                    tdProcGrpName.style.verticalAlign = 'middle';
+                    trResultContent.appendChild(tdProcGrpName);
+
+                    const tdElmLastLLCcid = document.createElement('td');
+                    tdElmLastLLCcid.innerHTML = formatElmLastLLCcid;
+                    tdElmLastLLCcid.style.verticalAlign = 'middle';
+                    trResultContent.appendChild(tdElmLastLLCcid);
+
+                    const tdSignout = document.createElement('td');
+                    tdSignout.innerHTML = formatSignoutId;
+                    tdSignout.style.verticalAlign = 'middle';
+                    trResultContent.appendChild(tdSignout);
 
                     //vscode.postMessage({ command: 'logMessage', text: 'resultText: ' + resultText });
                     //vscode.postMessage({ command: 'logMessage', text: 'resultExtraText: ' + resultExtraText });
