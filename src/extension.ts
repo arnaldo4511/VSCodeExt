@@ -256,9 +256,26 @@ function createWebview(context: vscode.ExtensionContext, viewId: string, title: 
                 }
 
                 // Crea un documento temporal y muestra el resultado
-                const doc = await vscode.workspace.openTextDocument({ content: stdout, language: 'plaintext' });
-                await vscode.window.showTextDocument(doc, { preview: true });
+                /*const doc = await vscode.workspace.openTextDocument({ content: stdout, language: 'plaintext' });
+                await vscode.window.showTextDocument(doc, { preview: true });*/
                 //mostrarResultadoEnWebview(`Elemento: ${message.elemento}`, stdout);
+
+                const provider = new (class implements vscode.TextDocumentContentProvider {
+                    provideTextDocumentContent(uri: vscode.Uri) {
+                        return uri.query;
+                    }
+                })();
+                context.subscriptions.push(
+                    vscode.workspace.registerTextDocumentContentProvider('endevor', provider)
+                );
+
+                const nombre = message.elmName || 'Elemento';
+                const contenido = stdout;
+                const uri = vscode.Uri.parse(`endevor:${nombre}?${encodeURIComponent(contenido)}`);
+                vscode.workspace.openTextDocument(uri).then(doc => {
+                    vscode.window.showTextDocument(doc, { preview: true });
+                });
+
             });
         }
     });
@@ -275,6 +292,7 @@ function mostrarResultadoEnWebview(title: string, content: string) {
     );
 
     // Puedes personalizar el HTML según lo que necesites
+
     panel.webview.html = `
         <!DOCTYPE html>
         <html lang="es">
